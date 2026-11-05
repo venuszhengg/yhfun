@@ -1,0 +1,52 @@
+.yhf-action.yhf-back-to-top {
+  --action-arrow-angle: -90deg;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--action-bg);
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+
+.yhf-action.yhf-back-to-top.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, visibility 0s linear 180ms;
+}
+
+.yhf-action.yhf-back-to-top.is-visible {
+  visibility: visible;
+  transition: opacity 180ms ease, visibility 0s;
+}
+
+.yhf-action.yhf-back-to-top.yhf-action--arrow:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow {
+  animation: none;
+}
+
+.yhf-action.yhf-back-to-top.yhf-action--arrow:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow img {
+  transform: rotate(var(--action-arrow-angle));
+}
+
+.yhf-back-to-top .yhf-action-arrow {
+  width: var(--button-height);
+  height: var(--button-height);
+  flex-basis: var(--button-height);
+  flex: none;
+}
+
+.yhf-back-to-top .yhf-action-arrow::before {
+  transition: transform 360ms var(--action-ease), background-color 240ms ease;
+}
+
+.yhf-action.yhf-back-to-top:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow::before {
+  transform: scale(1.07143);
+}
+
+.yhf-back-to-top .yhf-action-caption {
+  color: inherit;
+  transition: color 240ms ease;
+}
+
+.yhf-action.yhf-back-to-top:is(:hover, :focus-visible, :active) .yhf-action-caption {
+  color: var(--action-hover);
+}

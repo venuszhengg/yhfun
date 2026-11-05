@@ -1,0 +1,48 @@
+.hero-cutout-hero {
+  --hero-cutout-inset: 26px;
+  --hero-cutout-content-gap: 66px;
+}
+
+.hero-cutout-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-cutout-actions {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap-hero-actions);
+  width: max-content;
+  max-width: 100%;
+  isolation: isolate;
+}
+
+@media (max-width: 1023px) {
+  .hero-cutout-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+  }
+
+  .home-hero .hero-cutout-actions {
+    align-items: center;
+  }
+
+  .content-hero--centered .hero-cutout-actions {
+    align-items: center;
+  }
+
+  .hero-cutout-actions .yhf-action-label {
+    height: auto;
+    min-height: var(--button-height);
+    padding-block: 4px;
+    white-space: normal;
+  }
+}
