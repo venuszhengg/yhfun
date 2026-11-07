@@ -1,0 +1,254 @@
+.yhfc-contact-channels {
+  --yhfc-green: var(--color-olive);
+  --yhfc-olive: var(--palette-olive-vivid);
+
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+  color: #34362e;
+  font-family: var(--font-en, "Plus Jakarta Sans"), sans-serif;
+}
+
+.yhfc-heading {
+  margin: 0 0 6px;
+  color: var(--yhfc-green);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.yhfc-email-group {
+  margin-bottom: 32px;
+}
+
+.yhfc-email-row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.yhfc-email-row .yhf-copy-email {
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+.yhfc-email-row .yhf-copy-address {
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-color: #85877f;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.yhfc-email-row .yhf-copy-trigger:hover .yhf-copy-address {
+  color: var(--yhfc-green);
+  text-decoration-color: var(--yhfc-green);
+}
+
+.yhfc-contact-channels .yhf-copy--interactive .yhf-copy-tip-action {
+  top: 50%;
+  bottom: auto;
+  left: calc(100% + 6px);
+  transform: translate(-3px, -50%);
+}
+
+.yhfc-contact-channels .yhf-copy--interactive .yhf-copy-tip-action::after {
+  top: 0;
+  left: -6px;
+  width: 6px;
+  height: 100%;
+}
+
+.yhfc-contact-channels .yhf-copy--interactive:is(:hover, [data-copied], :has(:focus-visible)) .yhf-copy-tip-action {
+  transform: translate(0, -50%);
+}
+
+.yhfc-contact-channels .yhfc-contact-action {
+  --button-height: 32px;
+  --padding-button-inline: 8px;
+  flex: 0 0 auto;
+  color: var(--action-ink);
+  font-size: 12px;
+}
+
+.yhfc-contact-channels .yhfc-contact-action.yhf-action--split {
+  padding-inline-end: 8px;
+}
+
+.yhfc-contact-channels .yhfc-contact-action.yhf-action--split:hover {
+  gap: 4px;
+  padding-inline-end: 4px;
+}
+
+.yhfc-contact-action .yhf-action-label {
+  padding-block: 0;
+}
+
+.yhfc-contact-action .yhf-action-arrow img {
+  width: 18px;
+  height: 18px;
+}
+
+.yhfc-social-group .yhfc-heading {
+  margin-bottom: 12px;
+}
+
+.yhfc-social-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.yhfc-social-row {
+  position: relative;
+  display: flex;
+  min-height: 40px;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.yhfc-social-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  object-fit: contain;
+  margin-top: 8px;
+}
+
+.yhfc-social-details {
+  display: flex;
+  min-width: 0;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.yhfc-social-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.yhfc-social-copy {
+  min-width: 0;
+}
+
+.yhfc-social-copy .yhf-copy-trigger {
+  min-height: 24px;
+}
+
+.yhfc-social-details .yhf-copy-trigger {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+@media (any-pointer: coarse) {
+  .yhfc-social-copy .yhf-copy-trigger {
+    min-height: 44px;
+  }
+}
+
+.yhfc-social-copy .yhf-copy-address {
+  color: #777b70;
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.yhfc-qr-dialog {
+  position: fixed;
+  width: min(320px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  overflow: visible;
+  border: 1px solid #eeeee6;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fffefa;
+  color: #34362e;
+  box-shadow: 0 12px 36px rgb(41 50 27 / 11%);
+  animation: yhfc-pop-in 180ms ease both;
+}
+
+.yhfc-qr-dialog::backdrop {
+  background: rgb(41 50 27 / 35%);
+}
+
+@keyframes yhfc-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.yhfc-dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+  color: var(--yhfc-green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.yhfc-close {
+  border: 0;
+  padding: 0 2px;
+  background: transparent;
+  color: #777b70;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.yhfc-qr-description {
+  margin: 4px 0 13px;
+  color: #74776d;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.yhfc-qr-image {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  max-height: max(80px, calc(100dvh - 200px));
+  width: auto;
+  height: auto;
+  margin-inline: auto;
+  background: #fff;
+  object-fit: contain;
+}
+
+.yhfc-qr-footer {
+  margin-top: 12px;
+}
+
+.yhfc-contact-channels button:focus-visible,
+.yhfc-contact-channels a:focus-visible {
+  outline: 2px solid var(--yhfc-olive);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yhfc-qr-dialog {
+    animation: none;
+    transform: none;
+    transition: none;
+  }
+}

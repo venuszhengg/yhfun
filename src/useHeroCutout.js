@@ -2,13 +2,10 @@ import { useCallback, useId, useLayoutEffect, useRef } from 'react'
 
 const format = (value) => Number(value.toFixed(2))
 const arc = 0.55228475
-// Cutout feet flare into the hero's bottom edge over a longer run than the 24px radius so they taper without a pointed tip.
-const flareLength = (radius) => radius * 5 / 3
 
 function centeredPath(width, height, left, right, top, radius) {
-  const flare = flareLength(radius)
-  const leftAtEdge = left <= flare + radius
-  const rightAtEdge = width - right <= flare + radius
+  const leftAtEdge = left <= radius * 2
+  const rightAtEdge = width - right <= radius * 2
   left = leftAtEdge ? 0 : left
   right = rightAtEdge ? width : right
   const topRadius = Math.min(radius, (right - left) / 2, height - top)
@@ -29,8 +26,8 @@ function centeredPath(width, height, left, right, top, radius) {
     path.push(
       `V ${format(height - outerRadius)}`,
       `C ${coordinates([width, height - outerRadius + arc * outerRadius, width - outerRadius + arc * outerRadius, height, width - outerRadius, height])}`,
-      `H ${format(right + flare)}`,
-      `C ${coordinates([right + flare * 0.36, height, right, height - radius / 2, right, height - radius])}`,
+      `H ${format(right + radius)}`,
+      `C ${coordinates([right + radius - arc * radius, height, right, height - radius + arc * radius, right, height - radius])}`,
       `V ${format(top + topRadius)}`,
       `C ${coordinates([right, top + topRadius - arc * topRadius, right - topRadius + arc * topRadius, top, right - topRadius, top])}`,
     )
@@ -40,15 +37,15 @@ function centeredPath(width, height, left, right, top, radius) {
 
   if (leftAtEdge) {
     path.push(
-      `C ${coordinates([left + topRadius - arc * topRadius, top, 0, top + topRadius - arc * topRadius, 0, top + topRadius])}`,
+      `A ${format(topRadius)} ${format(topRadius)} 0 0 0 0 ${format(top + topRadius)}`,
       `V ${format(outerRadius)}`,
       `C ${coordinates([0, outerRadius - arc * outerRadius, outerRadius - arc * outerRadius, 0, outerRadius, 0])}`,
     )
   } else {
     path.push(
-      `C ${coordinates([left + topRadius - arc * topRadius, top, left, top + topRadius - arc * topRadius, left, top + topRadius])}`,
+      `A ${format(topRadius)} ${format(topRadius)} 0 0 0 ${format(left)} ${format(top + topRadius)}`,
       `V ${format(height - radius)}`,
-      `C ${coordinates([left, height - radius / 2, left - flare * 0.36, height, left - flare, height])}`,
+      `C ${coordinates([left, height - radius + arc * radius, left - radius + arc * radius, height, left - radius, height])}`,
       `H ${format(outerRadius)}`,
       `C ${coordinates([outerRadius - arc * outerRadius, height, 0, height - outerRadius + arc * outerRadius, 0, height - outerRadius])}`,
       `V ${format(outerRadius)}`,
@@ -61,8 +58,7 @@ function centeredPath(width, height, left, right, top, radius) {
 }
 
 function leftAlignedPath(width, height, right, top, radius) {
-  const flare = flareLength(radius)
-  const rightAtEdge = width - right <= flare + radius
+  const rightAtEdge = width - right <= radius * 2
   right = rightAtEdge ? width : right
   const topRadius = Math.min(radius, right / 2, height - top)
   const outerRadius = Math.min(radius, width / 2, height / 2)
@@ -82,8 +78,8 @@ function leftAlignedPath(width, height, right, top, radius) {
     path.push(
       `V ${format(height - outerRadius)}`,
       `C ${coordinates([width, height - outerRadius + arc * outerRadius, width - outerRadius + arc * outerRadius, height, width - outerRadius, height])}`,
-      `H ${format(right + flare)}`,
-      `C ${coordinates([right + flare * 0.36, height, right, height - radius / 2, right, height - radius])}`,
+      `H ${format(right + radius)}`,
+      `C ${coordinates([right + radius - arc * radius, height, right, height - radius + arc * radius, right, height - radius])}`,
       `V ${format(top + topRadius)}`,
       `C ${coordinates([right, top + topRadius - arc * topRadius, right - topRadius + arc * topRadius, top, right - topRadius, top])}`,
     )
@@ -91,7 +87,7 @@ function leftAlignedPath(width, height, right, top, radius) {
 
   path.push(
     `H ${format(topRadius)}`,
-    `C ${coordinates([topRadius - arc * topRadius, top, 0, top + topRadius - arc * topRadius, 0, top + topRadius])}`,
+    `A ${format(topRadius)} ${format(topRadius)} 0 0 0 0 ${format(top + topRadius)}`,
     `V ${format(outerRadius)}`,
     `C ${coordinates([0, outerRadius - arc * outerRadius, outerRadius - arc * outerRadius, 0, outerRadius, 0])}`,
     'Z',

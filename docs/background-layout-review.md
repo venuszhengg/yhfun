@@ -21,8 +21,10 @@ These are layout accommodations, not new mobile designs. Home sections that were
 already desktop-only remain desktop-only.
 
 Landscapes keep their original files, section heights at the reference width,
-and centred bottom alignment; wider viewports use `object-fit: cover` so artwork
-fills the horizontal background without distortion.
+and centred bottom alignment. At desktop widths of 1440px and above, the shared
+closing illustration scales to the viewport width at its original 1440:326
+aspect ratio. Its section grows only when necessary to contain the artwork;
+narrower layouts retain their existing sizing.
 
 ## Verification
 

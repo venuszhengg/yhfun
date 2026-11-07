@@ -1,6 +1,8 @@
 # Home inspection and token map — 4 November 2026
 
-> **Latest status:** case-study publication was approved by the user on 4 November 2026. The English desktop Home now includes the Featured case studies section, Home/PDF copy, and Case Studies navigation/footer links. Its three unavailable case images remain labelled placeholders. Mobile/Chinese expansion is still deferred.
+> **Latest status:** case-study publication was approved by the user on 4 November 2026. The English desktop Home includes the Featured case studies section, Home/PDF copy, and Case Studies navigation/footer links. The three cards use the supplied case-study photographs with centered cover crops. Mobile/Chinese expansion is still deferred.
+
+On 7 November 2026, the user confirmed public display of the three featured cases on Chinese Home and Services and supplied Chinese copy and targeted page updates in `chinese updates.pdf`. These changes do not constitute approval of other new mobile or Chinese designs.
 
 ## Current scope and status
 
@@ -30,9 +32,11 @@ Figma get_design_context and read-only use_figma both returned the Starter-plan 
 | 5 | What’s on your mind? | Built from Home.pdf copy; no exported illustration required |
 | 6 | How we can help | Built with matching original illustrations for all three service cards |
 | 7 | Start small before deciding where to invest next | Built with five matching original process illustrations and five numbered marker exports |
-| 8 | Featured case studies | Built with supplied titles/descriptions; case-image exports are unavailable and visibly labelled as placeholders |
+| 8 | Featured case studies | Built with supplied titles, descriptions, and case-study photographs |
 | 9 | Talk it through with us | Built with the original 1440×326 shared CTA illustration |
 | 10 | Dark footer | Built with supplied copy; social icon artwork remains a labelled placeholder |
+
+The Home and Services featured case cards share a full-card link and a desktop hover/keyboard-focus treatment: 6px lift, a warm olive-grey shadow, 1.035 image zoom within the existing rounded frame, and a 2px arrow shift. The shadow, darker arrow colour (`#79803e`), and motion values are interaction-specific rather than verified Figma tokens. Reduced motion removes the movement while retaining focus and colour feedback.
 
 The five process steps visible in the overview are Understand the problem; Choose a priority; Try it on a small scale; See what happens; Adjust or expand. These headings still require close text comparison alongside body copy before assembly.
 
@@ -188,6 +192,8 @@ User source: `/Users/venuszheng/Downloads/Home.pdf` (one1440×6170.27 page). Ext
 Implemented after the intro: four situation links (two columns), three service cards, alternating five-step process, Begin your journey CTA, approved Featured case studies section, closing CTA and dark footer with exact supplied registration/address/email/copyright copy. The Home section uses the PDF's exact three case titles and descriptions; individual links and the "Read more about our work" CTA lead to the Case Studies destination preview because that page body remains outside scope. No PDF page screenshot is embedded in the website.
 
 The supplied `ActionButton` component and arrow asset are used across Home, Services, About, Case Studies, Contact, policy pages and destination previews. Home retains the V2 EN · Desktop mapping: solid/olive for the hero's “Explore our services”; split/amber for “Let’s talk”, “Begin your journey” and “Read more about our work”; text/amber for service-card “Learn more” links; arrow/olive for each case-study card action; and solid/amber plus split/olive for the closing actions. Services and content pages use solid, split and arrow variants for their existing CTA placements, and the contact form submit uses solid/olive. The Back to Top control uses the arrow/olive variant with the supplied caption and upward arrow treatment on each policy page. Header menu/language controls and plain text navigation links remain native controls. The component references the existing primary, ivory and olive palette tokens. Its amber hover colour and motion/dimensions are retained from the supplied stylesheet; the hover colour has no Figma variable binding.
+
+Situation bubbles also use the shared olive arrow action. Their block padding is reduced by 4px from the card padding token to retain the original desktop bubble height around the larger button; the SVG silhouette and tail remain in place.
 
 New source: `src/HomeSections.jsx`; new page styles remain in `styles/home.css`, shared role values in `styles/tokens.css`. Existing React/Vite, query-string locales and destination placeholders are reused. Legal destination placeholders were added for privacy/terms/refunds so footer links do not silently return Home.
 

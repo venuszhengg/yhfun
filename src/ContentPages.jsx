@@ -1,40 +1,17 @@
+import { lazy, Suspense } from 'react'
+import '../styles/content-pages.css'
 import ActionButton from './ActionButton.jsx'
 import BackToTop from './BackToTop.jsx'
-import ContactForm from './ContactForm.jsx'
+import ContactChannels from './ContactChannels.jsx'
 import HeroCutoutClipPath from './HeroCutoutClipPath.jsx'
 import { useHeroCutout } from './useHeroCutout.js'
+import { caseStudies } from './caseStudies.js'
+import { caseStudiesZh, policyDataZh } from './chineseContent.js'
+import RouteLoading from './RouteLoading.jsx'
+
+const ContactForm = lazy(() => import('./ContactForm.jsx'))
 
 const artwork = (file) => `/images/mockup-illustrations/${encodeURI(file)}`
-
-const caseStudies = [
-  {
-    label: 'Owner-run fashion boutique',
-    icon: 'clothing-rack 1.svg',
-    location: 'China',
-    title: 'Make the first step easy',
-    challenge: 'The owner wanted to attract new customers through social media while running the shop alone, but wasn’t sure where to start or how to keep it manageable.',
-    approach: 'We clarified the audience and content focus, then designed a small publishing trial with practical guidance on filming, posting, handling enquiries and recording feedback.',
-    reason: 'The aim was to make the first steps manageable without creating an ongoing burden. Tracking enquiries and purchases, rather than just views, would help the owner decide where to invest their time and resources.',
-  },
-  {
-    label: 'Newly opened hotel',
-    icon: 'concierge-bell 1.svg',
-    location: 'China',
-    title: 'Guiding investment with cost-effective pilots',
-    challenge: 'The newly opened hotel had limited room capacity and wanted to attract international guests. It needed to understand costs, potential returns and the preparations required, without disrupting its existing business.',
-    approach: 'A short pilot was designed based on pricing benchmarks for comparable hotels and room types on international booking platforms, taking into account the hotel’s room types, platform terms and financial model. The plan covered costs, room allocation and a preparation checklist for bookings, payments, guest reception and post-stay support.',
-    reason: 'A small-scale pilot allows the hotel to validate the entire process with limited investment, gather feedback based on actual operating conditions, and then decide whether a larger-scale rollout is warranted.',
-  },
-  {
-    label: 'Neighbourhood restaurant',
-    icon: 'plate-utensils 1.svg',
-    location: 'Ireland',
-    title: 'From campaign planning to delivery',
-    challenge: 'The restaurant wanted to celebrate its anniversary, thank its regular customers and attract new guests. New to campaign planning, the team needed a suitable campaign plan and practical support with delivery.',
-    approach: 'Research into customer groups in the local community informed the campaign design. Our support covered implementation and coordination, including promotion, budgeting, staffing, materials, supplier coordination and on-the-day delivery.',
-    reason: 'A reliable partner handling both campaign planning and delivery would reduce the restaurant team’s workload in coordinating suppliers, managing preparations and following up on details.',
-  },
-]
 
 const policyData = {
   privacy: {
@@ -221,8 +198,8 @@ function ContentHero({ eyebrow, title, href, image, action = 'Explore our servic
     <HeroCutoutClipPath id={clipId} pathRef={pathRef} />
     <div ref={mediaRef} className="content-hero-media hero-cutout-media" style={{ clipPath: `url(#${clipId})` }} aria-hidden="true"><img src={image} alt="" /></div>
     <div ref={copyRef} className="content-hero-copy">
-      <p className="content-eyebrow">{eyebrow}</p>
-      <h1>{title}</h1>
+      <p className="content-eyebrow" data-hero-reveal="eyebrow">{eyebrow}</p>
+      <h1 data-hero-reveal="headline">{title}</h1>
     </div>
     <div ref={actionsRef} className="content-hero-actions hero-cutout-actions">
       {action && <PageAction href={href('services')} tone="olive">{action}</PageAction>}
@@ -231,12 +208,12 @@ function ContentHero({ eyebrow, title, href, image, action = 'Explore our servic
   </section>
 }
 
-function ClosingCTA({ href, title = 'Let’s work out the next step together.', subtitle, primary = 'Get in touch', secondary = 'Explore our services' }) {
-  return <section className="content-closing" aria-label="Get in touch">
-    <img className="full-width-artwork" src={artwork('Page=all, Section=cta.svg')} alt="" />
+function ClosingCTA({ href, title = 'Let’s work out the next step together.', subtitle, primary = 'Get in touch', secondary = 'Explore our services', ariaLabel = 'Get in touch' }) {
+  return <section className="content-closing" aria-label={ariaLabel}>
+    <img className="full-width-artwork" src={artwork('Page=all, Section=cta.svg')} alt="" loading="lazy" />
     <div className="content-closing-copy">
-      <h2>{title}</h2>
-      {subtitle && <p>{subtitle}</p>}
+      <h2 data-reveal="text">{title}</h2>
+      {subtitle && <p data-reveal="text" data-reveal-order="1">{subtitle}</p>}
       <div className="content-closing-actions">
         <ActionButton href={href('contact#contact-form')} variant="solid" className="content-action">{primary}</ActionButton>
           <ActionButton href={href('services')} variant="split" tone="olive">{secondary}</ActionButton>
@@ -245,22 +222,29 @@ function ClosingCTA({ href, title = 'Let’s work out the next step together.', 
   </section>
 }
 
-function CaseStudiesPage({ href }) {
+function CaseStudiesPage({ href, language }) {
+  const chinese = language === 'zh-Hans'
   return <div className="content-main case-studies-page">
-    <ContentHero eyebrow="Case studies" title="Featured case studies." href={href} image="/images/heroes/hero-case.png" />
+    <ContentHero eyebrow={chinese ? '案例研究' : 'Case studies'} title={chinese ? '优选案例' : 'Featured case studies.'} href={href} image="/images/heroes/hero-case.png" {...(chinese ? { action: '了解我们的服务', secondary: '我们聊聊吧' } : {})} />
     <div className="case-study-list">
-      {caseStudies.map((study, index) => <section className={`case-story case-story-${index + 1}${index % 2 ? ' full-width-background' : ''}`} key={study.title} aria-labelledby={`case-title-${index + 1}`}>
-        <div className="case-story-image" role="img" aria-label={`${study.label} photo export pending`}><span>Case study photo export pending</span></div>
-        <div className="case-story-copy">
-          <p className="case-story-meta"><span><img src={`/images/case-studies-icons/${encodeURIComponent(study.icon)}`} width="24" height="24" alt="" />{study.label}</span><span><img src="/images/case-studies-icons/marker%201.svg" width="24" height="24" alt="" />{study.location}</span></p>
-          <h2 id={`case-title-${index + 1}`}>{study.title}</h2>
-          <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20you%27re%20facing.svg" width="40" height="40" alt="" /><h3>The challenge</h3><p>{study.challenge}</p></div>
-          <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20we%20do%20together.svg" width="40" height="40" alt="" /><h3>Our approach</h3><p>{study.approach}</p></div>
-          <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/Let%20feedback%20guide%20decisions.svg" width="40" height="40" alt="" /><h3>Why this approach</h3><p>{study.reason}</p></div>
-        </div>
-      </section>)}
+      {caseStudies.map((study, index) => {
+        const translated = chinese ? caseStudiesZh[index] : null
+        const copy = translated ? { ...study, ...translated, image: { ...study.image, alt: translated.imageAlt } } : study
+        return <section className={`case-story case-story-${index + 1}${index % 2 ? ' full-width-background' : ''}`} key={study.title} aria-labelledby={`case-title-${index + 1}`}>
+          <div className="case-story-image" data-reveal="visual">
+            <img src={copy.image.src} alt={copy.image.alt} loading="lazy" />
+          </div>
+          <div className="case-story-copy">
+            <p className="case-story-meta" data-reveal="text"><span><img src={`/images/case-studies-icons/${encodeURIComponent(study.icon)}`} width="24" height="24" alt="" loading="lazy" />{copy.label}</span><span><img src="/images/case-studies-icons/marker%201.svg" width="24" height="24" alt="" loading="lazy" />{copy.location}</span></p>
+            <h2 id={`case-title-${index + 1}`} data-reveal="text" data-reveal-order="1">{copy.title}</h2>
+            <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20you%27re%20facing.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '问题' : 'The challenge'}</h3><p>{copy.challenge}</p></div>
+            <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20we%20do%20together.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '解法' : 'Our approach'}</h3><p>{copy.approach}</p></div>
+            <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/Let%20feedback%20guide%20decisions.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '为什么这样做' : 'Why this approach'}</h3><p>{copy.reason}</p></div>
+          </div>
+        </section>
+      })}
     </div>
-    <ClosingCTA href={href} />
+    <ClosingCTA href={href} {...(chinese ? { title: '一起看看，下一步怎么走。', primary: '我们聊聊吧', secondary: '了解我们的服务', ariaLabel: '联系我们' } : {})} />
   </div>
 }
 
@@ -270,34 +254,45 @@ const aboutChallenges = [
   ['Getting stuck again', 'You rely on experience, but don’t yet have a consistent way of doing things.', 'Page=about, Section=getting-stuck-again.svg'],
 ]
 
-function AboutPage({ href }) {
+function AboutPage({ href, language }) {
+  const chinese = language === 'zh-Hans'
+  const challenges = chinese ? [
+    ['方向不清', '知道想改变，却说不清问题。', 'Page=about, Section=unclear-direction.svg'],
+    ['难以开始', '想法很多，却找不到合适的第一步。', 'Page=about, Section=hard-to-get-started.svg'],
+    ['反复卡住', '事情总靠经验，难以形成稳定做法。', 'Page=about, Section=getting-stuck-again.svg'],
+  ] : aboutChallenges
   return <div className="content-main about-page">
-    <ContentHero eyebrow="About us" title={<>You don’t have to<br />figure it all out alone.</>} href={href} image="/images/heroes/hero-about.png" />
+    <ContentHero eyebrow={chinese ? '我们是谁' : 'About us'} title={chinese ? <>有些卡点，<br />不必一个人想。</> : <>You don’t have to<br />figure it all out alone.</>} href={href} image="/images/heroes/hero-about.png" {...(chinese ? { action: '了解我们的服务', secondary: '我们聊聊吧' } : {})} />
     <section className="about-intro content-section full-width-background" aria-labelledby="about-intro-heading">
-      <div className="about-intro-art"><img src={artwork('about-us.svg')} alt="" /></div>
-      <div><h2 id="about-intro-heading">About Y.H.FUN</h2><p>Y. H. FUN is a problem-solving partner for individuals, independent business owners and small teams. We work through problems together, test ideas and make adjustments along the way, leaving you with methods and tools you can use again.</p></div>
+      <div className="about-intro-art" data-reveal="visual"><img src={artwork('about-us.svg')} alt="" loading="lazy" /></div>
+      <div><h2 id="about-intro-heading" data-reveal="text">{chinese ? '公司介绍' : 'About Y.H.FUN'}</h2><p data-reveal="text" data-reveal-order="1">{chinese ? 'Y. H. FUN是个人、独立经营者与精简团队的问题解决伙伴。我们一起理清问题，在实践中尝试、调整，留下能重复使用的方法和工具。' : 'Y. H. FUN is a problem-solving partner for individuals, independent business owners and small teams. We work through problems together, test ideas and make adjustments along the way, leaving you with methods and tools you can use again.'}</p></div>
     </section>
     <section className="about-challenges content-section" aria-labelledby="about-challenges-heading">
-      <h2 id="about-challenges-heading">You don’t have to figure it out all alone</h2>
+      <h2 id="about-challenges-heading" data-reveal="text">{chinese ? '有些卡点，不必一个人想' : 'You don’t have to figure it out all alone'}</h2>
       <div className="about-challenge-grid">
-        {aboutChallenges.map(([title, description, file]) => <article className="about-challenge" key={title}>
-          <img src={artwork(file)} alt="" />
+        {challenges.map(([title, description, file], index) => <article className="about-challenge" key={title} data-reveal="text" data-reveal-order={index}>
+          <img src={artwork(file)} alt="" loading="lazy" />
           <h3>{title}</h3>
           <p>{description}</p>
-          <PageAction href={href('services')} tone="text">Learn more</PageAction>
+          <PageAction href={href('services')} tone="text">{chinese ? '了解更多' : 'Learn more'}</PageAction>
         </article>)}
       </div>
     </section>
     <section className="about-companion" aria-labelledby="about-companion-heading">
-      <h2 id="about-companion-heading">A companion you can<br />count on</h2>
-      <div className="about-companion-art" role="img" aria-label="About process illustration export pending"><span>Illustration export pending</span></div>
+      <h2 id="about-companion-heading">{chinese ? '像伙伴一样，共同推进' : 'A companion you can count on'}</h2>
       <ol>
-        <li><h3>Understand first</h3><p>Start with your situation as it really is.</p></li>
-        <li><h3>Then try it out</h3><p>Take small steps and learn from what happens.</p></li>
-        <li><h3>Use it again</h3><p>Keep methods you can draw on in future.</p></li>
+        <li><h3>{chinese ? '先理解' : 'Understand first'}</h3><p>{chinese ? '从你的真实处境出发。' : 'Start with your situation as it really is.'}</p></li>
+        <li><h3>{chinese ? '再尝试' : 'Then try it out'}</h3><p>{chinese ? '用小步骤获得实际反馈。' : 'Take small steps and learn from what happens.'}</p></li>
+        <li><h3>{chinese ? '能复用' : 'Use it again'}</h3><p>{chinese ? '留下以后用得上的方法。' : 'Keep methods you can draw on in future.'}</p></li>
       </ol>
     </section>
-    <ClosingCTA href={href} />
+    <ClosingCTA
+      href={href}
+      title={chinese ? '一起看看，下一步怎么走。' : undefined}
+      primary={chinese ? '我们聊聊吧' : undefined}
+      secondary={chinese ? '了解我们的服务' : undefined}
+      ariaLabel={chinese ? '联系我们' : undefined}
+    />
   </div>
 }
 
@@ -315,17 +310,13 @@ function ContactPage({ href, language }) {
     />
     <section className="contact-details content-section">
       <div className="contact-details-sidebar">
-        <div><h2>{chinese ? '一般咨询' : 'General enquiries'}</h2><a href="mailto:hello@yhfunhq.com">hello@yhfunhq.com</a></div>
-        <div><h2>{chinese ? '业务与服务支持' : 'Business and service support'}</h2><a href="mailto:info@yhfunhq.com">info@yhfunhq.com</a></div>
-        <div><h2>{chinese ? '社交媒体' : 'Social'}</h2><ul>
-          <li><img src="/images/app-icons/App=Wechat,%20Colour=Olive.svg" width="24" height="24" alt="" />{chinese ? '微信：YShouyishansi' : 'WeChat: YShouyishansi'}</li>
-          <li><img src="/images/app-icons/App=RedNote,%20Colour=Olive.svg" width="24" height="24" alt={chinese ? '小红书' : 'RedNote'} />@27796963745</li>
-          <li><img src="/images/app-icons/App=YT,%20Colour=Olive.svg" width="24" height="24" alt="YouTube" />@yishanthinks</li>
-        </ul></div>
-        <img src={artwork('Page=contact, Section=contact-us.svg')} alt="" />
+        <ContactChannels language={language} />
+        <img src={artwork('Page=contact, Section=contact-us.svg')} alt="" loading="lazy" />
       </div>
       <div className="contact-form-column">
-        <ContactForm href={href} language={language} />
+        <Suspense fallback={<RouteLoading language={language} form />}>
+          <ContactForm href={href} language={language} />
+        </Suspense>
       </div>
     </section>
     <ClosingCTA
@@ -338,8 +329,9 @@ function ContactPage({ href, language }) {
   </div>
 }
 
-function PolicyPage({ page, href }) {
-  const policy = policyData[page]
+function PolicyPage({ page, href, language }) {
+  const chinese = language === 'zh-Hans'
+  const policy = chinese ? policyDataZh[page] : policyData[page]
   return <div className={`content-main policy-page policy-${page}`}>
     <header className="policy-heading">
       <h1>{policy.title}</h1>
@@ -354,7 +346,7 @@ function PolicyPage({ page, href }) {
       <article className="policy-copy">
         {policy.introduction?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         {policy.sections.map((section, index) => <section id={`${page}-section-${index + 1}`} key={section.title} aria-labelledby={`${page}-heading-${index + 1}`}>
-          <h2 id={`${page}-heading-${index + 1}`}>{index + 1}. {section.title}</h2>
+          <h2 id={`${page}-heading-${index + 1}`}>{chinese ? section.title : `${index + 1}. ${section.title}`}</h2>
           {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         </section>)}
       </article>
@@ -364,8 +356,8 @@ function PolicyPage({ page, href }) {
 }
 
 export default function ContentPage({ page, href, language = 'en' }) {
-  if (page === 'case-studies') return <CaseStudiesPage href={href} />
-  if (page === 'about') return <AboutPage href={href} />
+  if (page === 'case-studies') return <CaseStudiesPage href={href} language={language} />
+  if (page === 'about') return <AboutPage href={href} language={language} />
   if (page === 'contact') return <ContactPage href={href} language={language} />
-  return <PolicyPage page={page} href={href} />
+  return <PolicyPage page={page} href={href} language={language} />
 }

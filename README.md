@@ -56,19 +56,23 @@ git push -u origin feature/home-header-hero
 
 ## Latest scope: English desktop only (4 November)
 
-The English desktop Home uses the supplied Home.pdf copy and the original mockup SVG exports. The asset bundle is kept in `public/images/mockup-illustrations/` and matching artwork is wired into the intro, service cards, process steps/markers, and closing CTA. Case-study publication has been approved; the Home section and navigation are included with labelled placeholders for the three unavailable case images. The hero background/cutout and social icons also remain unavailable placeholders. Read [the current mapping and section inventory](docs/home-token-map.md); it supersedes the earlier review note where values conflict.
+The English desktop Home uses the supplied Home.pdf copy and the original mockup SVG exports. The asset bundle is kept in `public/images/mockup-illustrations/` and matching artwork is wired into the intro, service cards, process steps/markers, and closing CTA. The case-study cards use the supplied photographs. Read [the current mapping and section inventory](docs/home-token-map.md); it supersedes the earlier review note where values conflict.
 
 Preview `/?lang=en` at 1440px. The desktop layout targets the supplied frame; no completed visual-match claim is made. Mobile/Chinese expansion and other page bodies remain deferred. Run `npm run build` before committing. Keep Git publishing and deployment for your own review.
 
 
 ## Full Home with placeholders — current preview
 
-The English desktop homepage includes all in-scope sections through the footer, using the supplied Home.pdf copy and original exported artwork. Case-study publication is approved; the Home section and navigation are present, with labelled placeholders for the three missing case images. Hero photo/cutout and social icons remain labelled placeholders. Open `http://localhost:5173/?lang=en` (or the URL printed by `npm run dev`) in a desktop browser and scroll to the bottom. Do not treat this as an asset-complete or launch-approved website.
+The English desktop homepage includes all in-scope sections through the footer, using the supplied Home.pdf copy and original exported artwork. Its three case-study cards use the supplied photographs. Open `http://localhost:5173/?lang=en` (or the URL printed by `npm run dev`) in a desktop browser and scroll to the bottom. Do not treat this as an asset-complete or launch-approved website.
 
 ## Services desktop preview
 
-The English desktop Services route is implemented at `/?lang=en&page=services` using the supplied Figma CSS measurements, Services.pdf copy and matching original illustrations. Its 1440px section inventory, token mappings and missing-artwork placeholders are recorded in [docs/services-token-map.md](docs/services-token-map.md). The hero photograph, service-card icons and case-study photographs remain labelled placeholders; mobile/Chinese Services layouts are deferred.
+The English desktop Services route is implemented at `/?lang=en&page=services` using the supplied Figma CSS measurements, Services.pdf copy and matching original illustrations. Its 1440px section inventory, token mappings and asset status are recorded in [docs/services-token-map.md](docs/services-token-map.md). The case-study cards use the supplied photographs; mobile/Chinese Services layouts are deferred.
 
 ## Additional English desktop pages
 
-Case Studies, About Us, Contact, Privacy Policy, Terms of Service, and Refunds & Cancellations Policy are implemented from the supplied PDFs. See [docs/content-pages-map.md](docs/content-pages-map.md) for routes, source measurements, asset status, and Contact form integration details. The Contact form sends directly to `VITE_CONTACT_FORM_ENDPOINT` only when configured; there is no production endpoint in this project, and the form never simulates success. Missing photos and illustrations are explicitly labelled. Contact copy is available in English and Simplified Chinese; other Chinese pages and mobile designs remain deferred.
+Case Studies, About Us, Contact, Privacy Policy, Terms of Service, and Refunds & Cancellations Policy are implemented from the supplied PDFs. See [docs/content-pages-map.md](docs/content-pages-map.md) for routes, source measurements, asset status, and Contact form integration details. The Contact form is in preview mode: it shows a clearly labelled confirmation preview and does not send or save enquiries, even if an endpoint is configured. Re-enable and test real submission during the final pre-deployment review. Missing photos and illustrations are explicitly labelled. Contact copy is available in English and Simplified Chinese; other Chinese pages and mobile designs remain deferred.
+
+## Reveal motion
+
+Selected editorial headings, artwork and cards use opt-in `data-reveal="text"` or `data-reveal="visual"` attributes, with optional `data-reveal-order` values for a short capped stagger. The shared observer in `src/useScrollReveals.js` only prepares content below the initial viewport, reveals it once and immediately exposes focused or anchor-targeted content. Hero text uses `data-hero-reveal`. Reduced motion and browsers without IntersectionObserver leave content visible; form fields, navigation and policy copy remain static. The existing React application itself requires JavaScript to render.

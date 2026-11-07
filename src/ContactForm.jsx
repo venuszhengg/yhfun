@@ -1,11 +1,10 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import { getCountries, getCountryCallingCode, parsePhoneNumber } from 'libphonenumber-js/max'
+import { parsePhoneNumberFromString } from 'libphonenumber-js/max'
 import ActionButton from './ActionButton.jsx'
+import { createCountryOptions, filterCountryOptions, getInitialCountry } from './contact/countries.js'
+import { ENQUIRY_TYPES, validateContactField, validateContactForm } from './contact/validation.js'
 import './ContactForm.css'
 
-const ENQUIRY_TYPES = ['General enquiries', 'Business and service support']
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const SUBMISSION_ENDPOINT = import.meta.env.VITE_CONTACT_FORM_ENDPOINT?.trim()
 const COPY = {
   en: {
     title: 'Get in touch',
@@ -16,10 +15,17 @@ const COPY = {
     enquiryGroup: 'Enquiry types',
     chooseEnquiry: 'Choose an enquiry type.',
     name: 'Your name',
+    namePlaceholder: 'e.g. Alex Murphy',
     email: 'Email address',
+    emailPlaceholder: 'name@example.com',
     phone: 'Phone number',
+    phonePlaceholder: 'e.g. 87 123 4567',
     optional: '· Optional',
     message: 'How can we help?',
+    messagePlaceholder: 'Tell us what you’re enquiring about, any relevant details, and how we can help.',
+    messageHelper: 'A brief description is fine. Include any context that will help us respond.',
+    phoneHelper: 'Optional, if you would also like us to have a number to reach you on.',
+    errorSummary: 'Please check the following before continuing:',
     nameError: 'Enter your name.',
     emailRequired: 'Enter your email address.',
     emailInvalid: 'Enter an address like name@example.com.',
@@ -36,9 +42,15 @@ const COPY = {
     sending: 'Sending…',
     sent: 'Sent',
     newEnquiry: 'Start a new enquiry',
-    notConfigured: 'Website submission is not configured, so your enquiry has not been sent. Please try again later or contact us directly.',
+    notConfigured: 'Website submission is not configured. Please try again later or contact us directly.',
     failed: 'We couldn’t send your enquiry. Your details are still here; please check your connection and try again.',
-    success: (email) => `Enquiry sent. We’ll reply to ${email}.`,
+    successTitle: (name) => `Thanks, ${name}.`,
+    successMessage: 'Your enquiry has been received.',
+    successNextTitle: 'What happens next',
+    successNext: (email) => `We’ll review your message and follow up by email at ${email}.`,
+    successEmailLabel: 'Reply to',
+    successEnquiryLabel: 'Enquiry type',
+    successAnnouncement: 'Your enquiry has been received successfully.',
     followup: 'After you send your enquiry, we’ll be in touch by email. You can also reach us on WeChat or through the social media accounts listed on this page.',
   },
   'zh-Hans': {
@@ -50,10 +62,17 @@ const COPY = {
     enquiryGroup: '咨询类型',
     chooseEnquiry: '请选择咨询类型。',
     name: '您的姓名',
+    namePlaceholder: '例如：张明',
     email: '电子邮箱',
+    emailPlaceholder: 'name@example.com',
     phone: '电话号码',
+    phonePlaceholder: '例如：87 123 4567',
     optional: '· 可选',
     message: '我们可以如何帮助您？',
+    messagePlaceholder: '请告诉我们您想咨询的事项、相关详情，以及您希望我们如何帮助您。',
+    messageHelper: '简要说明即可，请提供有助于我们回复的背景信息。',
+    phoneHelper: '可选。如果您希望我们也能通过电话联系您，可以填写。',
+    errorSummary: '请在继续前检查以下内容：',
     nameError: '请输入您的姓名。',
     emailRequired: '请输入您的电子邮箱。',
     emailInvalid: '请输入有效的电子邮箱地址。',
@@ -70,50 +89,17 @@ const COPY = {
     sending: '正在发送…',
     sent: '已发送',
     newEnquiry: '开始新的咨询',
-    notConfigured: '网站咨询提交功能尚未配置，因此您的信息尚未发送。请稍后重试或直接联系我们。',
+    notConfigured: '网站咨询提交功能尚未配置。请稍后重试或直接联系我们。',
     failed: '未能发送您的咨询。已保留填写内容；请检查网络连接后重试。',
-    success: (email) => `咨询已发送。我们会回复至 ${email}。`,
+    successTitle: (name) => `谢谢您，${name}。`,
+    successMessage: '我们已收到您的咨询。',
+    successNextTitle: '接下来',
+    successNext: (email) => `我们会查看您的留言，并通过电子邮件回复至 ${email}。`,
+    successEmailLabel: '回复至',
+    successEnquiryLabel: '咨询类型',
+    successAnnouncement: '您的咨询已成功提交。',
     followup: '发送咨询后，我们会通过电子邮件与您联系。您也可以通过微信或本页列出的社交媒体账号联系我们。',
   },
-}
-
-function getInitialCountry(countries) {
-  for (const locale of navigator.languages?.length ? navigator.languages : [navigator.language]) {
-    try {
-      const region = new Intl.Locale(locale).region
-      if (countries.includes(region)) return region
-    } catch {
-      // Ignore malformed browser locale entries and try the next one.
-    }
-  }
-  return countries.includes('IE') ? 'IE' : countries[0]
-}
-
-function createCountryOptions(language) {
-  const displayNames = new Intl.DisplayNames([language], { type: 'region' })
-  return getCountries()
-    .map((code) => ({
-      code,
-      name: displayNames.of(code) || code,
-      callingCode: getCountryCallingCode(code),
-      flag: String.fromCodePoint(...[...code].map((letter) => 127397 + letter.charCodeAt(0))),
-    }))
-    .sort((left, right) => left.name.localeCompare(right.name))
-}
-
-function validateField(name, value, countryCode, copy) {
-  const trimmed = value.trim()
-  if (name === 'name' && !trimmed) return copy.nameError
-  if (name === 'email') {
-    if (!trimmed) return copy.emailRequired
-    if (!EMAIL_PATTERN.test(trimmed)) return copy.emailInvalid
-  }
-  if (name === 'message' && !trimmed) return copy.messageError
-  if (name === 'phone' && trimmed) {
-    const number = parsePhoneNumber(trimmed, { defaultCountry: countryCode, extract: false })
-    if (!number?.isValid()) return copy.phoneInvalid
-  }
-  return ''
 }
 
 function ChevronIcon() {
@@ -139,6 +125,7 @@ export default function ContactForm({ href, language = 'en' }) {
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [submissionState, setSubmissionState] = useState('idle')
   const [statusMessage, setStatusMessage] = useState('')
+  const [submittedEnquiry, setSubmittedEnquiry] = useState(null)
   const [enquiryOpen, setEnquiryOpen] = useState(false)
   const [countryOpen, setCountryOpen] = useState(false)
   const [countryQuery, setCountryQuery] = useState('')
@@ -151,15 +138,14 @@ export default function ContactForm({ href, language = 'en' }) {
   const countrySearchRef = useRef(null)
   const countryOptionRefs = useRef([])
   const fieldRefs = useRef({})
+  const errorSummaryRef = useRef(null)
+  const successMessageRef = useRef(null)
   const submissionLockRef = useRef(false)
 
-  const filteredCountries = useMemo(() => {
-    const query = countryQuery.trim().toLocaleLowerCase()
-    if (!query) return countryOptions
-    return countryOptions.filter(({ code, name, callingCode }) => (
-      `${name} ${code} +${callingCode}`.toLocaleLowerCase().includes(query)
-    ))
-  }, [countryOptions, countryQuery])
+  const filteredCountries = useMemo(
+    () => filterCountryOptions(countryOptions, countryQuery),
+    [countryOptions, countryQuery],
+  )
 
   const selectedCountry = countryOptions.find(({ code }) => code === countryCode) ?? countryOptions[0]
 
@@ -184,6 +170,10 @@ export default function ContactForm({ href, language = 'en' }) {
     return () => document.removeEventListener('pointerdown', dismissOutside)
   }, [enquiryOpen, countryOpen])
 
+  useEffect(() => {
+    if (submissionState === 'sent') successMessageRef.current?.focus()
+  }, [submissionState])
+
   function clearSubmissionForEditing() {
     if (submissionState === 'sent') {
       submissionLockRef.current = false
@@ -195,14 +185,16 @@ export default function ContactForm({ href, language = 'en' }) {
   function updateField(name, value) {
     clearSubmissionForEditing()
     setValues((current) => ({ ...current, [name]: value }))
-    if (errors[name] || hasSubmitted) {
-      setErrors((current) => ({ ...current, [name]: validateField(name, value, countryCode, copy) }))
-    }
-    if (name === 'phone' && value.trim()) {
-      const parsed = parsePhoneNumber(value.trim(), { defaultCountry: countryCode, extract: false })
+    let validationCountry = countryCode
+    if (name === 'phone' && value.trim().startsWith('+')) {
+      const parsed = parsePhoneNumberFromString(value.trim(), { defaultCountry: countryCode, extract: false })
       if (parsed?.isValid() && parsed.country && countryOptions.some(({ code }) => code === parsed.country)) {
+        validationCountry = parsed.country
         setCountryCode(parsed.country)
       }
+    }
+    if (errors[name] && !validateContactField(name, value, validationCountry, copy)) {
+      setErrors((current) => ({ ...current, [name]: '' }))
     }
   }
 
@@ -221,7 +213,7 @@ export default function ContactForm({ href, language = 'en' }) {
     setCountryOpen(false)
     setCountryQuery('')
     if (values.phone.trim() && (errors.phone || hasSubmitted)) {
-      setErrors((current) => ({ ...current, phone: validateField('phone', values.phone, code, copy) }))
+      setErrors((current) => ({ ...current, phone: validateContactField('phone', values.phone, code, copy) }))
     }
     countryTriggerRef.current?.focus()
   }
@@ -296,18 +288,11 @@ export default function ContactForm({ href, language = 'en' }) {
     event.preventDefault()
     if (submissionLockRef.current || submissionState !== 'idle') return
     setHasSubmitted(true)
-    const nextErrors = {
-      enquiryType: values.enquiryType ? '' : copy.chooseEnquiry,
-      name: validateField('name', values.name, countryCode, copy),
-      email: validateField('email', values.email, countryCode, copy),
-      phone: validateField('phone', values.phone, countryCode, copy),
-      message: validateField('message', values.message, countryCode, copy),
-    }
+    const nextErrors = validateContactForm(values, countryCode, copy)
     setErrors(nextErrors)
     const firstInvalid = ['enquiryType', 'name', 'email', 'phone', 'message'].find((name) => nextErrors[name])
     if (firstInvalid) {
-      if (firstInvalid === 'enquiryType') enquiryTriggerRef.current?.focus()
-      else fieldRefs.current[firstInvalid]?.focus()
+      requestAnimationFrame(() => errorSummaryRef.current?.focus())
       return
     }
 
@@ -315,7 +300,24 @@ export default function ContactForm({ href, language = 'en' }) {
   }
 
   async function submitEnquiry() {
-    if (!SUBMISSION_ENDPOINT) {
+    if (import.meta.env.DEV) {
+      // Only local development can simulate success; production needs a configured service.
+      submissionLockRef.current = true
+      setSubmissionState('sending')
+      setStatusMessage('')
+      await new Promise((resolve) => window.setTimeout(resolve, 500))
+      setSubmittedEnquiry({
+        name: values.name.trim(),
+        email: values.email.trim(),
+        enquiryType: values.enquiryType,
+      })
+      setSubmissionState('sent')
+      setStatusMessage(copy.successAnnouncement)
+      return
+    }
+
+    const submissionEndpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT?.trim()
+    if (!submissionEndpoint) {
       setStatusMessage(copy.notConfigured)
       return
     }
@@ -325,9 +327,9 @@ export default function ContactForm({ href, language = 'en' }) {
     setStatusMessage('')
     try {
       const parsedPhone = values.phone.trim()
-        ? parsePhoneNumber(values.phone.trim(), { defaultCountry: countryCode, extract: false })
+        ? parsePhoneNumberFromString(values.phone.trim(), { defaultCountry: countryCode, extract: false })
         : undefined
-      const response = await fetch(SUBMISSION_ENDPOINT, {
+      const response = await fetch(submissionEndpoint, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -357,11 +359,14 @@ export default function ContactForm({ href, language = 'en' }) {
     submissionLockRef.current = false
     setSubmissionState('idle')
     setStatusMessage('')
-    enquiryTriggerRef.current?.focus()
+    setSubmittedEnquiry(null)
+    requestAnimationFrame(() => enquiryTriggerRef.current?.focus())
   }
 
   const busy = submissionState === 'sending'
-  const locked = busy || submissionState === 'sent'
+  const complete = submissionState === 'sent'
+  const locked = busy || complete
+  const errorFields = ['enquiryType', 'name', 'email', 'phone', 'message'].filter((name) => errors[name])
 
   return (
     <section className="contact-form-panel" aria-labelledby={`${id}-title`}>
@@ -370,13 +375,45 @@ export default function ContactForm({ href, language = 'en' }) {
         <p>{copy.introduction}</p>
       </header>
       <form id="contact-form" className="contact-form" noValidate onSubmit={validateAndSubmit} aria-busy={busy}>
-        <p className="contact-form-note">{copy.requiredNote}</p>
-        <div className="contact-form-grid">
-          <div className="contact-full contact-enquiry" ref={enquiryRef} onKeyDown={handleEnquiryKeyDown} onBlur={(event) => {
+        <p className="contact-form-note" hidden={complete}>{copy.requiredNote}</p>
+        {errorFields.length > 0 && <div className="contact-error-summary" ref={errorSummaryRef} tabIndex={-1} role="alert">
+          <p>{copy.errorSummary}</p>
+          <ul>{errorFields.map((name) => <li key={name}><a href={`#${id}-${name}`} onClick={(event) => {
+            event.preventDefault()
+            if (name === 'enquiryType') enquiryTriggerRef.current?.focus()
+            else fieldRefs.current[name]?.focus()
+          }}>{errors[name]}</a></li>)}</ul>
+        </div>}
+        {complete && submittedEnquiry && <section className="contact-success" ref={successMessageRef} tabIndex={-1} role="status" aria-labelledby={`${id}-success-title`}>
+          <div className="contact-success-heading">
+            <span className="contact-success-icon" aria-hidden="true"><CheckIcon /></span>
+            <div>
+              <h2 id={`${id}-success-title`}>{copy.successTitle(submittedEnquiry.name)}</h2>
+              <p>{copy.successMessage}</p>
+            </div>
+          </div>
+          <div className="contact-success-next">
+            <h3>{copy.successNextTitle}</h3>
+            <p>{copy.successNext(submittedEnquiry.email)}</p>
+          </div>
+          <dl className="contact-success-details">
+            <div>
+              <dt>{copy.successEmailLabel}</dt>
+              <dd>{submittedEnquiry.email}</dd>
+            </div>
+            <div>
+              <dt>{copy.successEnquiryLabel}</dt>
+              <dd>{copy.enquiryOptions[ENQUIRY_TYPES.indexOf(submittedEnquiry.enquiryType)]}</dd>
+            </div>
+          </dl>
+        </section>}
+        <div className="contact-form-grid" hidden={complete}>
+          <div className="contact-full contact-enquiry contact-field-icon contact-field-icon--enquiry" ref={enquiryRef} onKeyDown={handleEnquiryKeyDown} onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) setEnquiryOpen(false)
           }}>
             <button
               ref={enquiryTriggerRef}
+              id={`${id}-enquiryType`}
               type="button"
               className={`contact-field contact-picker-trigger${values.enquiryType ? ' has-value' : ''}`}
               aria-expanded={enquiryOpen}
@@ -417,17 +454,17 @@ export default function ContactForm({ href, language = 'en' }) {
             <p className="contact-field-error" id={`${id}-enquiry-error`} aria-live="polite">{errors.enquiryType}</p>
           </div>
 
-          <div className="contact-floating-field">
-            <input ref={(element) => { fieldRefs.current.name = element }} id={`${id}-name`} className="contact-field" name="name" autoComplete="name" placeholder=" " required maxLength={100} value={values.name} disabled={locked} aria-describedby={`${id}-name-error`} aria-invalid={errors.name ? 'true' : undefined} onChange={(event) => updateField('name', event.target.value)} onBlur={() => {
-              if (values.name.trim() || hasSubmitted) setErrors((current) => ({ ...current, name: validateField('name', values.name, countryCode, copy) }))
+          <div className="contact-floating-field contact-field-icon contact-field-icon--name">
+            <input ref={(element) => { fieldRefs.current.name = element }} id={`${id}-name`} className="contact-field" name="name" autoComplete="name" placeholder={copy.namePlaceholder} required maxLength={100} value={values.name} disabled={locked} aria-describedby={`${id}-name-error`} aria-invalid={errors.name ? 'true' : undefined} onChange={(event) => updateField('name', event.target.value)} onBlur={() => {
+              if (values.name.trim() || hasSubmitted) setErrors((current) => ({ ...current, name: validateContactField('name', values.name, countryCode, copy) }))
             }} />
             <label htmlFor={`${id}-name`}>{copy.name}</label>
             <p className="contact-field-error" id={`${id}-name-error`} aria-live="polite">{errors.name}</p>
           </div>
 
-          <div className="contact-floating-field">
-            <input ref={(element) => { fieldRefs.current.email = element }} id={`${id}-email`} className="contact-field" name="email" type="email" autoComplete="email" placeholder=" " required maxLength={254} value={values.email} disabled={locked} aria-describedby={`${id}-email-error`} aria-invalid={errors.email ? 'true' : undefined} onChange={(event) => updateField('email', event.target.value)} onBlur={() => {
-              if (values.email.trim() || hasSubmitted) setErrors((current) => ({ ...current, email: validateField('email', values.email, countryCode, copy) }))
+          <div className="contact-floating-field contact-field-icon contact-field-icon--email">
+            <input ref={(element) => { fieldRefs.current.email = element }} id={`${id}-email`} className="contact-field" name="email" type="email" autoComplete="email" placeholder={copy.emailPlaceholder} required maxLength={254} value={values.email} disabled={locked} aria-describedby={`${id}-email-error`} aria-invalid={errors.email ? 'true' : undefined} onChange={(event) => updateField('email', event.target.value)} onBlur={() => {
+              if (values.email.trim() || hasSubmitted) setErrors((current) => ({ ...current, email: validateContactField('email', values.email, countryCode, copy) }))
             }} />
             <label htmlFor={`${id}-email`}>{copy.email}</label>
             <p className="contact-field-error" id={`${id}-email-error`} aria-live="polite">{errors.email}</p>
@@ -498,26 +535,26 @@ export default function ContactForm({ href, language = 'en' }) {
                 </div>}
                 <input type="hidden" name="countryCode" value={countryCode} />
               </div>
-              <div className="contact-floating-field contact-phone-field">
-                <input ref={(element) => { fieldRefs.current.phone = element }} id={`${id}-phone`} className="contact-field" name="phone" type="tel" autoComplete="tel" placeholder=" " maxLength={40} value={values.phone} disabled={locked} aria-describedby={`${id}-phone-error`} aria-invalid={errors.phone ? 'true' : undefined} onChange={(event) => updateField('phone', event.target.value)} onBlur={() => {
-                  if (values.phone.trim() || hasSubmitted) setErrors((current) => ({ ...current, phone: validateField('phone', values.phone, countryCode, copy) }))
-                }} />
+              <div className="contact-floating-field contact-phone-field contact-field-icon contact-field-icon--phone">
+                <input ref={(element) => { fieldRefs.current.phone = element }} id={`${id}-phone`} className="contact-field" name="phone" type="tel" autoComplete="tel" placeholder={copy.phonePlaceholder} maxLength={40} value={values.phone} disabled={locked} aria-describedby={`${id}-phone-helper ${id}-phone-error`} aria-invalid={errors.phone ? 'true' : undefined} onChange={(event) => updateField('phone', event.target.value)} />
                 <label htmlFor={`${id}-phone`}>{copy.phone} <span>{copy.optional}</span></label>
               </div>
             </div>
             <p className="contact-field-error" id={`${id}-phone-error`} aria-live="polite">{errors.phone}</p>
+            <p className="contact-field-helper" id={`${id}-phone-helper`}>{copy.phoneHelper}</p>
           </div>
 
-          <div className="contact-full contact-floating-field contact-message-field">
-            <textarea ref={(element) => { fieldRefs.current.message = element }} id={`${id}-message`} className="contact-field" name="message" rows={4} placeholder=" " required maxLength={3000} value={values.message} disabled={locked} aria-describedby={`${id}-message-error`} aria-invalid={errors.message ? 'true' : undefined} onChange={(event) => updateField('message', event.target.value)} onBlur={() => {
-              if (values.message.trim() || hasSubmitted) setErrors((current) => ({ ...current, message: validateField('message', values.message, countryCode, copy) }))
+          <div className="contact-full contact-floating-field contact-message-field contact-field-icon contact-field-icon--message">
+            <textarea ref={(element) => { fieldRefs.current.message = element }} id={`${id}-message`} className="contact-field" name="message" rows={4} placeholder={copy.messagePlaceholder} required maxLength={3000} value={values.message} disabled={locked} aria-describedby={`${id}-message-helper ${id}-message-error`} aria-invalid={errors.message ? 'true' : undefined} onChange={(event) => updateField('message', event.target.value)} onBlur={() => {
+              if (values.message.trim() || hasSubmitted) setErrors((current) => ({ ...current, message: validateContactField('message', values.message, countryCode, copy) }))
             }} />
             <label htmlFor={`${id}-message`}>{copy.message}</label>
             <p className="contact-field-error" id={`${id}-message-error`} aria-live="polite">{errors.message}</p>
+            <p className="contact-field-helper" id={`${id}-message-helper`}>{copy.messageHelper}</p>
           </div>
         </div>
 
-        <div className="contact-privacy">
+        <div className="contact-privacy" hidden={complete}>
           <span className="contact-privacy-icon"><ShieldIcon /></span>
           <p>{copy.privacyBefore} <a href={href('privacy', language === 'zh-Hans' ? 'en' : undefined)}>Privacy Policy</a> {copy.privacyAfter}</p>
         </div>
@@ -525,20 +562,20 @@ export default function ContactForm({ href, language = 'en' }) {
         <div className="contact-form-actions">
           <ActionButton
             className="contact-submit"
-            variant="split"
+            variant="solid"
             tone={submissionState === 'sent' ? 'olive' : 'amber'}
             type="submit"
             disabled={locked}
             data-state={submissionState}
-            arrowContent={submissionState === 'sent' ? <CheckIcon /> : undefined}
           >
+            {submissionState === 'sent' && <CheckIcon />}
             {busy ? copy.sending : submissionState === 'sent' ? copy.sent : copy.send}
           </ActionButton>
-          {submissionState === 'sent' && <ActionButton className="contact-new-enquiry" variant="solid" tone="olive" type="button" onClick={startNewEnquiry}>{copy.newEnquiry}</ActionButton>}
+          {complete && <ActionButton className="contact-new-enquiry" variant="solid" tone="olive" type="button" onClick={startNewEnquiry}>{copy.newEnquiry}</ActionButton>}
         </div>
 
-        {statusMessage && <p className="contact-form-status" role={submissionState === 'sent' ? 'status' : 'alert'}>{statusMessage}</p>}
-        <p className="contact-form-followup">{copy.followup}</p>
+        {statusMessage && !complete && <p className="contact-form-status" role="alert">{statusMessage}</p>}
+        {!complete && <p className="contact-form-followup">{copy.followup}</p>}
       </form>
     </section>
   )

@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import ActionButton from './ActionButton.jsx'
-import rightArrow from './Right.svg'
+import { featuredCaseStudies, featuredCaseStudiesZh } from './caseStudies.js'
+import FeaturedCaseCard from './FeaturedCaseCard.jsx'
 
 // Copy transcribed from the user-supplied Home.pdf; artwork slots are placeholders.
 const services = [
@@ -21,14 +22,96 @@ const situations = [
   <>Too many options, and I’m not sure what to do next.</>,
   <>I want to make a change, but I don't know where to start.</>,
 ]
-const caseStudies = [
-  { title: 'Clothing Studio', description: 'Make the first step easy.', image: 'Make the first step easy.png', imagePosition: 'right' },
-  { title: 'Small Hotel', description: 'Guiding investment with cost-effective pilots.', image: 'Guiding investment with cost-effective pilots.png', imagePosition: 'left' },
-  { title: 'Neighbourhood Restaurant', description: 'From campaign planning to delivery.', image: 'From campaign planning to delivery.png', imagePosition: 'right' },
-]
 const artworkUrl = (file) => `/images/mockup-illustrations/${encodeURI(file)}`
 
-export function HomeSections({ href }) {
+const servicesZh = [
+  ['问题梳理', '找出值得先解决的事。', 'Page=home, Section=focused-consultation.svg'],
+  ['行动与验证', '把想法变成可尝试的小步骤。', 'Page=home, Section=putting-ideas-to-the-test.svg'],
+  ['AI工作流落地', '让工具服务实际工作。', 'Page=home, Section=ai-in-everyday-work.svg'],
+]
+
+const situationsZh = [
+  '选择太多，不知道下一步怎么开始。',
+  '想做改变，却找不到起点。',
+  '经营遇到卡点，不知道先解决什么。',
+  '事情太多，协作和流程不够顺。',
+]
+
+const stepsZh = [
+  ...steps.map((step, index) => [
+    ['理清问题', '选一个关键点', '小范围尝试', '看实际反馈', '调整或扩大'][index],
+    ['先看清眼前的情况。', '找到最值得先做的事。', '用可承受的小步骤开始。', '观察变化，不急着下结论。', '根据反馈，再决定投入。'][index],
+    step[2],
+    step[3],
+  ]),
+]
+
+function SituationBubble({ statement, index, href }) {
+  const bubbleRef = useRef(null)
+  const silhouetteRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const bubble = bubbleRef.current
+    const silhouette = silhouetteRef.current
+    const path = silhouette.querySelector('path')
+
+    const updateSilhouette = () => {
+      const style = window.getComputedStyle(bubble)
+      const width = parseFloat(style.width)
+      const height = parseFloat(style.height)
+      if (!width || !height) return
+
+      const left = 0.5
+      const right = width - 0.5
+      const top = 0.5
+      const bottom = height - 0.5
+      const radius = 23.5
+      const tail = index < 2 ? width * 0.25 : width * 0.75
+      const direction = index < 2 ? -1 : 1
+      silhouette.setAttribute('viewBox', `0 0 ${width} ${height + 16}`)
+      path.setAttribute('d', [
+        `M ${left + radius} ${top}`,
+        `H ${right - radius} A ${radius} ${radius} 0 0 1 ${right} ${top + radius}`,
+        `V ${bottom - radius} A ${radius} ${radius} 0 0 1 ${right - radius} ${bottom}`,
+        `H ${tail + 15}`,
+        `C ${tail + 10} ${bottom} ${tail + 7} ${bottom + 2} ${tail + 4} ${bottom + 5}`,
+        `L ${tail + direction * 7 + 2} ${bottom + 14}`,
+        `Q ${tail + direction * 7} ${bottom + 16} ${tail + direction * 7 - 2} ${bottom + 14}`,
+        `L ${tail - 5} ${bottom + 5}`,
+        `C ${tail - 8} ${bottom + 2} ${tail - 11} ${bottom} ${tail - 16} ${bottom}`,
+        `H ${left + radius} A ${radius} ${radius} 0 0 1 ${left} ${bottom - radius}`,
+        `V ${top + radius} A ${radius} ${radius} 0 0 1 ${left + radius} ${top} Z`,
+      ].join(' '))
+    }
+
+    updateSilhouette()
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', updateSilhouette)
+      return () => window.removeEventListener('resize', updateSilhouette)
+    }
+    const observer = new ResizeObserver(updateSilhouette)
+    observer.observe(bubble)
+    return () => observer.disconnect()
+  }, [index])
+
+  return <div className={`situation-reveal bubble-${index + 1}`} data-reveal="bubble" data-reveal-order={index}>
+    <div className="situation-motion">
+      <div className="situation-bubble" ref={bubbleRef}>
+        <svg className="situation-silhouette" ref={silhouetteRef} aria-hidden="true" focusable="false">
+          <path />
+        </svg>
+        <span id={`situation-statement-${index}`}>{statement}</span>
+        <ActionButton href={href} variant="arrow" tone="olive" aria-labelledby={`situation-statement-${index}`} />
+      </div>
+    </div>
+  </div>
+}
+
+export function HomeSections({ href, language = 'en' }) {
+  const chinese = language === 'zh-Hans'
+  const visibleServices = chinese ? servicesZh : services
+  const visibleSituations = chinese ? situationsZh : situations
+  const visibleSteps = chinese ? stepsZh : steps
   const processTimelineRef = useRef(null)
 
   useEffect(() => {
@@ -89,23 +172,21 @@ export function HomeSections({ href }) {
 
   return <div className="home-continuation">
     <section className="situations-section home-section" aria-labelledby="situations-heading">
-      <h2 id="situations-heading">What’s on your mind?</h2>
+      <h2 id="situations-heading" data-reveal="text">{chinese ? '你正在面对什么？' : 'What’s on your mind?'}</h2>
       <div className="situation-columns">
         {[0, 2].map(start => <div className="situation-column" key={start}>
-          {situations.slice(start, start + 2).map((statement, i) => <a className={`situation-bubble bubble-${start + i + 1}`} key={i} href={href('services')}>
-            <span>{statement}</span><span className="bubble-arrow" aria-hidden="true"><img src={rightArrow} width="24" height="24" alt="" /></span>
-          </a>)}
+          {visibleSituations.slice(start, start + 2).map((statement, i) => <SituationBubble key={i} statement={statement} index={start + i} href={href('services')} />)}
         </div>)}
       </div>
     </section>
     <section className="services-section home-section full-width-background" aria-labelledby="services-heading">
-      <h2 id="services-heading">How we can help</h2>
+      <h2 id="services-heading" data-reveal="text">{chinese ? '我们能怎样帮你' : 'How we can help'}</h2>
       <div className="home-service-grid">
-        {services.map(([title, body, image]) => <article className="home-service-card" key={title}>
-          <div className="service-card-content"><img className="home-artwork service-artwork" src={artworkUrl(image)} alt="" />
+        {visibleServices.map(([title, body, image], index) => <article className="home-service-card" key={title} data-reveal="text" data-reveal-order={index}>
+          <div className="service-card-content"><img className="home-artwork service-artwork" src={artworkUrl(image)} alt="" loading="lazy" />
             <div className="service-card-copy"><h3>{title}</h3><p>{body}</p></div>
           </div>
-          <ActionButton href={href('services')} variant="text">Learn more</ActionButton>
+          <ActionButton href={href('services')} variant="text">{chinese ? '了解更多' : 'Learn more'}</ActionButton>
         </article>)}
       </div>
     </section>
@@ -116,39 +197,33 @@ export function HomeSections({ href }) {
           <feColorMatrix type="matrix" values="-1.13157895 0 0 0 1.36831785 0 -1.10447761 0 0 1.42218320 0 0 -1.12234043 0 1.12707551 0 0 0 1 0" />
         </filter>
       </svg>
-      <div className="process-heading"><h2 id="process-heading">Start small before deciding where<br />to invest next</h2>
-        <p>Use what you learn in practice to decide what comes next.</p></div>
+      <div className="process-heading"><h2 id="process-heading" data-reveal="text">{chinese ? '先试一小步，再决定下一步投入。' : <>Start small before deciding where<br />to invest next</>}</h2>
+        <p data-reveal="text" data-reveal-order="1">Use what you learn in practice to decide what comes next.</p></div>
       <ol className="process-timeline" ref={processTimelineRef}>
-        {steps.map(([title, body, illustration, marker], i) => <li className={`process-step step-${i + 1}`} key={title}>
-          <div className="step-marker"><img src={artworkUrl(`Steps Section/${marker}`)} alt="" /></div>
-          <div className="step-content"><h3>{title}</h3><p>{body}</p><img className="home-artwork process-artwork" src={artworkUrl(`Page=home, Section=${illustration}`)} alt="" /></div>
+        {visibleSteps.map(([title, body, illustration, marker], i) => <li className={`process-step step-${i + 1}`} key={title}>
+          <div className="step-marker"><img src={artworkUrl(`Steps Section/${marker}`)} alt="" loading="lazy" /></div>
+          <div className="step-content" data-reveal="visual"><h3>{title}</h3><p>{body}</p><img className="home-artwork process-artwork" src={artworkUrl(`Page=home, Section=${illustration}`)} alt="" loading="lazy" /></div>
         </li>)}
       </ol>
-      <ActionButton href={href('contact')}>Begin your journey</ActionButton>
+      <ActionButton href={href('contact')}>{chinese ? '开启探索之旅' : 'Begin your journey'}</ActionButton>
     </section>
     <section className="case-studies-section home-section" aria-labelledby="case-studies-heading">
       <div className="case-studies-panel">
         <div className="case-studies-heading">
-          <h2 id="case-studies-heading">Featured case studies</h2>
-          <ActionButton href={href('case-studies')}>Read more about our work</ActionButton>
+          <h2 id="case-studies-heading" data-reveal="text">{chinese ? '优选案例' : 'Featured case studies'}</h2>
+          <ActionButton href={href('case-studies')}>{chinese ? '查看优选案例' : 'Read more about our work'}</ActionButton>
         </div>
         <div className="case-studies-grid">
-          {caseStudies.map((caseStudy) => <article className={`case-study-card image-${caseStudy.imagePosition}`} key={caseStudy.title}>
-            <div className="case-study-details">
-              <div><h3>{caseStudy.title}</h3><p>{caseStudy.description}</p></div>
-              <ActionButton href={href('case-studies')} variant="arrow" tone="olive" className="case-study-link" aria-label={`Read case study: ${caseStudy.title}`}>{caseStudy.title}</ActionButton>
-            </div>
-            <img className="case-study-artwork" src={`/images/case-studies/${caseStudy.image}`} alt={caseStudy.title} />
-          </article>)}
+          {(chinese ? featuredCaseStudiesZh : featuredCaseStudies).map((study, index) => <FeaturedCaseCard key={study.title} study={study} index={index} variant="home" href={href('case-studies')} language={language} />)}
         </div>
       </div>
     </section>
     <section className="closing-section" aria-labelledby="closing-heading">
-      <img className="closing-artwork full-width-artwork" src={artworkUrl('Page=all, Section=cta.svg')} alt="" />
-      <div className="closing-copy"><h2 id="closing-heading">Talk it through with us</h2>
-        <p>Tell us what you're thinking about, and let's see how<br />we can move it forward together.</p>
+      <img className="closing-artwork full-width-artwork" src={artworkUrl('Page=all, Section=cta.svg')} alt="" loading="lazy" />
+      <div className="closing-copy"><h2 id="closing-heading" data-reveal="text">{chinese ? '我们聊聊吧' : 'Talk it through with us'}</h2>
+        <p data-reveal="text" data-reveal-order="1">{chinese ? '告诉我们你正在考虑什么，看看我们能否一起推进。' : <>Tell us what you're thinking about, and let's see how<br />we can move it forward together.</>}</p>
       </div>
-      <div className="closing-actions"><ActionButton href={href('contact')} variant="solid">Let’s talk</ActionButton><ActionButton href={href('services')} variant="split" tone="olive">Explore our services</ActionButton></div>
+      <div className="closing-actions"><ActionButton href={href('contact')} variant="solid">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton><ActionButton href={href('services')} variant="split" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton></div>
     </section>
   </div>
 }
