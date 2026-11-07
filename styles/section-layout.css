@@ -1,0 +1,112 @@
+/* Background layers use the available browser width (excluding scrollbars).
+   The existing 1440px page canvases and all inner content stay constrained.
+   Opt in only rectangular bands; rounded inset panels keep their own bounds. */
+#root { container-type: inline-size; }
+
+.full-width-background {
+  position: relative;
+  isolation: isolate;
+}
+
+.full-width-background::before {
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  left: 50%;
+  width: 100cqw;
+  transform: translateX(-50%);
+  background: var(--section-background);
+  content: "";
+  pointer-events: none;
+}
+
+/* Decorative landscapes are background layers, never content images. */
+:is(.closing-artwork, .services-closing-artwork, .content-closing > img).full-width-artwork {
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  left: 50%;
+  right: auto;
+  width: 100cqw;
+  max-width: none;
+  transform: translateX(-50%);
+  object-fit: cover;
+  object-position: center bottom;
+  pointer-events: none;
+}
+
+.content-closing { overflow: visible; }
+
+.yhf-footer.full-width-footer {
+  width: 100cqw;
+  margin-inline: calc(50% - 50cqw);
+}
+
+/* The desktop reference previously overflowed at widths below its 1440px
+   canvas. Let its existing columns shrink without scaling type or artwork. */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  #site-top .yhf-header { width: calc(100% - 80px); }
+
+  #main :is([class], img, .services-option > p) {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  #main :is(.home-section, .intro-content, .audience-strip,
+    .services-individuals, .services-business, .services-ai, .services-markets,
+    .services-discovery, .services-options-panel, .services-expect,
+    .services-closing, .content-closing, .about-intro) {
+    padding-inline: 24px;
+  }
+
+  #main :is(.intro-content > div, .situation-column, .services-intro-copy,
+    .services-overview-cards, .services-business-copy, .services-ai-left,
+    .services-ai-steps, .services-market-card > *, .services-discovery-art,
+    .services-discovery-copy) { flex-shrink: 1; }
+
+  #main :is(.case-studies-grid, .services-overview-cards,
+    .services-options-grid, .services-case-grid) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #main .services-market-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #main .about-intro { grid-template-columns: minmax(0, 486fr) minmax(0, 690fr); }
+  #main .about-challenge-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  #main :is(.case-studies-panel, .services-cases-panel) { padding-inline: 24px; }
+  #main .services-case-details > div { flex: 1; }
+  #main .policy-heading { width: calc(100% - 80px); }
+  #main .services-hero-content { left: 40px; width: calc(100% - 80px); }
+
+  #main :is(.services-section-heading h2, .services-ai-intro h2,
+    .services-option h3, .services-expect) { white-space: normal; }
+
+  #main :is(.services-individuals, .services-business, .services-ai,
+    .services-markets, .services-working-options, .services-working,
+    .services-options, .services-options-panel, .services-overview-row,
+    .services-overview-card, .services-market-cards, .services-market-card,
+    .services-market-card > div, .services-options-grid, .services-option,
+    .services-expect, .services-case-grid, .services-cases-panel,
+    .services-cases, .services-case-card, .services-case-details,
+    .services-markets-heading, .services-markets-copy, .services-markets-title) {
+    height: auto;
+  }
+}
+
+@media (max-width: 1023px) {
+  .services-main img:not(.full-width-artwork) { max-width: 100%; height: auto; }
+  .services-closing { position: relative; isolation: isolate; }
+  .services-closing-copy { padding-bottom: 326px; }
+  .services-closing-artwork.full-width-artwork { height: 326px; }
+  .hero-cutout-actions .yhf-action { min-width: 0; }
+  .hero-cutout-actions .yhf-action-label { min-width: 0; flex-shrink: 1; }
+  .content-closing-copy { max-width: 100%; }
+  .content-closing-actions { max-width: 100%; flex-wrap: wrap; justify-content: center; }
+  .content-closing-actions .yhf-action-label {
+    min-width: 0;
+    flex-shrink: 1;
+    height: auto;
+    min-height: var(--button-height);
+    white-space: normal;
+  }
+}

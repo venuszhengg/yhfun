@@ -1,0 +1,59 @@
+/* Shared content width and side padding */
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(
+    var(--content-max) + 2 * var(--gutter-mobile-content)
+  );
+  margin-inline: auto;
+  padding-inline: var(--gutter-mobile-content);
+}
+
+/* Show where the keyboard focus is */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.site-header { position: relative; z-index: 2; display: flex; align-items: center; gap: var(--space-4); min-height: 56px; margin: 16px; padding: 6px 16px; border-radius: var(--radius-pill); background: var(--color-page); }
+.wordmark { font-family: var(--font-en); font-weight: 700; font-size: 21px; text-decoration: none; white-space: nowrap; }
+.navigation { display: none; }
+.navigation a, .language-switch, .menu-toggle { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 8px 12px; font: 700 var(--type-link-size)/var(--type-link-line) var(--font-en); text-decoration: none; border-radius: var(--radius-pill); }
+.navigation a:hover, .language-switch:hover, .menu-toggle:hover { background: #f0f1e8; }
+.navigation a[aria-current] { color: var(--color-olive); text-decoration: underline; text-underline-offset: 6px; }
+.menu-toggle { border: 0; background: transparent; margin-left: auto; gap: 8px; }
+.language-switch { padding-inline: 6px; white-space: nowrap; }
+.navigation.is-open { position: absolute; top: calc(100% + 8px); inset-inline: 0; display: flex; flex-direction: column; padding: 16px; background: var(--color-page); border: 1px solid #ddd; border-radius: var(--radius-hero); box-shadow: 0 12px 24px #0002; }
+.skip-link { position: absolute; top: -100px; left: 16px; z-index: 10; padding: 12px; background: white; }
+.skip-link:focus { top: 8px; }
+.preview-note { padding: 16px 24px; font-size: 12px; color: #555; }
+.destination-preview { padding-block: 80px; }
+.destination-preview p { margin-block: 24px; }
+@media (min-width: 1024px) {
+  /* Notion-recorded header size; trial breakpoint. */
+  .site-header { max-width: 1280px; min-height: 64px; margin: var(--header-outer-top) auto 32px; padding-inline: 32px; width: calc(100% - 2 * var(--header-outer-inline)); }
+  .navigation { display: flex; gap: var(--gap-nav); margin-inline: auto; }
+  .menu-toggle { display: none; }
+  .language-switch { padding-inline: 12px; }
+}
+@media (max-width: 359px) {
+  .site-header { gap: 4px; padding-inline: 10px; }
+  .wordmark { font-size: 17px; }
+  .menu-toggle { padding-inline: 8px; }
+}
+
+/* Explicit locale fonts also apply to the alternate-language link. */
+.language-switch:lang(zh-Hans) { font-family: var(--font-zh); }
+.language-switch:lang(en) { font-family: var(--font-en); }
+
+/* EN Home desktop: exact resolved layer values from supplied Figma CSS.
+   Header fill/current-link colour are layer exceptions to global aliases. */
+@media (min-width: 1024px) {
+  .desktop-home { position: relative; width: min(1440px, 100%); margin-inline: auto; padding-top: 112px; isolation: isolate; }
+  .desktop-home .site-header { position: absolute; inset: 24px auto auto 80px; width: 1280px; height: 64px; min-height: 0; max-width: none; margin: 0; padding: 0 var(--padding-header-inline-layer); justify-content: center; background: var(--color-header-layer); backdrop-filter: blur(10px); }
+  .desktop-home .wordmark { position: absolute; left: 120px; top: 17px; width: 94px; height: 31px; font-family: var(--font-wordmark); font-size: 24px; font-weight: 700; line-height: 31px; letter-spacing: -.04em; color: var(--palette-olive-vivid); }
+  .desktop-home .navigation { flex: none; gap: var(--gap-nav); margin: 0; height: 44px; }
+  .desktop-home .navigation a { min-height: 0; height: 34px; padding: 8px; border-radius: 0; font-size: var(--type-nav-size); line-height: var(--type-nav-line); }
+  .desktop-home .navigation a[aria-current] { height: 36px; font-weight: 700; color: var(--color-nav-current-layer); border-bottom: 2px solid var(--color-nav-current-layer); text-decoration: none; }
+  .desktop-home .language-switch { position: absolute; right: 120px; top: 10px; width: 78px; height: 44px; padding: 0; font-family: var(--font-utility); font-size: var(--type-utility-size); line-height: var(--type-utility-line); }
+}
