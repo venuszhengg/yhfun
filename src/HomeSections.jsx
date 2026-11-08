@@ -201,7 +201,7 @@ export function HomeSections({ href, language = 'en' }) {
         <p data-reveal="text" data-reveal-order="1">Use what you learn in practice to decide what comes next.</p></div>
       <ol className="process-timeline" ref={processTimelineRef}>
         {visibleSteps.map(([title, body, illustration, marker], i) => <li className={`process-step step-${i + 1}`} key={title}>
-          <div className="step-marker"><img src={artworkUrl(`Steps Section/${marker}`)} alt="" loading="lazy" /></div>
+          <div className="step-marker"><img src={artworkUrl(`Steps Section/${marker}`)} alt="" loading="lazy" /><span className="step-marker-number" aria-hidden="true">{i + 1}</span></div>
           <div className="step-content" data-reveal="visual"><h3>{title}</h3><p>{body}</p><img className="home-artwork process-artwork" src={artworkUrl(`Page=home, Section=${illustration}`)} alt="" loading="lazy" /></div>
         </li>)}
       </ol>

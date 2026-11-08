@@ -5,8 +5,8 @@ import ContactForm from '../ContactForm.jsx'
 
 const href = (route = '', language = 'en') => `/?lang=${language}${route ? `&page=${route}` : ''}`
 
-function renderForm() {
-  return render(<ContactForm href={href} />)
+function renderForm(language = 'en') {
+  return render(<ContactForm href={href} language={language} />)
 }
 
 async function fillValidForm(user) {
@@ -18,6 +18,28 @@ async function fillValidForm(user) {
 }
 
 describe('Contact form validation', () => {
+  it('removes only the requested helper copy and keeps the optional phone field and privacy notice', () => {
+    renderForm()
+
+    expect(screen.queryByText('All fields are required unless marked optional.')).not.toBeInTheDocument()
+    expect(screen.queryByText('Optional, if you would also like us to have a number to reach you on.')).not.toBeInTheDocument()
+    expect(screen.queryByText('A brief description is fine. Include any context that will help us respond.')).not.toBeInTheDocument()
+    expect(screen.queryByText(/After you send your enquiry/)).not.toBeInTheDocument()
+    expect(screen.getByLabelText(/Phone number/)).toHaveAttribute('type', 'tel')
+    expect(screen.getByText(/Please read our/)).toBeInTheDocument()
+  })
+
+  it('also omits translated helper paragraphs', () => {
+    renderForm('zh-Hans')
+
+    expect(screen.queryByText('除标注为可选的项目外，其他项目均为必填。')).not.toBeInTheDocument()
+    expect(screen.queryByText('可选。如果您希望我们也能通过电话联系您，可以填写。')).not.toBeInTheDocument()
+    expect(screen.queryByText('简要说明即可，请提供有助于我们回复的背景信息。')).not.toBeInTheDocument()
+    expect(screen.queryByText(/发送咨询后/)).not.toBeInTheDocument()
+    expect(screen.getByLabelText(/电话号码/)).toHaveAttribute('type', 'tel')
+    expect(screen.getByText(/发送消息前，请阅读我们的/)).toBeInTheDocument()
+  })
+
   it('summarizes required-field errors and focuses the summary', async () => {
     const user = userEvent.setup()
     renderForm()
@@ -123,5 +145,62 @@ describe('Contact form preview submission', () => {
     expect(fetch).not.toHaveBeenCalled()
     expect(xhrOpen).not.toHaveBeenCalled()
     expect(xhrSend).not.toHaveBeenCalled()
+  })
+})
+
+describe('Contact form configured production submission', () => {
+  it('shows the confirmation after an accepted request and can start a new enquiry', async () => {
+    const user = userEvent.setup()
+    const fetch = vi.fn().mockResolvedValue({ ok: true })
+    vi.stubEnv('DEV', false)
+    vi.stubEnv('VITE_CONTACT_FORM_ENDPOINT', 'https://submission.example.invalid/submit')
+    vi.stubGlobal('fetch', fetch)
+    renderForm()
+
+    await fillValidForm(user)
+    await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
+
+    const completion = await screen.findByRole('status')
+    expect(completion).toHaveTextContent('Thanks, Alex Murphy.')
+    expect(completion).toHaveTextContent('Your enquiry has been received.')
+    expect(completion).toHaveTextContent('alex@example.com')
+    expect(completion).toHaveTextContent('General enquiries')
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(
+      'https://submission.example.invalid/submit',
+      expect.objectContaining({
+        method: 'POST',
+        body: expect.stringContaining('"email":"alex@example.com"'),
+      }),
+    )
+    await waitFor(() => expect(completion).toHaveFocus())
+
+    await user.click(screen.getByRole('button', { name: 'Start a new enquiry' }))
+    expect(screen.getByLabelText('Your name')).toHaveValue('')
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it.each([
+    ['an unsuccessful response', () => Promise.resolve({ ok: false })],
+    ['a network error', () => Promise.reject(new Error('Network error'))],
+  ])('preserves the form and allows retry after %s', async (_description, failure) => {
+    const user = userEvent.setup()
+    const fetch = vi.fn().mockImplementationOnce(failure).mockResolvedValueOnce({ ok: true })
+    vi.stubEnv('DEV', false)
+    vi.stubEnv('VITE_CONTACT_FORM_ENDPOINT', 'https://submission.example.invalid/submit')
+    vi.stubGlobal('fetch', fetch)
+    renderForm()
+
+    await fillValidForm(user)
+    await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('We couldn’t send your enquiry.')
+    expect(screen.getByLabelText('Your name')).toHaveValue('Alex Murphy')
+    expect(screen.getByLabelText('Email address')).toHaveValue('alex@example.com')
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
+    expect(await screen.findByRole('status')).toHaveTextContent('Your enquiry has been received.')
+    expect(fetch).toHaveBeenCalledTimes(2)
   })
 })

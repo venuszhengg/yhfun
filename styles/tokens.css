@@ -22,14 +22,17 @@
   --color-section: var(--palette-neutral-light-stone); /* Surface/Section */
   --color-tinted: var(--palette-olive-pale); /* Surface/Tinted */
   --color-header: rgb(212 214 191 / 95%); /* Surface/Header -> Olive/Light, 95% */
-  --color-text: var(--palette-neutral-deep-grey); /* Text/Body */
-  --color-text-strong: var(--palette-neutral-charcoal); /* Text/Strong */
+  --color-text-dark: #42453a;
+  --color-text: var(--color-text-dark); /* Text/Body */
+  --color-text-strong: var(--color-text-dark); /* Text/Strong */
   --color-heading: var(--palette-olive-muted); /* Text/Section Heading */
   --color-on-image: var(--palette-neutral-ivory); /* Text/On Image */
   --color-primary: var(--palette-amber-burnt); /* Action/Primary/Background */
   --color-on-primary: var(--palette-neutral-ivory); /* Action/Primary/Label */
   --color-olive: var(--palette-olive-deep); /* Action/Secondary/Background */
   --color-on-olive: var(--palette-neutral-ivory); /* Action/Secondary/Label */
+  --shadow-case-hover: 0 16px 32px rgb(75 78 52 / 14%);
+  --shadow-case-hover-filter: drop-shadow(0 16px 32px rgb(75 78 52 / 14%));
 
   /* Base dimensions from Spacing collection. */
   --space-4: 16px; /* Spacing/16 */

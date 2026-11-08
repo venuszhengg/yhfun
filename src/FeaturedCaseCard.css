@@ -47,7 +47,7 @@
 @media (hover: hover) and (pointer: fine) {
   .featured-case-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 32px rgb(75 78 52 / 14%);
+    box-shadow: var(--shadow-case-hover);
   }
 
   .featured-case-card:hover .featured-case-image img {
@@ -57,7 +57,7 @@
 
 .featured-case-card:has(.yhf-action:focus-visible) {
   transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgb(75 78 52 / 14%);
+  box-shadow: var(--shadow-case-hover);
 }
 
 .featured-case-card:has(.yhf-action:focus-visible) .featured-case-image img {

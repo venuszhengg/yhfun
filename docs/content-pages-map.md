@@ -1,5 +1,7 @@
 # Additional English desktop pages
 
+> **Status clarification — 8 November 2026:** The desktop measurements below are historical reference notes. English and Simplified Chinese page content and responsive adaptations are now implemented; they are not a claim of visual parity. Case Studies publication approval was confirmed again on 7 November. Contact simulation and production behavior are described under Interactions and scope.
+
 The English desktop routes below are implemented from the supplied single-page PDFs. The Case Studies reference is also linked to Figma node `266:4146`; publication approval was recorded on 4 November 2026. Each PDF has a 1440-point-wide page; the page heights are source-document dimensions, not asserted CSS frame heights.
 
 | Route | Reference | PDF page size (points) |
@@ -28,18 +30,18 @@ The following visible artwork remains unavailable as an individual original expo
 - About overview illustration and companion/process illustration.
 - Contact social icon artwork.
 
-The shared footer's social icons remain labelled placeholders. No full-page or section screenshot is used as implementation artwork.
+As of 8 November, Contact and the footer share social channel icons and metadata. No full-page or section screenshot is used as implementation artwork.
 
 ## Interactions and scope
 
 - Header and footer links navigate to the corresponding existing routes; legal pages link to each other.
 - Policy table-of-contents links target their numbered sections, and each policy has a Back to top link.
-- The Contact page and form use the existing `en` and `zh-Hans` locale setup. The form validates required fields, email format, and optional phone numbers in the browser. **Preview mode is intentionally enabled:** submitting the form displays a labelled confirmation preview but never sends or saves the enquiry, even if `VITE_CONTACT_FORM_ENDPOINT` is configured. Direct email links remain available.
+- The Contact page and form use the existing `en` and `zh-Hans` locale setup. The form validates required fields, email format, and optional phone numbers in the browser. In Vite development mode, a valid submission displays the realistic success screen without sending or storing the enquiry, even if `VITE_CONTACT_FORM_ENDPOINT` is set. The success copy is not labelled as a simulation. Direct email links remain available.
 - Contact details use the shared copy interaction with an interactive tooltip; always-visible split buttons below the details open the default email app, the WeChat QR dialog, the RedNote website, or the YouTube channel. The RedNote account is found manually by its copyable ID; no profile URL is assumed. The footer retains its existing copy-email presentation.
-- Before deployment, review the contact journey and explicitly disable `PREVIEW_ONLY` in `src/ContactForm.jsx` only after a real contact API is ready and tested. Set `VITE_CONTACT_FORM_ENDPOINT` to its URL. The API must independently validate the JSON fields (`enquiryType`, `name`, `email`, E.164 `phone`, `countryCode`, and `message`) and return a successful HTTP status only after accepting the enquiry. Verify delivery, failure handling, privacy, and confirmation copy as part of the final website review; no response-time commitment is currently verified.
+- In a production build, an absent or blank `VITE_CONTACT_FORM_ENDPOINT` causes the form to report that website submission is not configured, without making a request. If the variable is configured at build time, the existing production path POSTs to that endpoint; it is not the development simulation. No `PREVIEW_ONLY` switch exists. Do not configure an endpoint until a real API is approved and ready: it must independently validate the JSON fields (`enquiryType`, `name`, `email`, E.164 `phone`, `countryCode`, and `message`) and return a successful HTTP status only after accepting the enquiry. Verify delivery, failure handling, privacy, and confirmation copy before deployment; no response-time commitment is currently verified.
 - The Simplified Chinese Contact route uses localized page/form copy with the shared layout; no Chinese page-specific visual reference was supplied.
 - Contact-form type uses the project's heading and body typography aliases; its palette references the neutral and olive tokens in `styles/tokens.css`. The white input/menu surface and `#d6d8ce` border are user-directed refinement values, not verified Figma bindings. The component-specific validation colour is an unbound value from the supplied prototype. No `textStyles.json` was present in the workspace or Desktop during implementation.
 - The enquiry type, name, email, phone and message fields use the supplied 24px SVG icons, coloured with the existing body-text and focused olive aliases; the icons are decorative and the field labels remain accessible.
-- All listed page bodies are implemented in English except the localized Simplified Chinese Contact route. No Chinese Contact visual reference was supplied, so its shared layout is not a Chinese visual-match claim. Mobile layouts are basic responsive adaptations and are not Figma-match claims.
+- The listed page bodies also have Simplified Chinese implementations and responsive layouts. No Chinese Contact visual reference was supplied, and the responsive work is not a Figma-match claim.
 
 Run `npm run build` and `npm run lint` after changes. Compare the browser pages with the supplied PDFs at 1440px before claiming visual parity; missing original exports remain known differences.

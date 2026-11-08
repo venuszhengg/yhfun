@@ -2,7 +2,7 @@
   --contact-error: #a33421;
   min-width: 0;
   color: var(--color-text-strong);
-  font: 400 14px/1.5 var(--font-body);
+  font: 400 16px/1.5 var(--font-body);
 }
 
 :root[lang='zh-Hans'] .contact-form-heading h2 {
@@ -12,8 +12,8 @@
 .contact-form-panel .yhf-action {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
 }
 
 .contact-form-panel [hidden] {
@@ -37,11 +37,6 @@
   flex-direction: column;
   gap: 18px;
   margin-top: 24px;
-}
-
-.contact-form-note {
-  color: var(--color-text);
-  font-size: 12px;
 }
 
 .contact-form-grid {
@@ -163,7 +158,7 @@
 }
 
 .contact-floating-field > .contact-field::placeholder {
-  color: var(--palette-neutral-deep-grey);
+  color: var(--color-text);
   opacity: 0;
   transition: opacity 160ms ease;
 }
@@ -387,8 +382,8 @@
   gap: 9px;
   margin-top: 4px;
   padding: 0;
-  color: var(--palette-neutral-deep-grey);
-  font-size: 12px;
+  color: var(--color-text);
+  font-size: 14px;
 }
 
 .contact-privacy p {
@@ -398,7 +393,7 @@
 .contact-privacy-icon {
   display: flex;
   padding-top: 2px;
-  color: var(--palette-neutral-deep-grey);
+  color: var(--color-text);
 }
 
 .contact-privacy a {
@@ -519,12 +514,6 @@
   margin-top: 0;
 }
 
-.contact-form-panel .contact-field-helper {
-  margin: 8px 0 0;
-  color: var(--color-text);
-  font-size: 12px;
-}
-
 .contact-error-summary {
   padding: 12px 14px;
   border: 1px solid var(--palette-olive-light);
@@ -576,14 +565,6 @@
 
 .contact-form-status[role='alert'] {
   color: var(--contact-error);
-}
-
-.contact-form-followup {
-  margin: 0;
-  padding-top: 12px;
-  border-top: 1px solid var(--palette-olive-pale);
-  color: var(--color-text);
-  font-size: 12px;
 }
 
 @keyframes contact-menu-reveal {

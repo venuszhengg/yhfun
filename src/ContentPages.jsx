@@ -214,10 +214,10 @@ function ClosingCTA({ href, title = 'Let’s work out the next step together.', 
     <div className="content-closing-copy">
       <h2 data-reveal="text">{title}</h2>
       {subtitle && <p data-reveal="text" data-reveal-order="1">{subtitle}</p>}
-      <div className="content-closing-actions">
-        <ActionButton href={href('contact#contact-form')} variant="solid" className="content-action">{primary}</ActionButton>
-          <ActionButton href={href('services')} variant="split" tone="olive">{secondary}</ActionButton>
-      </div>
+    </div>
+    <div className="content-closing-actions">
+      <ActionButton href={href('contact#contact-form')} variant="solid" className="content-action">{primary}</ActionButton>
+      <ActionButton href={href('services')} variant="split" tone="olive">{secondary}</ActionButton>
     </div>
   </section>
 }
@@ -231,15 +231,17 @@ function CaseStudiesPage({ href, language }) {
         const translated = chinese ? caseStudiesZh[index] : null
         const copy = translated ? { ...study, ...translated, image: { ...study.image, alt: translated.imageAlt } } : study
         return <section className={`case-story case-story-${index + 1}${index % 2 ? ' full-width-background' : ''}`} key={study.title} aria-labelledby={`case-title-${index + 1}`}>
-          <div className="case-story-image" data-reveal="visual">
-            <img src={copy.image.src} alt={copy.image.alt} loading="lazy" />
-          </div>
           <div className="case-story-copy">
             <p className="case-story-meta" data-reveal="text"><span><img src={`/images/case-studies-icons/${encodeURIComponent(study.icon)}`} width="24" height="24" alt="" loading="lazy" />{copy.label}</span><span><img src="/images/case-studies-icons/marker%201.svg" width="24" height="24" alt="" loading="lazy" />{copy.location}</span></p>
             <h2 id={`case-title-${index + 1}`} data-reveal="text" data-reveal-order="1">{copy.title}</h2>
-            <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20you%27re%20facing.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '问题' : 'The challenge'}</h3><p>{copy.challenge}</p></div>
-            <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20we%20do%20together.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '解法' : 'Our approach'}</h3><p>{copy.approach}</p></div>
-            <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/Let%20feedback%20guide%20decisions.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '为什么这样做' : 'Why this approach'}</h3><p>{copy.reason}</p></div>
+            <div className="case-story-detail-list">
+              <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20you%27re%20facing.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '问题' : 'The challenge'}</h3><p>{copy.challenge}</p></div>
+              <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/What%20we%20do%20together.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '解法' : 'Our approach'}</h3><p>{copy.approach}</p></div>
+              <div className="case-story-detail"><img className="case-story-detail-icon" src="/images/service-icons/Let%20feedback%20guide%20decisions.svg" width="40" height="40" alt="" loading="lazy" /><h3>{chinese ? '为什么这样做' : 'Why this approach'}</h3><p>{copy.reason}</p></div>
+            </div>
+          </div>
+          <div className="case-story-image" data-reveal="visual">
+            <img src={copy.image.src} alt={copy.image.alt} loading="lazy" />
           </div>
         </section>
       })}
@@ -309,14 +311,14 @@ function ContactPage({ href, language }) {
       alignment="center"
     />
     <section className="contact-details content-section">
-      <div className="contact-details-sidebar">
-        <ContactChannels language={language} />
-        <img src={artwork('Page=contact, Section=contact-us.svg')} alt="" loading="lazy" />
-      </div>
       <div className="contact-form-column">
         <Suspense fallback={<RouteLoading language={language} form />}>
           <ContactForm href={href} language={language} />
         </Suspense>
+      </div>
+      <div className="contact-details-sidebar">
+        <ContactChannels language={language} />
+        <img src={artwork('Page=contact, Section=contact-us.svg')} alt="" loading="lazy" />
       </div>
     </section>
     <ClosingCTA

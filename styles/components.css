@@ -20,7 +20,8 @@ button:focus-visible {
 .preview-note { padding: 16px 24px; font-size: 12px; color: #555; }
 .destination-preview { padding-block: 80px; }
 .destination-preview p { margin-block: 24px; }
-.route-loading { display: grid; min-height: 120px; place-items: center; padding: 24px; text-align: center; }
+.route-loading { display: flex; min-height: 160px; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; }
+.route-loading-mark { display: grid; width: 40px; height: 40px; flex: 0 0 40px; place-items: center; border: 1px solid var(--palette-olive-light); border-radius: 50%; background: var(--color-section); color: var(--color-heading); font: 700 14px/1 var(--font-wordmark, sans-serif); }
 .route-load-error { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 40px 24px; text-align: center; }
 .route-load-error button { min-height: 44px; padding: 10px 20px; border: 0; border-radius: var(--radius-pill); background: var(--color-olive); color: var(--color-page); font: inherit; }
 

@@ -13,6 +13,9 @@
 @media (max-width: 359px) {
   .hero-content h1 { font-size: 28px; }
 }
+@media (hover: hover) {
+  .situation-bubble:hover .situation-silhouette { filter: var(--shadow-case-hover-filter); }
+}
 
 @media (max-width: 1023px) {
   .home-hero.hero-cutout-hero {
@@ -138,10 +141,11 @@
   .desktop-home .audience-strip { --section-background: var(--color-tinted); }
   .desktop-home .audience-strip strong { font-size: var(--type-eyebrow-size); line-height: var(--type-eyebrow-line); font-weight: 700; }
   .desktop-home .audience-labels { display: flex; align-items: center; gap: var(--space-4); }
+  .desktop-home .audience-labels > span { display: inline-flex; align-items: center; gap: var(--space-2); }
   .desktop-home .audience-labels [aria-hidden] { display: block; width: 4px; height: 4px; overflow: hidden; border-radius: 50%; background: var(--color-text); color: transparent; }
 }
 :root[lang='zh-Hans'] .audience-labels { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
-:root[lang='zh-Hans'] .audience-labels > span { display: inline-flex; align-items: center; gap: var(--space-4); }
+:root[lang='zh-Hans'] .audience-labels > span { display: inline-flex; align-items: center; gap: var(--space-2); }
 :root[lang='zh-Hans'] .audience-labels [aria-hidden] { display: block; width: 4px; height: 4px; overflow: hidden; border-radius: 50%; background: var(--color-text); color: transparent; }
 
 /* Remaining English desktop sections. Geometry from supplied Home CSS;
@@ -150,8 +154,8 @@
 .situation-bubble { position: relative; isolation: isolate; display: flex; align-items: center; width: 384px; min-height: 96px; padding: calc(var(--padding-card-block) - var(--space-1)) var(--padding-card-inline); gap: var(--gap-card-content); border-radius: var(--radius-hero); }
 .situation-bubble > span { flex: 1; min-width: 0; }
 .situation-reveal:nth-child(2) .situation-bubble { min-height: 108px; }
-.situation-silhouette { position: absolute; z-index: -1; top: 0; left: 0; width: 100%; height: calc(100% + 16px); overflow: visible; pointer-events: none; filter: drop-shadow(0 3px 5px rgb(44 44 38 / 10%)); }
-.situation-silhouette path { fill: var(--color-section); stroke: white; stroke-width: 1px; }
+.situation-silhouette { position: absolute; z-index: -1; top: 0; left: 0; width: 100%; height: calc(100% + 16px); overflow: visible; pointer-events: none; }
+.situation-silhouette path { fill: var(--color-section); stroke: none; }
 .situation-bubble .yhf-action { position: static; flex: 0 0 var(--button-height); }
 .situation-bubble .yhf-action::before { position: absolute; z-index: 2; inset: 0; border-radius: var(--radius-hero); content: ''; }
 /* Keep the stretched link positioned against the bubble while pressed. */
@@ -159,27 +163,24 @@
 .situation-bubble:has(.yhf-action:focus-visible) { outline: 2px solid var(--color-olive); outline-offset: 4px; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .situation-motion { animation: situation-sway 12s ease-in-out -2s infinite; }
+  .situation-motion { position: relative; animation: situation-sway 12s ease-in-out -2s infinite; }
   .bubble-2 .situation-motion { animation-duration: 14s; animation-delay: -5s; animation-direction: reverse; }
   .bubble-3 .situation-motion { animation-duration: 13s; animation-delay: -8s; }
   .bubble-4 .situation-motion { animation-duration: 15s; animation-delay: -3s; animation-direction: reverse; }
   .situation-motion:focus-within { animation-play-state: paused; }
-  .situation-bubble { transition: transform 360ms cubic-bezier(.22, 1, .36, 1); }
   .situation-silhouette { transition: filter 360ms cubic-bezier(.22, 1, .36, 1); }
   @media (hover: hover) {
     .situation-motion:hover { animation-play-state: paused; }
-    .situation-bubble:hover { transform: translateY(-4px) rotate(-1deg); }
-    .bubble-2 .situation-bubble:hover, .bubble-4 .situation-bubble:hover { transform: translateY(-4px) rotate(1deg); }
-    .situation-bubble:hover .situation-silhouette { filter: drop-shadow(0 7px 9px rgb(44 44 38 / 16%)); }
   }
   @keyframes situation-sway {
-    0%, 100% { transform: translate(-3px, 1px) rotate(-.4deg); }
-    25% { transform: translate(1px, -1px) rotate(.15deg); }
-    50% { transform: translate(4px, 1px) rotate(.5deg); }
-    75% { transform: translate(0, 2px) rotate(-.1deg); }
+    0%, 100% { left: -3px; top: 1px; }
+    25% { left: 1px; top: -1px; }
+    50% { left: 4px; top: 1px; }
+    75% { left: 0; top: 2px; }
   }
 }
 .process-color-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
+.step-marker-number { display: none; }
 .process-timeline::before, .process-timeline::after { content: ''; position: absolute; z-index: 0; width: 2px; height: var(--process-line-length, 1162px); left: var(--process-line-x, 395px); top: var(--process-line-start, 150px); translate: -50% 0; }
 .process-timeline::before { background: var(--color-tinted); }
 .process-timeline::after { background: var(--palette-olive-deep); transform: scaleY(var(--process-line-progress, 0)); transform-origin: top; }
@@ -227,18 +228,21 @@
   .case-studies-heading { width: 1200px; height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-6); }
   .desktop-home .case-studies-heading h2 { width: 792px; height: 60px; }
   .case-studies-grid { width: 1200px; height: 372px; display: grid; grid-template-columns: repeat(3, 384px); gap: var(--grid-gap); }
-  .case-study-card { box-sizing: border-box; width: 384px; height: 372px; padding: 24px; display: flex; flex-direction: column; gap: 24px; border-radius: var(--radius-hero); background: #FBF9F6; }
+  .case-study-card { box-sizing: border-box; width: 384px; height: 372px; padding: 24px; display: flex; flex-direction: column; gap: var(--space-6); border-radius: var(--radius-hero); background: #FBF9F6; }
   .case-study-details { width: 336px; min-height: 81px; display: flex; align-items: flex-start; gap: 24px; }
   .case-study-details > div { width: 264px; min-height: 62px; display: flex; flex-direction: column; gap: 16px; }
   .desktop-home .case-study-details h3 { font-size: 20px; line-height: 25px; font-weight: 500; color: var(--color-text-strong); }
   .case-study-details p { margin: 0; color: var(--color-text); }
   .case-study-artwork { width: 336px; height: 219px; flex: 0 0 219px; display: block; border-radius: var(--radius-hero); object-fit: cover; }
   .desktop-home .case-study-card:nth-child(2) .case-study-details > div { min-height: 81px; }
-  .desktop-home .closing-section { position: relative; width: 1440px; height: 436px; padding: 80px var(--content-inset-desktop) 160px; display: flex; flex-direction: column; align-items: center; gap: var(--space-6); isolation: isolate; }
+  .desktop-home .closing-section { position: relative; width: 1440px; height: 460px; padding: 80px var(--content-inset-desktop) 160px; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); isolation: isolate; }
   .closing-artwork { position: absolute; left: 0; bottom: 0; width: 1440px; height: 326px; z-index: -1; }
   .closing-copy { display: flex; flex-direction: column; align-items: center; gap: var(--space-6); width: 1200px; height: 124px; text-align: center; }
   .desktop-home .closing-copy h2 { color: var(--color-primary); }
   .closing-actions { display: flex; gap: var(--space-4); }
+}
+@media (min-width: 1440px) {
+  .process-step.step-2 .step-content > p { white-space: nowrap; }
 }
 
 @media (prefers-reduced-motion: reduce) {

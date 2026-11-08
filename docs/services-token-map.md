@@ -1,5 +1,7 @@
 # Services desktop implementation map
 
+> **Status clarification â€” 8 November 2026:** The original desktop map below is retained as historical reference. Chinese content and responsive adaptations are now implemented, and Case Studies publication was confirmed on 7 November. Visual parity across all breakpoints remains unverified.
+
 Source frame: Figma `HjNDq2ttaq2ZLt4w8ogetz`, node `266:4362`. Copy was transcribed from the user-supplied Services.pdf; geometry and layer values come from the supplied, read-only Figma CSS export. The implementation is the 1440px English desktop canvas only.
 
 ## Verified page geometry
@@ -40,6 +42,6 @@ The user-supplied `public/images/heroes/hero-services.png` is used in the 1360 Ã
 
 ## Scope and verification status
 
-This route is English desktop only. Mobile and Chinese Services designs are deferred. Featured case studies are shown under the user's previously approved publication gate; case links use the existing Case Studies destination preview.
+The original scope was English desktop only. Mobile and Chinese adaptations have since been implemented. Featured case studies are shown under the user's confirmed publication approval; case links use the existing Case Studies destination.
 
 The production build, lint, local preview, and a 1440px browser comparison are required before claiming the page matches the reference. Missing exports above are known visual differences.

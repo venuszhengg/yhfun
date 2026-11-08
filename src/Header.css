@@ -21,12 +21,16 @@
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 16px;
-  position: relative;
+  top: 16px;
+  position: sticky;
   z-index: 20;
+  translate: 0 0;
+  transition: translate 320ms cubic-bezier(.22, 1, .36, 1);
   font-family: var(--font-en);
   color: var(--yhf-text);
   line-height: 1.5;
 }
+.yhf-header.is-hidden { translate: 0 calc(-100% - 24px); pointer-events: none; }
 .yhf-header *, .yhf-header *::before, .yhf-header *::after { box-sizing: border-box; }
 .yhf-header button { font: inherit; color: inherit; cursor: pointer; }
 .yhf-header a { text-decoration: none; }
@@ -67,4 +71,4 @@
     margin: 0;
   }
 }
-@media (prefers-reduced-motion: reduce) { .yhf-header *, .yhf-header *::after { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .yhf-header, .yhf-header *, .yhf-header *::after { transition: none !important; } }

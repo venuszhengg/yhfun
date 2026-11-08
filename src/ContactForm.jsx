@@ -9,7 +9,6 @@ const COPY = {
   en: {
     title: 'Get in touch',
     introduction: 'Tell us what’s on your mind. We’ll reply by email.',
-    requiredNote: 'All fields are required unless marked optional.',
     enquiryLabel: 'Enquiry type',
     enquiryOptions: ENQUIRY_TYPES,
     enquiryGroup: 'Enquiry types',
@@ -23,8 +22,6 @@ const COPY = {
     optional: '· Optional',
     message: 'How can we help?',
     messagePlaceholder: 'Tell us what you’re enquiring about, any relevant details, and how we can help.',
-    messageHelper: 'A brief description is fine. Include any context that will help us respond.',
-    phoneHelper: 'Optional, if you would also like us to have a number to reach you on.',
     errorSummary: 'Please check the following before continuing:',
     nameError: 'Enter your name.',
     emailRequired: 'Enter your email address.',
@@ -51,12 +48,10 @@ const COPY = {
     successEmailLabel: 'Reply to',
     successEnquiryLabel: 'Enquiry type',
     successAnnouncement: 'Your enquiry has been received successfully.',
-    followup: 'After you send your enquiry, we’ll be in touch by email. You can also reach us on WeChat or through the social media accounts listed on this page.',
   },
   'zh-Hans': {
     title: '联系我们',
     introduction: '告诉我们您在考虑什么，我们会通过电子邮件回复。',
-    requiredNote: '除标注为可选的项目外，其他项目均为必填。',
     enquiryLabel: '咨询类型',
     enquiryOptions: ['一般咨询', '业务与服务支持'],
     enquiryGroup: '咨询类型',
@@ -70,8 +65,6 @@ const COPY = {
     optional: '· 可选',
     message: '我们可以如何帮助您？',
     messagePlaceholder: '请告诉我们您想咨询的事项、相关详情，以及您希望我们如何帮助您。',
-    messageHelper: '简要说明即可，请提供有助于我们回复的背景信息。',
-    phoneHelper: '可选。如果您希望我们也能通过电话联系您，可以填写。',
     errorSummary: '请在继续前检查以下内容：',
     nameError: '请输入您的姓名。',
     emailRequired: '请输入您的电子邮箱。',
@@ -98,7 +91,6 @@ const COPY = {
     successEmailLabel: '回复至',
     successEnquiryLabel: '咨询类型',
     successAnnouncement: '您的咨询已成功提交。',
-    followup: '发送咨询后，我们会通过电子邮件与您联系。您也可以通过微信或本页列出的社交媒体账号联系我们。',
   },
 }
 
@@ -342,8 +334,13 @@ export default function ContactForm({ href, language = 'en' }) {
         }),
       })
       if (!response.ok) throw new Error('The submission service returned an unsuccessful response.')
+      setSubmittedEnquiry({
+        name: values.name.trim(),
+        email: values.email.trim(),
+        enquiryType: values.enquiryType,
+      })
       setSubmissionState('sent')
-      setStatusMessage(copy.success(values.email.trim()))
+      setStatusMessage(copy.successAnnouncement)
     } catch {
       submissionLockRef.current = false
       setSubmissionState('idle')
@@ -375,7 +372,6 @@ export default function ContactForm({ href, language = 'en' }) {
         <p>{copy.introduction}</p>
       </header>
       <form id="contact-form" className="contact-form" noValidate onSubmit={validateAndSubmit} aria-busy={busy}>
-        <p className="contact-form-note" hidden={complete}>{copy.requiredNote}</p>
         {errorFields.length > 0 && <div className="contact-error-summary" ref={errorSummaryRef} tabIndex={-1} role="alert">
           <p>{copy.errorSummary}</p>
           <ul>{errorFields.map((name) => <li key={name}><a href={`#${id}-${name}`} onClick={(event) => {
@@ -536,21 +532,19 @@ export default function ContactForm({ href, language = 'en' }) {
                 <input type="hidden" name="countryCode" value={countryCode} />
               </div>
               <div className="contact-floating-field contact-phone-field contact-field-icon contact-field-icon--phone">
-                <input ref={(element) => { fieldRefs.current.phone = element }} id={`${id}-phone`} className="contact-field" name="phone" type="tel" autoComplete="tel" placeholder={copy.phonePlaceholder} maxLength={40} value={values.phone} disabled={locked} aria-describedby={`${id}-phone-helper ${id}-phone-error`} aria-invalid={errors.phone ? 'true' : undefined} onChange={(event) => updateField('phone', event.target.value)} />
+                <input ref={(element) => { fieldRefs.current.phone = element }} id={`${id}-phone`} className="contact-field" name="phone" type="tel" autoComplete="tel" placeholder={copy.phonePlaceholder} maxLength={40} value={values.phone} disabled={locked} aria-describedby={`${id}-phone-error`} aria-invalid={errors.phone ? 'true' : undefined} onChange={(event) => updateField('phone', event.target.value)} />
                 <label htmlFor={`${id}-phone`}>{copy.phone} <span>{copy.optional}</span></label>
               </div>
             </div>
             <p className="contact-field-error" id={`${id}-phone-error`} aria-live="polite">{errors.phone}</p>
-            <p className="contact-field-helper" id={`${id}-phone-helper`}>{copy.phoneHelper}</p>
           </div>
 
           <div className="contact-full contact-floating-field contact-message-field contact-field-icon contact-field-icon--message">
-            <textarea ref={(element) => { fieldRefs.current.message = element }} id={`${id}-message`} className="contact-field" name="message" rows={4} placeholder={copy.messagePlaceholder} required maxLength={3000} value={values.message} disabled={locked} aria-describedby={`${id}-message-helper ${id}-message-error`} aria-invalid={errors.message ? 'true' : undefined} onChange={(event) => updateField('message', event.target.value)} onBlur={() => {
+            <textarea ref={(element) => { fieldRefs.current.message = element }} id={`${id}-message`} className="contact-field" name="message" rows={4} placeholder={copy.messagePlaceholder} required maxLength={3000} value={values.message} disabled={locked} aria-describedby={`${id}-message-error`} aria-invalid={errors.message ? 'true' : undefined} onChange={(event) => updateField('message', event.target.value)} onBlur={() => {
               if (values.message.trim() || hasSubmitted) setErrors((current) => ({ ...current, message: validateContactField('message', values.message, countryCode, copy) }))
             }} />
             <label htmlFor={`${id}-message`}>{copy.message}</label>
             <p className="contact-field-error" id={`${id}-message-error`} aria-live="polite">{errors.message}</p>
-            <p className="contact-field-helper" id={`${id}-message-helper`}>{copy.messageHelper}</p>
           </div>
         </div>
 
@@ -575,7 +569,6 @@ export default function ContactForm({ href, language = 'en' }) {
         </div>
 
         {statusMessage && !complete && <p className="contact-form-status" role="alert">{statusMessage}</p>}
-        {!complete && <p className="contact-form-followup">{copy.followup}</p>}
       </form>
     </section>
   )

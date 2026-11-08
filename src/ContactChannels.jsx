@@ -2,43 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import CopyEmail from './CopyEmail.jsx';
 import CopyText from './CopyText.jsx';
 import ActionButton from './ActionButton.jsx';
+import { SOCIAL_CHANNELS } from './socialChannels.js';
 import './ContactChannels.css';
 
 const EMAILS = [
   { id: 'general', email: 'hello@yhfunhq.com' },
   { id: 'business', email: 'info@yhfunhq.com' },
-];
-
-const SOCIAL_CHANNELS = [
-  {
-    id: 'wechat',
-    name: 'WeChat',
-    handle: 'YShouyishansi',
-    copyValue: 'YShouyishansi',
-    copyLabel: 'Copy ID',
-    copiedStatus: 'WeChat ID copied',
-    icon: '/images/app-icons/App=Wechat,%20Colour=Olive.svg',
-  },
-  {
-    id: 'rednote',
-    name: 'RedNote',
-    handle: '@27796963745',
-    copyValue: '27796963745',
-    copyLabel: 'Copy ID',
-    copiedStatus: 'RedNote ID copied',
-    icon: '/images/app-icons/App=RedNote,%20Colour=Olive.svg',
-    url: 'https://www.xiaohongshu.com/',
-  },
-  {
-    id: 'youtube',
-    name: 'YouTube',
-    handle: '@yishanthinks',
-    copyValue: '@yishanthinks',
-    copyLabel: 'Copy handle',
-    copiedStatus: 'YouTube handle copied',
-    icon: '/images/app-icons/App=YT,%20Colour=Olive.svg',
-    url: 'https://www.youtube.com/@yishanthinks',
-  },
 ];
 
 function WeChatDialog({ id, onClose, labels }) {
@@ -152,7 +121,7 @@ export default function ContactChannels({ language = 'en' }) {
         );
       })}
 
-      <section className="yhfc-social-group">
+      <section className="yhfc-social-group" id="contact-social">
         <h3 className="yhfc-heading">{labels.social}</h3>
         <div className="yhfc-social-list">
           {SOCIAL_CHANNELS.map((channel) => (

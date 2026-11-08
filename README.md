@@ -20,6 +20,14 @@ If you are developing a production application, we recommend using TypeScript wi
 
 React + Vite already existed in this folder. Existing shared CSS was extended. The original App.jsx and index.css are preserved as text in docs/original-*.txt; unused starter assets and App.css remain intact.
 
+## Current status — 8 November 2026
+
+The site includes English and Simplified Chinese routes, approved Case Studies content, and responsive adaptations for mobile and tablet. The desktop maps below document their original scope, not the current limits of the implementation. Responsive visual checks have covered representative routes and widths, but a complete comparison with the references and the missing pre-refactor baseline remains outstanding.
+
+The Contact form simulates a realistic success message in Vite development mode without sending or storing an enquiry, even if an endpoint is configured. A production build without `VITE_CONTACT_FORM_ENDPOINT` fails closed; when an endpoint is configured at build time, the production code can POST real enquiries. No endpoint is configured by this project. Do not configure one until the submission service, privacy and delivery are explicitly approved and verified. See [the Contact integration notes](docs/content-pages-map.md#interactions-and-scope).
+
+Run `npm test`, `npm run lint`, and `npm run build` for automated verification. These checks do not establish visual parity or deployment readiness. GitHub synchronization and deployment are separate; a push may trigger a hosting integration, so verify the deployment target first.
+
 ## Preview
 
 1. In VS Code choose Terminal → New Terminal.
@@ -32,7 +40,9 @@ Files to edit: `src/App.jsx` for bilingual content and interactions; `styles/tok
 
 This preview is provisional. Read [the evidence, missing reference packet and QA checklist](docs/home-review.md) before judging it against Figma. Services, Case Studies, About, Contact, and the three policy pages now have English desktop implementations; see the page-specific maps for missing assets and verification status.
 
-## Save to GitHub after reviewing
+## Historical GitHub instructions from the initial preview
+
+The following describes the initial preview workflow, not the current branch status or an instruction to create another branch. Check `git status` and the configured upstream before publishing; external deployment automation may be present.
 
 Current branch at inspection: `feature/home-hero`; origin: https://github.com/venuszhengg/yhfun.git. No commit, push, pull request or branch change was performed.
 
@@ -40,7 +50,7 @@ Current branch at inspection: `feature/home-hero`; origin: https://github.com/ve
 2. Click the branch name at bottom left → Create new branch → enter `feature/home-header-hero`. Your uncommitted files stay with you. If that branch already exists, select it instead.
 3. Open Source Control on the left. Review every changed/untracked file: much of this starter project was already uncommitted before this task. In particular review README.md and all public/src/styles files. Do not stage node_modules or dist (already ignored).
 4. Click + beside the files you want to include. Enter `Build provisional bilingual Home header and hero`, then click Commit.
-5. Click Publish Branch to push this branch to origin. Sign into GitHub if VS Code asks. Publishing the branch saves code on GitHub; it does not deploy a website.
+5. Click Publish Branch to push this branch to origin. Sign into GitHub if VS Code asks. First confirm whether a push will trigger deployment.
 6. Leave creating a pull request until you are happy with the preview.
 
 Optional terminal equivalent after reviewing all files:
@@ -54,11 +64,11 @@ git push -u origin feature/home-header-hero
 ```
 
 
-## Latest scope: English desktop only (4 November)
+## Historical scope: English desktop only (4 November)
 
 The English desktop Home uses the supplied Home.pdf copy and the original mockup SVG exports. The asset bundle is kept in `public/images/mockup-illustrations/` and matching artwork is wired into the intro, service cards, process steps/markers, and closing CTA. The case-study cards use the supplied photographs. Read [the current mapping and section inventory](docs/home-token-map.md); it supersedes the earlier review note where values conflict.
 
-Preview `/?lang=en` at 1440px. The desktop layout targets the supplied frame; no completed visual-match claim is made. Mobile/Chinese expansion and other page bodies remain deferred. Run `npm run build` before committing. Keep Git publishing and deployment for your own review.
+At that time the scope was English desktop only. Preview `/?lang=en` at 1440px; the desktop layout targets the supplied frame, but no completed visual-match claim is made.
 
 
 ## Full Home with placeholders — current preview
@@ -67,11 +77,11 @@ The English desktop homepage includes all in-scope sections through the footer, 
 
 ## Services desktop preview
 
-The English desktop Services route is implemented at `/?lang=en&page=services` using the supplied Figma CSS measurements, Services.pdf copy and matching original illustrations. Its 1440px section inventory, token mappings and asset status are recorded in [docs/services-token-map.md](docs/services-token-map.md). The case-study cards use the supplied photographs; mobile/Chinese Services layouts are deferred.
+The Services route is implemented at `/?lang=en&page=services` using the supplied Figma CSS measurements, Services.pdf copy and matching original illustrations. Its original 1440px section inventory and token mappings are recorded in [docs/services-token-map.md](docs/services-token-map.md). Mobile and Chinese adaptations have since been implemented but are not claimed to match an unavailable reference.
 
 ## Additional English desktop pages
 
-Case Studies, About Us, Contact, Privacy Policy, Terms of Service, and Refunds & Cancellations Policy are implemented from the supplied PDFs. See [docs/content-pages-map.md](docs/content-pages-map.md) for routes, source measurements, asset status, and Contact form integration details. The Contact form is in preview mode: it shows a clearly labelled confirmation preview and does not send or save enquiries, even if an endpoint is configured. Re-enable and test real submission during the final pre-deployment review. Missing photos and illustrations are explicitly labelled. Contact copy is available in English and Simplified Chinese; other Chinese pages and mobile designs remain deferred.
+Case Studies, About Us, Contact, Privacy Policy, Terms of Service, and Refunds & Cancellations Policy are implemented from the supplied PDFs. See [docs/content-pages-map.md](docs/content-pages-map.md) for routes, source measurements, asset status, and Contact form integration details. Case Studies publication was approved; some missing artwork and visual-reference checks remain outstanding.
 
 ## Reveal motion
 

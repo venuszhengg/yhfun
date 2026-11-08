@@ -191,7 +191,7 @@
   }
 
   .services-individuals {
-    height: 492px;
+    height: 500px;
     padding-bottom: 80px;
   }
 
@@ -208,7 +208,7 @@
   }
 
   .services-individuals .services-overview-row {
-    height: 312px;
+    height: 320px;
   }
 
   .services-intro-copy {
@@ -216,8 +216,8 @@
     flex: 0 0 282px;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-end;
-    height: 312px;
+    justify-content: center;
+    height: 320px;
     gap: 0;
   }
 
@@ -320,7 +320,7 @@
   }
 
   .services-business .services-overview-cards {
-    order: 0;
+    order: -1;
     grid-auto-rows: 337px;
   }
 
@@ -334,11 +334,11 @@
     flex: 0 0 282px;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     gap: 24px;
   }
 
   .services-business-copy .services-action {
-    margin-top: auto;
     width: 288px;
   }
 
@@ -424,7 +424,7 @@
   }
 
   .services-ai-step p {
-    color: var(--palette-neutral-deep-grey);
+    color: var(--color-text);
   }
 
   .services-markets {
@@ -535,7 +535,7 @@
   }
 
   .services-working-heading p {
-    font: 400 14px/19px "Manrope", sans-serif;
+    font: 400 16px/20px "Manrope", sans-serif;
   }
 
   .services-discovery {
@@ -747,7 +747,7 @@
     width: 384px;
     height: 372px;
     padding: 24px;
-    gap: 24px;
+    gap: var(--space-6);
     border-radius: 24px;
     background: #fbf9f6;
   }
@@ -782,8 +782,9 @@
     flex-direction: column;
     align-items: center;
     width: 1440px;
-    height: 416px;
+    height: 444px;
     padding: 80px 120px 164px;
+    gap: var(--space-10);
     isolation: isolate;
   }
 
@@ -802,7 +803,7 @@
     align-items: center;
     width: 1200px;
     text-align: center;
-    gap: 24px;
+    gap: var(--space-6);
   }
 
   .services-main .services-closing-copy h2 {

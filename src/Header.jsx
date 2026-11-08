@@ -13,6 +13,7 @@ function Icon({ name }) {
 export default function Header({ language = 'en', onLanguageChange, activeId = 'home', items, homeHref = '/' }) {
   const zh = language === 'zh-Hans';
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
   const [indicator, setIndicator] = useState(null);
   const headerRef = useRef(null);
   const navRef = useRef(null);
@@ -45,10 +46,52 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
     return () => document.removeEventListener('pointerdown', dismiss);
   }, []);
 
+  useEffect(() => {
+    let previousY = window.scrollY;
+    let direction = 0;
+    let accumulated = 0;
+    let frame = 0;
+
+    const updateVisibility = () => {
+      frame = 0;
+      const currentY = window.scrollY;
+      const delta = currentY - previousY;
+      previousY = currentY;
+
+      if (mobileOpen || currentY < 96 || headerRef.current?.contains(document.activeElement)) {
+        direction = 0;
+        accumulated = 0;
+        setHeaderHidden(false);
+        return;
+      }
+
+      const nextDirection = Math.sign(delta);
+      if (nextDirection && nextDirection !== direction) {
+        direction = nextDirection;
+        accumulated = delta;
+      } else {
+        accumulated += delta;
+      }
+
+      if (direction > 0 && accumulated > 12) setHeaderHidden(true);
+      if (direction < 0 && accumulated < -12) setHeaderHidden(false);
+    };
+
+    const scheduleVisibilityUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateVisibility);
+    };
+
+    window.addEventListener('scroll', scheduleVisibilityUpdate, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', scheduleVisibilityUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [mobileOpen]);
+
   const navigate = () => setMobileOpen(false);
 
   return (
-    <header className="yhf-header" ref={headerRef} onBlur={(event) => {
+    <header className={`yhf-header${headerHidden ? ' is-hidden' : ''}`} ref={headerRef} onFocusCapture={() => setHeaderHidden(false)} onBlur={(event) => {
       if (!event.currentTarget.contains(event.relatedTarget)) setMobileOpen(false);
     }} onKeyDown={(event) => {
       if (event.key !== 'Escape') return;

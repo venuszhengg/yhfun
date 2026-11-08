@@ -110,7 +110,7 @@
 @media (max-width: 1023px) {
   .services-main img:not(.full-width-artwork) { max-width: 100%; height: auto; }
   .services-closing { position: relative; isolation: isolate; }
-  .services-closing-copy { padding-bottom: 326px; }
+  .services-closing { padding-bottom: 326px; }
   .services-closing-artwork.full-width-artwork { height: 326px; }
   .hero-cutout-actions .yhf-action { min-width: 0; }
   .hero-cutout-actions .yhf-action-label { min-width: 0; flex-shrink: 1; }

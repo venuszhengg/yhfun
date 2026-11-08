@@ -19,8 +19,8 @@
   color: var(--action-ink);
   font-family: var(--font-en);
   font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
   text-decoration: none;
   vertical-align: middle;
   cursor: pointer;

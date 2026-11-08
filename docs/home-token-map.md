@@ -1,10 +1,10 @@
 # Home inspection and token map — 4 November 2026
 
-> **Latest status:** case-study publication was approved by the user on 4 November 2026. The English desktop Home includes the Featured case studies section, Home/PDF copy, and Case Studies navigation/footer links. The three cards use the supplied case-study photographs with centered cover crops. Mobile/Chinese expansion is still deferred.
+> **Status clarification — 8 November 2026:** Case Studies publication was approved and reconfirmed on 7 November. Featured cases and links are implemented, including Chinese content. Responsive and Chinese adaptations have since been implemented; comprehensive visual parity remains unverified. The scope and Git statements below describe the earlier work, not the current tree.
 
 On 7 November 2026, the user confirmed public display of the three featured cases on Chinese Home and Services and supplied Chinese copy and targeted page updates in `chinese updates.pdf`. These changes do not constitute approval of other new mobile or Chinese designs.
 
-## Current scope and status
+## Historical scope and status
 
 User selected **English desktop only**. The later handoff supplied the Home.pdf copy and the `mockup-illustrations` export folder; all supplied English desktop Home sections are implemented. No mobile layout or Chinese copy has been newly derived. The older bilingual header/hero scaffold remains, with clearly provisional styling.
 
@@ -58,12 +58,14 @@ Native variable tables now show **Colour Tokens (24)** and **Spacing (44)**. Bot
 | Olive/Pale | --palette-olive-pale | #EBECE0 | Surface/Tinted → --color-tinted |
 | Neutral/Light Stone | --palette-neutral-light-stone | #F5F3EF | Surface/Section → --color-section |
 | Neutral/Warm White | --palette-neutral-warm-white | #FCFAF8 | Surface/Page → --color-page |
-| Neutral/Charcoal | --palette-neutral-charcoal | #2C2C26 | Text/Strong → --color-text-strong |
+| Neutral/Charcoal | --palette-neutral-charcoal | #2C2C26 | Previously used for Text/Strong |
 | Neutral/Ivory | --palette-neutral-ivory | #FFFAF7 | Text/On Image → --color-on-image; Action/Primary/Label → --color-on-primary; Action/Secondary/Label → --color-on-olive |
-| Neutral/Deep Grey | --palette-neutral-deep-grey | #515248 | Text/Body → --color-text |
+| Neutral/Deep Grey | --palette-neutral-deep-grey | #515248 | Previously used for Text/Body |
 | Amber/Burnt | --palette-amber-burnt | #C44E14 | Action/Primary/Background → --color-primary |
 
 Colours have one observed value each. No separate Desktop/Mobile colour modes were visible in the table. --color-header currently resolves its opacity explicitly in CSS; its base RGB corresponds to --palette-olive-light. Global aliases are verified; specific header/hero/card binding coverage is not complete. Do not infer that all layers with matching visible colours are bound.
+
+The current user-directed dark text colour overrides the original Figma mappings: `--color-text-dark` is `#42453A`, and both `--color-text` (body) and `--color-text-strong` resolve to it. The original palette primitives remain available for non-text uses. Section headings and text on images retain their separate colour roles.
 
 ### Dimensions: bases
 

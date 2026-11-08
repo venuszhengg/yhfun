@@ -1,5 +1,6 @@
 import CopyEmail from './CopyEmail.jsx';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import { SOCIAL_CHANNELS } from './socialChannels.js';
 import './Footer.css';
 
 const groups = [
@@ -39,10 +40,23 @@ export default function Footer({ language = 'en', onLanguageChange, href, year =
             <a className="yhf-footer-logo" href={href()} aria-label={zh ? 'Y. H. FUN 首页' : 'Y. H. FUN home'}>Y. H. FUN</a>
             <p>Y. H. FUN LIMITED<br />{zh ? '在爱尔兰注册。公司注册号：763264。' : 'Registered in Ireland. Company number: 763264.'}</p>
             <address>Dock Road,<br />Dunmore East,<br />Co. Waterford,<br />Ireland.</address>
-            <div className="yhf-footer-social">
-              <span className="yhf-footer-social-missing" role="img" aria-label="WhatsApp SVG pending" title="WhatsApp SVG pending" />
-              <img src="/images/app-icons/App=Wechat,%20Colour=Stone.svg" width="24" height="24" alt="WeChat" />
-              <img src="/images/app-icons/App=RedNote,%20Colour=Stone.svg" width="24" height="24" alt="RedNote" />
+            <div className="yhf-footer-social" role="group" aria-label={zh ? '社交媒体' : 'Social media'}>
+              {SOCIAL_CHANNELS.map((channel) => (
+                <a
+                  className="yhf-footer-social-link"
+                  href={channel.url || href('contact')}
+                  key={channel.id}
+                  aria-label={channel.name}
+                  target={channel.url ? '_blank' : undefined}
+                  rel={channel.url ? 'noopener noreferrer' : undefined}
+                >
+                  <span
+                    className="yhf-footer-social-icon"
+                    style={{ '--footer-social-icon': `url("${channel.icon}")` }}
+                    aria-hidden="true"
+                  />
+                </a>
+              ))}
             </div>
           </div>
           {groups.map(group => (

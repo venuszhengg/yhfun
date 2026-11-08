@@ -92,6 +92,20 @@ export default function App() {
   const isChineseContentPage = locale === 'zh-Hans' && chineseContentPages.includes(page)
   const isRenderedContentPage = isEnglishContentPage || isContactPage || isChineseContentPage
   useEffect(() => {
+    let timer
+    const showScrollbar = () => {
+      document.documentElement.classList.add('is-scrolling')
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => document.documentElement.classList.remove('is-scrolling'), 1000)
+    }
+    window.addEventListener('scroll', showScrollbar, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', showScrollbar)
+      window.clearTimeout(timer)
+      document.documentElement.classList.remove('is-scrolling')
+    }
+  }, [])
+  useEffect(() => {
     let animationFrame
     const stopScroll = () => {
       if (animationFrame) window.cancelAnimationFrame(animationFrame)
