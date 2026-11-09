@@ -37,9 +37,10 @@ Once publishing is approved and these changes are present on the selected produc
 - Repository: `venuszhengg/yhfun`; root directory: `/` (repository root).
 - Production branch: `main`; build command: `npm run build`; deploy command: `npx wrangler deploy`.
 - Use Node.js 24 (Workers Builds currently defaults to Node 24); check that no build variable overrides it with an unsupported version.
-- Review Branch control and the Preview command before pushing: enabled preview builds can publish branch previews, and existing integrations may use an older preview model. Disable preview builds if no preview publication is authorized. Do not change production settings, merge, or deploy without approval.
+- In the separate Previews Base settings, set the build command to `npm run build` if preview builds are desired; keep the preview command as `npx wrangler preview` and the root directory as `/`. Preview builds and Preview URLs are separate controls. Leave Preview URLs disabled unless publication is authorized.
+- Review branch and preview settings before pushing: enabled preview builds can publish branch previews, and existing integrations may use an older preview model. Do not change production settings, merge, or deploy without approval.
 
-The failed check reported no build command; verify the saved dashboard setting because the configuration file does not run Vite by itself. A local `npx wrangler deploy --dry-run` validates packaging without deploying; it does not verify the dashboard, Cloudflare account, domains, or production delivery. Keep `VITE_CONTACT_FORM_ENDPOINT` unset until the submission service, privacy and delivery have been approved and tested.
+The 9 November dashboard screenshots showed the production build command set correctly but the Previews Base build command empty. The Wrangler configuration does not run Vite by itself. A local `npx wrangler deploy --dry-run` validates packaging without deploying; it does not verify the dashboard, Cloudflare account, domains, or production delivery. Keep `VITE_CONTACT_FORM_ENDPOINT` unset until the submission service, privacy and delivery have been approved and tested.
 
 ## Preview
 
