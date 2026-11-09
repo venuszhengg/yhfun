@@ -11,12 +11,12 @@ export const SOCIAL_CHANNELS = [
   {
     id: 'rednote',
     name: 'RedNote',
-    handle: '@27796963745',
-    copyValue: '27796963745',
+    handle: '@yishanthinks',
+    copyValue: '@yishanthinks',
     copyLabel: 'Copy ID',
     copiedStatus: 'RedNote ID copied',
     icon: '/images/app-icons/App=RedNote,%20Colour=Olive.svg',
-    url: 'https://www.xiaohongshu.com/',
+    url: 'https://www.rednote.com/user/profile/69dbb3120000000032037576?xsec_token=ABIBEjJq9mVSbxzTMCEENru2LaW6vR1qx1dxIHLegZjGY%3D&xsec_source=pc_search',
   },
   {
     id: 'youtube',

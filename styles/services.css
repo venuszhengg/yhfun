@@ -14,13 +14,59 @@
   object-fit: contain;
 }
 
+.services-ai-action--mobile { display: none; }
+
 /* English desktop Services page: 1440px reference canvas and verified Figma measurements. */
 @media (min-width: 1024px) {
+  .desktop-services .services-main { gap: 0; }
+
+  .desktop-services .services-main :is(
+    .services-individuals,
+    .services-business,
+    .services-ai,
+    .services-markets,
+    .services-working,
+    .services-options,
+    .services-closing
+  ) {
+    height: auto;
+    padding-block: 160px;
+  }
+
+  .desktop-services .services-main > .services-closing {
+    padding-block-start: 80px;
+  }
+
+  .desktop-services .services-working-options { height: auto; }
+
+  .desktop-services .services-options-panel {
+    height: auto;
+    padding-block: 160px;
+  }
+
+  .desktop-services .services-cases-panel {
+    height: auto;
+    padding-block: 80px;
+  }
+
+  .desktop-services .services-options-panel { gap: 0; }
+  .desktop-services .services-options-panel > .services-options-grid { margin-top: 40px; }
+  .desktop-services .services-options-panel > .services-booking { margin-top: 24px; }
+  .desktop-services .services-cases {
+    height: auto;
+    padding-block: 80px;
+  }
+  .desktop-services .services-options {
+    height: auto;
+    padding-bottom: 0;
+  }
+  .desktop-services .services-closing { padding-block-start: 80px; }
+
   .desktop-services {
     position: relative;
-    width: min(1440px, 100%);
-    margin-inline: auto;
-    padding-top: 112px;
+    width: 100%;
+    margin-inline: 0;
+    padding-top: 0;
     min-height: 6750.7px;
     isolation: isolate;
   }
@@ -28,7 +74,7 @@
   .desktop-services .services-main {
     display: flex;
     flex-direction: column;
-    gap: 80px;
+    gap: 0;
     width: 100%;
     margin: 0;
   }
@@ -64,67 +110,6 @@
     white-space: nowrap;
   }
 
-  .services-hero {
-    position: relative;
-    width: 1440px;
-    height: 560px;
-    margin-left: 0;
-    border-radius: 0;
-  }
-
-  .services-hero-photo {
-    position: absolute;
-    inset: 0 40px;
-    overflow: hidden;
-    border-radius: var(--radius-hero);
-    background: #414236;
-  }
-
-  .services-hero-photo::after {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    border-radius: inherit;
-    background: rgb(0 0 0 / 35%);
-    content: "";
-    pointer-events: none;
-  }
-
-  .services-hero-photo img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    object-fit: cover;
-  }
-
-  .services-hero-content {
-    position: absolute;
-    left: calc((100% - 1360px) / 2);
-    top: 0;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-    width: 1360px;
-    height: 100%;
-    padding: 0 40px var(--hero-cutout-inset);
-    gap: var(--hero-cutout-content-gap);
-    color: var(--palette-neutral-ivory);
-  }
-
-  .services-hero-copy {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    width: 660px;
-    height: 210px;
-    gap: var(--gap-hero-actions);
-  }
-
   .services-main .services-eyebrow {
     color: var(--palette-olive-vivid);
     font: 700 14px/18px var(--font-en);
@@ -132,36 +117,13 @@
   }
 
   .services-hero .services-eyebrow {
-    color: var(--palette-neutral-ivory);
-  }
-
-  .services-hero h1 {
-    color: var(--palette-neutral-ivory);
-    font: 500 80px/88px var(--font-en);
-    letter-spacing: -.04em;
-  }
-
-  .services-hero-actions {
-    align-self: flex-start;
-    width: max-content;
-  }
-
-  .services-hero-explore {
-    flex: 0 0 193px;
+    color: #d4d6bf;
   }
 
   .services-hero-explore .yhf-action-label,
   .services-closing-contact .yhf-action-label {
     width: 100%;
     white-space: nowrap;
-  }
-
-  .services-hero-arrow.yhf-action {
-    width: var(--button-height);
-    min-width: var(--button-height);
-    height: var(--button-height);
-    min-height: var(--button-height);
-    flex: 0 0 var(--button-height);
   }
 
   .services-section-heading {
@@ -690,7 +652,7 @@
     justify-content: center;
     width: 1440px;
     height: 44px;
-    margin-top: 40px;
+    margin-top: 0;
   }
 
   .services-booking .services-action {
@@ -735,9 +697,10 @@
 
   .services-case-grid {
     display: grid;
+    grid-auto-rows: 1fr;
     grid-template-columns: repeat(3, 384px);
     width: 1200px;
-    height: 372px;
+    height: auto;
     gap: 24px;
   }
 
@@ -745,9 +708,10 @@
     display: flex;
     flex-direction: column;
     width: 384px;
-    height: 372px;
+    height: auto;
+    min-height: 372px;
     padding: 24px;
-    gap: var(--space-6);
+    gap: 16px;
     border-radius: 24px;
     background: #fbf9f6;
   }
@@ -769,9 +733,10 @@
 
   .services-case-image {
     display: block;
-    flex: 0 0 219px;
+    flex: 1 1 219px;
     width: 336px;
-    height: 219px;
+    height: auto;
+    min-height: 0;
     border-radius: 24px;
     object-fit: cover;
   }
@@ -819,76 +784,8 @@
 }
 
 @media (max-width: 1023px) {
-  .services-hero {
-    position: relative;
-    width: auto;
-    height: auto;
-    min-height: 560px;
-    margin: 16px;
-    border-radius: 0;
-  }
-
-  .services-hero-photo {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    border-radius: var(--radius-hero);
-    background: #414236;
-  }
-
-  .services-hero-photo::after {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    border-radius: inherit;
-    background: rgb(0 0 0 / 35%);
-    content: "";
-    pointer-events: none;
-  }
-
-  .services-hero-photo img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    object-fit: cover;
-  }
-
-  .services-hero-content {
-    position: relative;
-    left: auto;
-    top: auto;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    min-height: 560px;
-    align-items: flex-start;
-    justify-content: flex-end;
-    gap: var(--hero-cutout-content-gap);
-    padding: 80px 42px var(--hero-cutout-inset);
-  }
-
-  .services-hero-copy {
-    width: 100%;
-    height: auto;
-    gap: 16px;
-  }
-
-  .services-hero h1 {
-    font-size: clamp(40px, 9vw, 64px);
-    line-height: 1.08;
-  }
-
-  .services-hero-actions {
-    width: fit-content;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 1023px) {
   :root[lang='zh-Hans'] .services-main { gap: 40px; }
+  :root[lang='zh-Hans'] .services-curtain-track { gap: 40px; }
   :root[lang='zh-Hans'] .services-main :is(h2, h3, p, li) { max-width: 100%; }
   :root[lang='zh-Hans'] .services-main h2 { font-size: clamp(28px, 6vw, 40px); line-height: 1.35; }
   :root[lang='zh-Hans'] .services-main h3 { font-size: 20px; line-height: 1.5; }

@@ -175,7 +175,7 @@ describe('Contact form configured production submission', () => {
     )
     await waitFor(() => expect(completion).toHaveFocus())
 
-    await user.click(screen.getByRole('button', { name: 'Start a new enquiry' }))
+    await user.click(screen.getByRole('button', { name: 'Send a new message' }))
     expect(screen.getByLabelText('Your name')).toHaveValue('')
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import ActionButton from './ActionButton.jsx';
 import './BackToTop.css';
 
-export default function BackToTop({ label = 'Back to top', subtitleClassName = '', showAfterId }) {
+export default function BackToTop({ label = 'Back to top', showAfterId }) {
   const [isVisible, setIsVisible] = useState(!showAfterId);
 
   useEffect(() => {
@@ -54,7 +54,6 @@ export default function BackToTop({ label = 'Back to top', subtitleClassName = '
       aria-label={label}
       aria-hidden={!isVisible}
       tabIndex={isVisible ? undefined : -1}
-      caption={<span className={subtitleClassName}>{label}</span>}
     />
   );
 }

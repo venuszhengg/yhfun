@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Header.css';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
 
@@ -14,29 +14,9 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
   const zh = language === 'zh-Hans';
   const [mobileOpen, setMobileOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
-  const [indicator, setIndicator] = useState(null);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
   const headerRef = useRef(null);
-  const navRef = useRef(null);
   const mobileRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const nav = navRef.current;
-    let disposed = false;
-    const measure = () => {
-      if (disposed) return;
-      const active = nav.querySelector('[aria-current="page"]');
-      if (!active || !nav.getClientRects().length) return;
-      const a = active.getBoundingClientRect();
-      const n = nav.getBoundingClientRect();
-      setIndicator({ left: a.left - n.left + 8, top: a.bottom - n.top - 5, width: a.width - 16 });
-    };
-    measure();
-    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(measure) : null;
-    observer?.observe(nav);
-    window.addEventListener('resize', measure);
-    document.fonts?.ready.then(measure);
-    return () => { disposed = true; observer?.disconnect(); window.removeEventListener('resize', measure); };
-  }, [activeId, language, mobileOpen, items]);
 
   useEffect(() => {
     const dismiss = (event) => {
@@ -58,10 +38,19 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
       const delta = currentY - previousY;
       previousY = currentY;
 
-      if (mobileOpen || currentY < 96 || headerRef.current?.contains(document.activeElement)) {
+      if (currentY < 24) {
         direction = 0;
         accumulated = 0;
         setHeaderHidden(false);
+        setHeaderScrolled(false);
+        return;
+      }
+
+      if (mobileOpen || headerRef.current?.contains(document.activeElement)) {
+        direction = 0;
+        accumulated = 0;
+        setHeaderHidden(false);
+        setHeaderScrolled(true);
         return;
       }
 
@@ -73,8 +62,14 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
         accumulated += delta;
       }
 
-      if (direction > 0 && accumulated > 12) setHeaderHidden(true);
-      if (direction < 0 && accumulated < -12) setHeaderHidden(false);
+      if (direction > 0 && accumulated > 12) {
+        setHeaderHidden(true);
+        setHeaderScrolled(false);
+      }
+      if (direction < 0 && accumulated < -12) {
+        setHeaderHidden(false);
+        setHeaderScrolled(true);
+      }
     };
 
     const scheduleVisibilityUpdate = () => {
@@ -91,7 +86,10 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
   const navigate = () => setMobileOpen(false);
 
   return (
-    <header className={`yhf-header${headerHidden ? ' is-hidden' : ''}`} ref={headerRef} onFocusCapture={() => setHeaderHidden(false)} onBlur={(event) => {
+    <header className={`yhf-header${headerHidden ? ' is-hidden' : ''}${headerScrolled ? ' is-scrolled' : ''}${mobileOpen ? ' is-menu-open' : ''}`} ref={headerRef} onFocusCapture={() => {
+      setHeaderHidden(false);
+      setHeaderScrolled(window.scrollY >= 24);
+    }} onBlur={(event) => {
       if (!event.currentTarget.contains(event.relatedTarget)) setMobileOpen(false);
     }} onKeyDown={(event) => {
       if (event.key !== 'Escape') return;
@@ -99,16 +97,20 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
     }}>
       <a className="yhf-logo" href={homeHref} aria-label={zh ? 'Y. H. FUN 首页' : 'Y. H. FUN home'} onClick={navigate}>Y. H. FUN</a>
 
-      <nav id="yhf-main-nav" className={`yhf-nav${mobileOpen ? ' is-open' : ''}`} ref={navRef} aria-label={zh ? '主导航' : 'Main navigation'}>
+      <nav id="yhf-main-nav" className={`yhf-nav${mobileOpen ? ' is-open' : ''}`} aria-label={zh ? '主导航' : 'Main navigation'}>
         {items.map((item) => {
           const label = item[zh ? 'zh-Hans' : 'en'];
           return <a key={item.id} href={item.href} className="yhf-nav-link" data-label={label} aria-current={activeId === item.id ? 'page' : undefined} onClick={navigate}><span>{label}</span></a>;
         })}
-        <span className="yhf-active-line" aria-hidden="true" style={indicator ? { ...indicator, opacity: 1 } : { opacity: 0 }} />
+        <div className="yhf-nav-language">
+          <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
+        </div>
       </nav>
 
       <div className="yhf-actions">
-        <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} onOpen={() => setMobileOpen(false)} />
+        <div className="yhf-desktop-language">
+          <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
+        </div>
         <button ref={mobileRef} type="button" className="yhf-mobile-toggle" aria-controls="yhf-main-nav" aria-expanded={mobileOpen} aria-label={zh ? (mobileOpen ? '关闭导航' : '打开导航') : (mobileOpen ? 'Close navigation' : 'Open navigation')} onClick={() => setMobileOpen(!mobileOpen)}><Icon name={mobileOpen ? 'close' : 'menu'} /></button>
       </div>
     </header>

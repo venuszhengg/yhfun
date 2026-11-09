@@ -1,7 +1,7 @@
 .featured-case-card {
   position: relative;
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .featured-case-card .yhf-action {
@@ -14,6 +14,26 @@
   flex: 1;
 }
 
+/* Reserve two lines of title and description so images align across a row. */
+@media (min-width: 768px) {
+  #site-top .featured-case-card :is(.case-study-details, .services-case-details) > div {
+    min-height: 106px;
+  }
+}
+
+/* Three narrower columns wrap to more lines. */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  #site-top .featured-case-card :is(.case-study-details, .services-case-details) > div {
+    min-height: 130px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1099px) {
+  #site-top .featured-case-card :is(.case-study-details, .services-case-details) > div {
+    min-height: 150px;
+  }
+}
+
 .featured-case-card .yhf-action::before {
   position: absolute;
   z-index: 2;
@@ -24,6 +44,9 @@
 
 .featured-case-card .featured-case-image {
   overflow: hidden;
+  width: 100%;
+  flex: 0 0 auto;
+  aspect-ratio: 336 / 219;
 }
 
 .featured-case-image img {
@@ -46,22 +69,22 @@
 
 @media (hover: hover) and (pointer: fine) {
   .featured-case-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-case-hover);
   }
 
   .featured-case-card:hover .featured-case-image img {
-    transform: scale(1.035);
+    transform: scale(1.02);
   }
 }
 
 .featured-case-card:has(.yhf-action:focus-visible) {
-  transform: translateY(-6px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-case-hover);
 }
 
 .featured-case-card:has(.yhf-action:focus-visible) .featured-case-image img {
-  transform: scale(1.035);
+  transform: scale(1.02);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -10,9 +10,9 @@ import ActionButton from './ActionButton.jsx'
 import RouteLoading from './RouteLoading.jsx'
 import Footer from './Footer.jsx'
 import { chinesePolicyTitles } from './pageTitles.js'
-import HeroCutoutClipPath from './HeroCutoutClipPath.jsx'
-import { useHeroCutout } from './useHeroCutout.js'
 import { useScrollReveals } from './useScrollReveals.js'
+import { useHeroCurtain } from './useHeroCurtain.js'
+import OverlayScrollbar from './OverlayScrollbar.jsx'
 
 const HomeSections = lazy(() => import('./HomeSections.jsx').then((module) => ({ default: module.HomeSections })))
 const ServicesPage = lazy(() => import('./ServicesPage.jsx'))
@@ -40,18 +40,14 @@ const navigationItems = routes.map((route, index) => ({
 }))
 
 function HomeHero({ locale, t }) {
-  const [heroRef, mediaRef, copyRef, actionsRef, pathRef, clipId] = useHeroCutout('center')
-
-  return <section ref={heroRef} className="home-hero hero-cutout-hero" aria-labelledby="hero-heading">
-    <HeroCutoutClipPath id={clipId} pathRef={pathRef} />
-    <div ref={mediaRef} className="hero-photo-slot hero-cutout-media" style={{ clipPath: `url(#${clipId})` }} aria-hidden="true"><img src="/images/heroes/hero-home.png" alt="" /></div>
+  return <section className="home-hero hero-cutout-hero" data-curtain-hero aria-labelledby="hero-heading">
+    <div className="hero-photo-slot" aria-hidden="true"><img src="/images/heroes/home-hero.png" alt="" /></div>
     <div className="container hero-content">
-      <div ref={copyRef} className="hero-copy">
+      <div className="hero-copy" data-curtain-copy>
         <p className="hero-eyebrow" data-hero-reveal="eyebrow">{locale === 'zh-Hans' ? '欢迎来到 Y. H. FUN' : 'WELCOME TO Y. H. FUN'}</p>
         <h1 id="hero-heading" data-hero-reveal="headline">{t.title}{locale === 'en' ? ' ' : null}<span className="hero-emphasis">{t.emphasis}</span></h1>
-        {locale !== 'en' && <p>{t.body}</p>}
       </div>
-      <div ref={actionsRef} className="hero-actions hero-cutout-actions">{locale === 'en' ? <>
+      <div className="hero-actions hero-cutout-actions" data-hero-reveal="actions" data-curtain-actions>{locale === 'en' ? <>
         <ActionButton href={href('services')} variant="solid" tone="olive">{t.action}</ActionButton>
         <ActionButton href={href('contact')} variant="split">Let’s talk</ActionButton>
       </> : <>
@@ -86,92 +82,17 @@ export class RouteErrorBoundary extends Component {
 
 export default function App() {
   useScrollReveals()
+  useHeroCurtain()
   const t = content[locale]
   const isEnglishContentPage = locale === 'en' && contentPages.includes(page)
   const isContactPage = page === 'contact' && (locale === 'en' || locale === 'zh-Hans')
   const isChineseContentPage = locale === 'zh-Hans' && chineseContentPages.includes(page)
   const isRenderedContentPage = isEnglishContentPage || isContactPage || isChineseContentPage
   useEffect(() => {
-    let timer
-    const showScrollbar = () => {
-      document.documentElement.classList.add('is-scrolling')
-      window.clearTimeout(timer)
-      timer = window.setTimeout(() => document.documentElement.classList.remove('is-scrolling'), 1000)
-    }
-    window.addEventListener('scroll', showScrollbar, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', showScrollbar)
-      window.clearTimeout(timer)
-      document.documentElement.classList.remove('is-scrolling')
-    }
-  }, [])
-  useEffect(() => {
-    let animationFrame
-    const stopScroll = () => {
-      if (animationFrame) window.cancelAnimationFrame(animationFrame)
-      animationFrame = undefined
-    }
-    const onClick = (event) => {
-      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-      const link = event.target instanceof Element ? event.target.closest('a[href]') : null
-      if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
-
-      const destination = new URL(link.href, window.location.href)
-      if (destination.origin !== window.location.origin || destination.pathname !== window.location.pathname || destination.search !== window.location.search || !destination.hash) return
-      const target = document.getElementById(decodeURIComponent(destination.hash.slice(1)))
-      if (!target) return
-
-      event.preventDefault()
-      stopScroll()
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        if (window.location.hash !== destination.hash) window.history.pushState(null, '', destination.hash)
-        window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY)
-        if (target.hasAttribute('tabindex')) target.focus({ preventScroll: true })
-        return
-      }
-
-      if (window.location.hash !== destination.hash) window.history.pushState(null, '', destination.hash)
-      if (target.hasAttribute('tabindex')) target.focus({ preventScroll: true })
-
-      const startY = window.scrollY
-      const endY = Math.max(0, Math.min(target.getBoundingClientRect().top + startY, document.documentElement.scrollHeight - window.innerHeight))
-      const distance = endY - startY
-      const duration = Math.min(1400, Math.max(700, Math.abs(distance) * 0.45))
-      const startTime = performance.now()
-      const animate = (now) => {
-        const progress = Math.min((now - startTime) / duration, 1)
-        const eased = progress < 0.5
-          ? 4 * progress * progress * progress
-          : 1 - ((-2 * progress + 2) ** 3) / 2
-        window.scrollTo(0, startY + distance * eased)
-        if (progress < 1) animationFrame = window.requestAnimationFrame(animate)
-        else animationFrame = undefined
-      }
-      animationFrame = window.requestAnimationFrame(animate)
-    }
-    const interrupt = () => stopScroll()
-    const onKeyDown = (event) => {
-      if ([' ', 'ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp'].includes(event.key)) interrupt()
-    }
-    document.addEventListener('click', onClick)
-    window.addEventListener('wheel', interrupt, { passive: true })
-    window.addEventListener('touchstart', interrupt, { passive: true })
-    window.addEventListener('pointerdown', interrupt, { passive: true })
-    window.addEventListener('keydown', onKeyDown)
-    return () => {
-      stopScroll()
-      document.removeEventListener('click', onClick)
-      window.removeEventListener('wheel', interrupt)
-      window.removeEventListener('touchstart', interrupt)
-      window.removeEventListener('pointerdown', interrupt)
-      window.removeEventListener('keydown', onKeyDown)
-    }
-  }, [])
-  useEffect(() => {
     document.documentElement.lang = locale
     document.title = `${(locale === 'zh-Hans' && chinesePageTitles[page]) || policyTitles[page] || t.nav[routes.indexOf(page)]} · Y. H. FUN`
   }, [t])
-  return   <div id="site-top" className={!page ? 'desktop-home' : page === 'services' ? 'desktop-services' : isRenderedContentPage ? `desktop-content-pages${['case-studies', 'about', 'contact'].includes(page) ? ' content-page-with-hero' : ''}` : undefined}>
+  return <><OverlayScrollbar /><div id="site-top" className={!page ? 'desktop-home' : page === 'services' ? 'desktop-services' : isRenderedContentPage ? `desktop-content-pages${['case-studies', 'about', 'contact'].includes(page) ? ' content-page-with-hero' : ' policy-content-page'}` : undefined}>
     <a className="skip-link" href="#main">{t.skip}</a>
     <Header
       language={locale}
@@ -195,16 +116,20 @@ export default function App() {
             <ActionButton href={href()} variant="solid" tone="olive">{t.back}</ActionButton>
           </section>
         ) : <>
-          <HomeHero locale={locale} t={t} />
-          <section className="home-intro full-width-background" aria-labelledby="intro-heading">
-            <div className="container intro-content">
-              <div><h2 id="intro-heading" data-reveal="text">{locale === 'zh-Hans' ? '问题梳理，想法落地。' : <>Work through the problem.<br />Put ideas into practice.</>}</h2>
-                <p data-reveal="text" data-reveal-order="1">{locale === 'zh-Hans' ? '一起理清眼前的问题，找到能开始的下一步。' : 'Let’s map out the problem together and find a next step you can take.'}</p>
-              </div>
-              <div className="intro-artwork" data-reveal="visual" data-reveal-order="1"><img src="/images/mockup-illustrations/Page=home,%20Section=hero.svg" width="486" height="160" alt="" /></div>
+          <div className="hero-curtain-track home-curtain-track" data-hero-curtain>
+            <HomeHero locale={locale} t={t} />
+            <div className="hero-curtain-content home-curtain-content">
+              <section className="home-intro full-width-background" aria-labelledby="intro-heading">
+                <div className="container intro-content">
+                  <div><h2 id="intro-heading" data-reveal="text">{locale === 'zh-Hans' ? '问题梳理，想法落地。' : <>Work through the problem.<br />Put ideas into practice.</>}</h2>
+                    <p data-reveal="text" data-reveal-order="1">{locale === 'zh-Hans' ? '一起理清眼前的问题，找到能开始的下一步。' : 'Let’s map out the problem together and find a next step you can take.'}</p>
+                  </div>
+                  <div className="intro-artwork" data-reveal="visual" data-reveal-order="1"><img src="/images/mockup-illustrations/Page=home,%20Section=hero.svg" width="486" height="160" alt="" /></div>
+                </div>
+              </section>
+              <div className="audience-strip full-width-background"><strong>{locale === 'zh-Hans' ? '服务对象' : 'WHO WE ARE FOR'}</strong><div className="audience-labels">{(locale === 'zh-Hans' ? ['个人', '独立经营者', '精简团队'] : ['Small teams', 'Independent business owners', 'Individuals']).map((item, index) => <span key={item}>{index > 0 && <span aria-hidden="true">•</span>}<span>{item}</span></span>)}</div></div>
             </div>
-            <div className="audience-strip full-width-background"><strong>{locale === 'zh-Hans' ? '服务对象' : 'WHO WE ARE FOR'}</strong><div className="audience-labels">{(locale === 'zh-Hans' ? ['个人', '独立经营者', '精简团队'] : ['Small teams', 'Independent business owners', 'Individuals']).map((item, index) => <span key={item}>{index > 0 && <span aria-hidden="true">•</span>}<span>{item}</span></span>)}</div></div>
-          </section>
+          </div>
           <Suspense fallback={<RouteLoading language={locale} />}>
             <HomeSections href={href} language={locale} />
           </Suspense>
@@ -213,5 +138,5 @@ export default function App() {
     </main>
     {(!page || page === 'services' || isEnglishContentPage || isContactPage || isChineseContentPage) && (locale === 'en' || isContactPage || isChineseContentPage || (page === 'services' && locale === 'zh-Hans') || (!page && locale === 'zh-Hans')) && <Footer href={href} language={locale} onLanguageChange={(nextLocale) => window.location.assign(href(page, nextLocale))} />}
     {!page && locale === 'zh-Hans' && <aside className="preview-note">{t.note}</aside>}
-  </div>
+  </div></>
 }

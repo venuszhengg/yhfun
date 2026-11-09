@@ -47,11 +47,11 @@
   /* Verified usage aliases. */
   --content-inset-desktop: var(--space-30); /* Padding/Content/Desktop Inline */
   --content-inset-mobile: var(--space-6); /* Padding/Content/Mobile Inline */
-  --section-padding-desktop: var(--space-20); /* Padding section measurement */
+  --section-padding-desktop: 160px; /* Desktop/tablet section block padding */
   --grid-gap: var(--space-6); /* Gap/Columns */
   --gap-rows: var(--space-6); /* Gap/Rows */
   --gap-heading-content: var(--space-10); /* Gap/Heading to Content: direct 40 */
-  --gap-sections: var(--space-20); /* Gap/Between Sections: direct 80 */
+  --gap-sections: 0px; /* Sections use their own block padding instead */
   --gap-card-content: var(--space-6); /* Gap/Card/Content */
   --gap-card-list: var(--space-4); /* Gap/Card/List */
   --gap-nav: var(--space-10); /* Gap/Header/Nav Items */

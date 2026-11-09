@@ -1,0 +1,131 @@
+#site-top.desktop-content-pages .content-main.about-page {
+  gap: 0;
+}
+
+#site-top.desktop-content-pages .about-page > .content-hero,
+#site-top.desktop-content-pages .about-page > .content-curtain-track > .content-hero {
+  margin-bottom: 80px;
+}
+
+#site-top.desktop-content-pages .about-page > .content-curtain-track {
+  gap: 0;
+}
+
+#site-top.desktop-content-pages .about-page .about-challenges {
+  padding-block: 160px;
+}
+
+.companion-section {
+  width: min(1200px, calc(100% - 48px));
+  margin-inline: auto;
+  padding-block: 80px 160px;
+}
+
+.content-main .companion-section h1 {
+  margin: 0 0 40px;
+  color: #696d54;
+  font-size: clamp(32px, 3.4vw, 48px);
+  font-weight: var(--weight-heading);
+  letter-spacing: -.045em;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.companion-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 56px 28px 64px;
+  border-radius: 24px;
+  background: #f5f3ef;
+}
+
+.companion-principle {
+  min-width: 0;
+  padding: 0 36px;
+}
+
+.companion-principle + .companion-principle {
+  border-left: 1px solid #ebece0;
+}
+
+.companion-principle img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 32px;
+  object-fit: contain;
+}
+
+#site-top #main .companion-principle h3 {
+  margin: 0 0 24px;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+#site-top #main .companion-principle p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+@media (max-width: 1023px) {
+  #site-top.desktop-content-pages .about-page > .content-hero,
+  #site-top.desktop-content-pages .about-page > .content-curtain-track > .content-hero {
+    margin-bottom: var(--responsive-section-gap);
+  }
+}
+
+@media (max-width: 767px) {
+  #site-top.desktop-content-pages .about-page .about-challenges,
+  #site-top.desktop-content-pages .about-page .companion-section {
+    padding-block: var(--responsive-section-space);
+  }
+
+  .companion-section {
+    width: calc(100% - 2 * var(--responsive-gutter));
+  }
+
+  .content-main .companion-section h1 {
+    margin-bottom: var(--responsive-heading-body-gap);
+    font-size: clamp(28px, 7vw, 32px);
+  }
+
+  .companion-panel {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .companion-principle {
+    padding: 24px 0;
+  }
+
+  .companion-principle:first-child {
+    padding-top: 0;
+  }
+
+  .companion-principle:last-child {
+    padding-bottom: 0;
+  }
+
+  .companion-principle + .companion-principle {
+    border-top: 1px solid #ebece0;
+    border-left: 0;
+  }
+
+  .companion-principle img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 24px;
+  }
+
+  #site-top #main .companion-principle h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+
+  #site-top #main .companion-principle p {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+}

@@ -1,0 +1,7 @@
+.closing-actions-aligned > .yhf-action--solid {
+  translate: var(--closing-solid-shift, 0px) 0;
+}
+
+.closing-actions-aligned > .yhf-action--split {
+  translate: var(--closing-split-shift, 0px) 0;
+}

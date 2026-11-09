@@ -1,7 +1,6 @@
 .yhf-action.yhf-back-to-top {
   --action-arrow-angle: -90deg;
   flex-direction: column;
-  gap: 8px;
   color: var(--action-bg);
   opacity: 1;
   transition: opacity 180ms ease;
@@ -40,13 +39,4 @@
 
 .yhf-action.yhf-back-to-top:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow::before {
   transform: scale(1.07143);
-}
-
-.yhf-back-to-top .yhf-action-caption {
-  color: inherit;
-  transition: color 240ms ease;
-}
-
-.yhf-action.yhf-back-to-top:is(:hover, :focus-visible, :active) .yhf-action-caption {
-  color: var(--action-hover);
 }

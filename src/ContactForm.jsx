@@ -38,14 +38,13 @@ const COPY = {
     send: 'Send enquiry',
     sending: 'Sending…',
     sent: 'Sent',
-    newEnquiry: 'Start a new enquiry',
+    newEnquiry: 'Send a new message',
     notConfigured: 'Website submission is not configured. Please try again later or contact us directly.',
     failed: 'We couldn’t send your enquiry. Your details are still here; please check your connection and try again.',
     successTitle: (name) => `Thanks, ${name}.`,
     successMessage: 'Your enquiry has been received.',
-    successNextTitle: 'What happens next',
-    successNext: (email) => `We’ll review your message and follow up by email at ${email}.`,
-    successEmailLabel: 'Reply to',
+    successNext: () => 'We’ll review your message and follow up by email.',
+    successEmailLabel: 'Replying to',
     successEnquiryLabel: 'Enquiry type',
     successAnnouncement: 'Your enquiry has been received successfully.',
   },
@@ -86,8 +85,7 @@ const COPY = {
     failed: '未能发送您的咨询。已保留填写内容；请检查网络连接后重试。',
     successTitle: (name) => `谢谢您，${name}。`,
     successMessage: '我们已收到您的咨询。',
-    successNextTitle: '接下来',
-    successNext: (email) => `我们会查看您的留言，并通过电子邮件回复至 ${email}。`,
+    successNext: () => '我们会查看您的留言，并通过电子邮件回复。',
     successEmailLabel: '回复至',
     successEnquiryLabel: '咨询类型',
     successAnnouncement: '您的咨询已成功提交。',
@@ -99,11 +97,19 @@ function ChevronIcon() {
 }
 
 function ShieldIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" /><path d="m9 12 2 2 4-4" /></svg>
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12,23.949c-.077,0-.153-.018-.224-.053l-.425-.212c-2.194-1.098-9.354-5.191-9.354-11.8l.002-5.346c0-1.943,1.239-3.66,3.084-4.271L11.843,.025c.102-.034,.213-.034,.314,0l6.759,2.241c1.845,.612,3.084,2.329,3.084,4.271l-.003,5.346c0,7.498-7.172,10.967-9.37,11.852l-.441,.177c-.06,.024-.124,.036-.187,.036ZM12,1.027L5.398,3.216c-1.435,.476-2.398,1.811-2.398,3.322l-.002,5.346c0,6.035,6.736,9.874,8.801,10.906l.224,.112,.232-.093c2.051-.825,8.743-4.052,8.743-10.924l.003-5.346c0-1.511-.964-2.846-2.398-3.322L12,1.027Z" /><path d="M10.981,15c-.641,0-1.282-.244-1.77-.732l-3.056-2.905c-.2-.19-.208-.507-.018-.707,.19-.199,.506-.208,.707-.018l3.065,2.914c.594,.593,1.545,.594,2.13,.009l5.612-5.42c.2-.191,.517-.185,.707,.013,.192,.198,.187,.515-.012,.707l-5.607,5.414c-.483,.483-1.121,.726-1.759,.726Z" /></svg>
 }
 
 function CheckIcon() {
-  return <svg className="contact-check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+  return <svg className="contact-check-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.855,6.353l-13.883,14c-.419,.418-.973,.647-1.562,.647s-1.144-.229-1.561-.646L.152,13.859c-.198-.192-.203-.509-.012-.707,.194-.198,.51-.203,.707-.012l6.703,6.5c.469,.467,1.256,.461,1.713,.006L23.145,5.647c.195-.194,.511-.197,.708-.003,.195,.195,.197,.512,.003,.708Z" /></svg>
+}
+
+function ThanksIcon() {
+  return <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m7.982,19.299c-.061.223-.262.369-.482.369C3,18.5,0,14.502,0,10,0,4.486,4.486,0,10,0c4.949,0,9.103,3.542,9.876,8.422.043.272-.144.529-.416.572-.268.041-.528-.142-.572-.416-.695-4.391-4.434-7.578-8.888-7.578C5.037,1,1,5.038,1,10c0,4.052,2.727,7.623,6.631,8.686.267.072.424.348.352.613Zm16.018-1.799v4c0,1.379-1.121,2.5-2.5,2.5h-6.879c-1.9,0-3.55-1.353-3.923-3.216l-.63-2.154c-.187-.926.04-1.833.612-2.531h0c.572-.698,1.418-1.099,2.32-1.099h3.183l-.58-3.265c-.008-.065-.019-.556-.007-.598.121-.444.402-.794.792-.985.393-.193.848-.199,1.28-.02.255.106.503.368.682.719l2.193,4.148h.956c1.379,0,2.5,1.121,2.5,2.5Zm-3.958-1.637c-.159-.092-.292-.226-.382-.395l-2.197-4.155c-.103-.203-.196-.266-.197-.266-.143-.059-.305-.061-.438.003-.11.054-.195.154-.246.285l.014.291.572,3.2c.053.291-.026.589-.217.816-.193.229-.472.358-.768.358h-3.183c-.602,0-1.165.267-1.547.732s-.533,1.071-.415,1.66l.63,2.154c.289,1.438,1.527,2.453,2.952,2.453h5.382l.039-7.137Zm2.958,1.637c0-.827-.673-1.5-1.5-1.5h-.459l-.038,7h.497c.827,0,1.5-.673,1.5-1.5v-4Zm-7.955-10c.196-.194.198-.511.004-.707-.193-.197-.51-.198-.707-.004l-4.34,4.294c-.559.553-1.466.552-2.022,0l-2.128-2.103c-.197-.195-.514-.191-.707.004-.194.197-.192.513.004.707l2.128,2.103c.473.467,1.093.701,1.714.701s1.242-.234,1.715-.702l4.34-4.294Z" /></svg>
+}
+
+function EnquiryIcon() {
+  return <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.149,.854c-.719-.719-1.729-1.007-2.708-.769L4.219,4.309C2.139,4.596,.532,6.108,.125,8.16c-.31,1.56,.224,3.209,1.439,4.424l1.437,1.354v4.562c0,.686,.278,1.308,.727,1.76,.002,.002,.003,.005,.005,.008s.005,.003,.008,.005c.452,.449,1.074,.727,1.76,.727h4.574l1.381,1.476c.982,.982,2.301,1.521,3.603,1.521,.466,0,.93-.069,1.375-.211,1.784-.569,3.044-2.046,3.279-3.799L23.91,3.6c.244-.999-.04-2.024-.76-2.745ZM2.26,11.866c-.967-.968-1.399-2.28-1.155-3.512,.323-1.627,1.599-2.826,3.309-3.066L20.686,1.056c.144-.035,.29-.052,.434-.052,.321,0,.633,.093,.915,.255L4.15,19.143c-.094-.196-.15-.412-.15-.643v-4.778c0-.138-.057-.27-.157-.364l-1.583-1.492ZM22.939,3.357l-4.208,16.438c-.193,1.423-1.19,2.587-2.603,3.037-1.339,.426-2.896,.008-3.956-1.052l-1.518-1.622c-.095-.101-.227-.158-.365-.158H5.5c-.231,0-.447-.057-.643-.15L22.746,1.961c.238,.416,.312,.912,.193,1.396Z" /></svg>
 }
 
 export default function ContactForm({ href, language = 'en' }) {
@@ -371,7 +377,7 @@ export default function ContactForm({ href, language = 'en' }) {
         <h2 id={`${id}-title`}>{copy.title}</h2>
         <p>{copy.introduction}</p>
       </header>
-      <form id="contact-form" className="contact-form" noValidate onSubmit={validateAndSubmit} aria-busy={busy}>
+      <form id="contact-form" tabIndex={-1} className="contact-form" noValidate onSubmit={validateAndSubmit} aria-busy={busy}>
         {errorFields.length > 0 && <div className="contact-error-summary" ref={errorSummaryRef} tabIndex={-1} role="alert">
           <p>{copy.errorSummary}</p>
           <ul>{errorFields.map((name) => <li key={name}><a href={`#${id}-${name}`} onClick={(event) => {
@@ -382,15 +388,12 @@ export default function ContactForm({ href, language = 'en' }) {
         </div>}
         {complete && submittedEnquiry && <section className="contact-success" ref={successMessageRef} tabIndex={-1} role="status" aria-labelledby={`${id}-success-title`}>
           <div className="contact-success-heading">
-            <span className="contact-success-icon" aria-hidden="true"><CheckIcon /></span>
-            <div>
-              <h2 id={`${id}-success-title`}>{copy.successTitle(submittedEnquiry.name)}</h2>
-              <p>{copy.successMessage}</p>
-            </div>
+            <span className="contact-success-icon" aria-hidden="true"><ThanksIcon /></span>
+            <h2 id={`${id}-success-title`}>{copy.successTitle(submittedEnquiry.name)}</h2>
           </div>
           <div className="contact-success-next">
-            <h3>{copy.successNextTitle}</h3>
-            <p>{copy.successNext(submittedEnquiry.email)}</p>
+            <p>{copy.successMessage}</p>
+            <p>{copy.successNext()}</p>
           </div>
           <dl className="contact-success-details">
             <div>
@@ -562,10 +565,10 @@ export default function ContactForm({ href, language = 'en' }) {
             disabled={locked}
             data-state={submissionState}
           >
-            {submissionState === 'sent' && <CheckIcon />}
+            {submissionState === 'sent' ? <CheckIcon /> : <EnquiryIcon />}
             {busy ? copy.sending : submissionState === 'sent' ? copy.sent : copy.send}
           </ActionButton>
-          {complete && <ActionButton className="contact-new-enquiry" variant="solid" tone="olive" type="button" onClick={startNewEnquiry}>{copy.newEnquiry}</ActionButton>}
+          {complete && <ActionButton className="contact-new-enquiry" variant="solid" tone="amber" type="button" onClick={startNewEnquiry}>{copy.newEnquiry}</ActionButton>}
         </div>
 
         {statusMessage && !complete && <p className="contact-form-status" role="alert">{statusMessage}</p>}

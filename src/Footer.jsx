@@ -9,6 +9,7 @@ const groups = [
     links: [
       ['', 'Home', '首页'],
       ['services', 'Services', '服务'],
+      ['case-studies', 'Case Studies', '案例研究'],
       ['about', 'About Us', '关于我们'],
       ['contact', 'Contact', '联系'],
     ],
@@ -38,13 +39,13 @@ export default function Footer({ language = 'en', onLanguageChange, href, year =
         <div className="yhf-footer-grid">
           <div className="yhf-footer-company">
             <a className="yhf-footer-logo" href={href()} aria-label={zh ? 'Y. H. FUN 首页' : 'Y. H. FUN home'}>Y. H. FUN</a>
-            <p>Y. H. FUN LIMITED<br />{zh ? '在爱尔兰注册。公司注册号：763264。' : 'Registered in Ireland. Company number: 763264.'}</p>
+            <p>Y. H. FUN LIMITED<br />{zh ? '在爱尔兰注册。公司注册号：763264。' : <>Registered in Ireland<br />Company number: 763264</>}</p>
             <address>Dock Road,<br />Dunmore East,<br />Co. Waterford,<br />Ireland.</address>
             <div className="yhf-footer-social" role="group" aria-label={zh ? '社交媒体' : 'Social media'}>
               {SOCIAL_CHANNELS.map((channel) => (
                 <a
                   className="yhf-footer-social-link"
-                  href={channel.url || href('contact')}
+                  href={channel.url || `${href('contact')}#${channel.id}`}
                   key={channel.id}
                   aria-label={channel.name}
                   target={channel.url ? '_blank' : undefined}

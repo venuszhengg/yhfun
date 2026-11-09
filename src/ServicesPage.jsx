@@ -1,7 +1,6 @@
 import '../styles/services.css'
 import ActionButton from './ActionButton.jsx'
-import HeroCutoutClipPath from './HeroCutoutClipPath.jsx'
-import { useHeroCutout } from './useHeroCutout.js'
+import ClosingActions from './ClosingActions.jsx'
 import { featuredCaseStudies, featuredCaseStudiesZh } from './caseStudies.js'
 import FeaturedCaseCard from './FeaturedCaseCard.jsx'
 
@@ -59,8 +58,8 @@ function ServiceCard({ title, points, index, iconName }) {
   </article>
 }
 
-function ServiceAction({ href, children }) {
-  return <ActionButton href={href} className="services-action">{children}</ActionButton>
+function ServiceAction({ href, children, className = '' }) {
+  return <ActionButton href={href} className={`services-action ${className}`.trim()}>{children}</ActionButton>
 }
 
 export default function ServicesPage({ href, language = 'en' }) {
@@ -68,40 +67,41 @@ export default function ServicesPage({ href, language = 'en' }) {
   const visibleIndividualCards = chinese ? individualCardsZh : individualCards
   const visibleBusinessCards = chinese ? businessCardsZh : businessCards
   const visibleAiSteps = chinese ? aiStepsZh : aiSteps
-  const [heroRef, mediaRef, copyRef, actionsRef, pathRef, clipId] = useHeroCutout('left')
-
   return <>
-    <section ref={heroRef} className="services-hero hero-cutout-hero" aria-labelledby="services-hero-heading">
-      <HeroCutoutClipPath id={clipId} pathRef={pathRef} />
-      <div ref={mediaRef} className="services-hero-photo hero-cutout-media" style={{ clipPath: `url(#${clipId})` }} aria-hidden="true"><img src="/images/heroes/hero-services.png" alt="" /></div>
-      <div className="services-hero-content">
-        <div ref={copyRef} className="services-hero-copy">
-          <p className="services-eyebrow" data-hero-reveal="eyebrow">{chinese ? '服务内容' : 'Our services'}</p>
-          <h1 id="services-hero-heading" data-hero-reveal="headline">{chinese ? <>找到真正适合<br />你的支持方案。</> : <>Find the support<br />that works for you.</>}</h1>
+    <div className="hero-curtain-track services-curtain-track" data-hero-curtain>
+      <section className="services-hero hero-cutout-hero" data-curtain-hero aria-labelledby="services-hero-heading">
+        <div className="services-hero-photo" aria-hidden="true"><img src="/images/heroes/services-hero.png" alt="" /></div>
+        <div className="services-hero-content">
+          <div className="services-hero-copy" data-curtain-copy>
+            <p className="services-eyebrow" data-hero-reveal="eyebrow">{chinese ? '服务内容' : 'Our services'}</p>
+            <h1 id="services-hero-heading" tabIndex={-1} data-hero-reveal="headline">{chinese ? <>找到真正适合<br />你的支持方案。</> : <>Find the support<br />that works for you.</>}</h1>
+          </div>
+          <div className="services-hero-actions hero-cutout-actions" data-hero-reveal="actions" data-curtain-actions>
+            <ActionButton className="services-hero-explore" href="#support-individuals" variant="solid" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton>
+            <ActionButton className="services-hero-contact" href={href('contact')} variant="split">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton>
+          </div>
         </div>
-        <div ref={actionsRef} className="services-hero-actions hero-cutout-actions">
-          <ActionButton className="services-hero-explore" href="#support-individuals" variant="solid" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton>
-          <ActionButton className="services-hero-contact" href={href('contact')} variant="split">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section className="services-individuals" id="support-individuals" aria-labelledby="individuals-heading">
-      <div className="services-section-heading">
-        <span className="services-section-number" data-reveal="text">01</span>
-        <h2 id="individuals-heading" data-reveal="text" data-reveal-order="1">{chinese ? '个人支持' : 'Support for individuals'}</h2>
-      </div>
-      <div className="services-overview-row">
-        <div className="services-intro-copy">
-          <p>{chinese ? '面对重要决定、人生方向的转变，或是不知道该从哪里开始？' : 'Facing a big decision, a change in direction, or simply feeling unsure where to start?'}</p>
-          <p>{chinese ? '我们陪你一起理清当前的处境，发现自己原本就有的优势，探索真正重要的事情。' : 'We help you make sense of your situation, recognise your natural strengths, and explore what matters most to you.'}</p>
-          <p>{chinese ? '通过交流与梳理，把模糊的想法变成更清晰的方向，找到适合自己的下一步。' : 'Together, we turn your thoughts into clearer priorities and practical next steps that feel right for you.'}</p>
-          <ServiceAction href={href('contact')}>{chinese ? '获取服务报价' : 'Ask about this service'}</ServiceAction>
-        </div>
-        <div className="services-overview-cards">{visibleIndividualCards.map(([title, points, iconName], index) => <ServiceCard key={title} title={title} points={points} iconName={iconName} index={index} />)}</div>
-      </div>
-    </section>
+      <section className="hero-curtain-content services-curtain-content">
+        <section className="services-individuals" id="support-individuals" tabIndex={-1} aria-labelledby="individuals-heading">
+          <div className="services-section-heading">
+            <span className="services-section-number" data-reveal="text">01</span>
+            <h2 id="individuals-heading" data-reveal="text" data-reveal-order="1">{chinese ? '个人支持' : 'Support for individuals'}</h2>
+          </div>
+          <div className="services-overview-row">
+            <div className="services-intro-copy">
+              <p>{chinese ? '面对重要决定、人生方向的转变，或是不知道该从哪里开始？' : 'Facing a big decision, a change in direction, or simply feeling unsure where to start?'}</p>
+              <p>{chinese ? '我们陪你一起理清当前的处境，发现自己原本就有的优势，探索真正重要的事情。' : 'We help you make sense of your situation, recognise your natural strengths, and explore what matters most to you.'}</p>
+              <p>{chinese ? '通过交流与梳理，把模糊的想法变成更清晰的方向，找到适合自己的下一步。' : 'Together, we turn your thoughts into clearer priorities and practical next steps that feel right for you.'}</p>
+              <ServiceAction href={href('contact')}>{chinese ? '获取服务报价' : 'Ask about this service'}</ServiceAction>
+            </div>
+            <div className="services-overview-cards">{visibleIndividualCards.map(([title, points, iconName], index) => <ServiceCard key={title} title={title} points={points} iconName={iconName} index={index} />)}</div>
+          </div>
+        </section>
+      </section>
 
+    </div>
     <section className="services-business full-width-background" aria-labelledby="business-heading">
       <div className="services-section-heading">
         <span className="services-section-number" data-reveal="text">02</span>
@@ -126,7 +126,7 @@ export default function ServicesPage({ href, language = 'en' }) {
           </div>
           <div className="services-ai-intro-copy">
             <p>{chinese ? '从实际任务开始，让AI成为工作中的帮手。' : 'Start with a real task and make AI a useful part of your work.'}</p>
-            <ServiceAction href={href('contact')}>{chinese ? '获取服务报价' : 'Ask about this service'}</ServiceAction>
+            <ServiceAction className="services-ai-action--desktop" href={href('contact')}>{chinese ? '获取服务报价' : 'Ask about this service'}</ServiceAction>
           </div>
         </div>
         <img className="services-ai-artwork" data-reveal="visual" src={artworkUrl('Page=services, Section=ai-in-everyday-work.svg')} width="690" height="343" alt="" loading="lazy" />
@@ -137,6 +137,7 @@ export default function ServicesPage({ href, language = 'en' }) {
           <div><h3>{title}</h3><p>{description}</p></div>
         </article>)}
       </div>
+      <ServiceAction className="services-ai-action--mobile" href={href('contact')}>{chinese ? '获取服务报价' : 'Ask about this service'}</ServiceAction>
     </section>
 
     <section className="services-markets full-width-background" aria-labelledby="markets-heading">
@@ -211,6 +212,7 @@ export default function ServicesPage({ href, language = 'en' }) {
               <p>{chinese ? '需要时另行约定，让方案进入实际行动。' : 'Agreed separately when needed, to help put the plan into practice.'}</p>
             </article>
           </div>
+          <div className="services-booking"><ServiceAction href={href('contact')}>{chinese ? '预约免费咨询' : 'Book your free discovery call'}</ServiceAction></div>
         </div>
         <div className="services-expect full-width-background">
           <strong>{chinese ? '你可以期待' : 'What to expect'}</strong>
@@ -218,7 +220,6 @@ export default function ServicesPage({ href, language = 'en' }) {
             ? <><span>清晰的思路</span><i aria-hidden="true" /><span>可执行的方案</span><i aria-hidden="true" /><span>踏实的陪伴</span></>
             : <><span>Clearer thinking</span><i aria-hidden="true" /><span>A plan you can put into action</span><i aria-hidden="true" /><span>Support you can count on</span></>}</div>
         </div>
-        <div className="services-booking"><ServiceAction href={href('contact')}>{chinese ? '预约免费咨询' : 'Book your free discovery call'}</ServiceAction></div>
       </section>
     </div>
 
@@ -240,10 +241,10 @@ export default function ServicesPage({ href, language = 'en' }) {
         <h2 id="services-closing-heading" data-reveal="text">{chinese ? '一起看看，下一步怎么走。' : 'Let’s talk first.'}</h2>
         {!chinese && <p data-reveal="text" data-reveal-order="1">No need to decide just yet.</p>}
       </div>
-      <div className="services-closing-actions">
+      <ClosingActions className="services-closing-actions">
         <ActionButton className="services-closing-contact" href={href('contact')} variant="solid">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton>
         <ActionButton href="#services-hero-heading" variant="split" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton>
-      </div>
+      </ClosingActions>
     </section>
   </>
 }

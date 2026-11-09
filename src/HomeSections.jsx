@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import ActionButton from './ActionButton.jsx'
+import ClosingActions from './ClosingActions.jsx'
 import { featuredCaseStudies, featuredCaseStudiesZh } from './caseStudies.js'
 import FeaturedCaseCard from './FeaturedCaseCard.jsx'
 
@@ -149,7 +150,7 @@ export function HomeSections({ href, language = 'en' }) {
       steps.forEach((step, index) => {
         step.toggleAttribute('data-reached', centers[index].viewportY <= readingLine)
       })
-      if (last.viewportY <= readingLine) section?.setAttribute('data-complete', '')
+      section?.toggleAttribute('data-complete', last.viewportY <= readingLine)
     }
 
     const scheduleUpdate = () => {
@@ -223,7 +224,7 @@ export function HomeSections({ href, language = 'en' }) {
       <div className="closing-copy"><h2 id="closing-heading" data-reveal="text">{chinese ? '我们聊聊吧' : 'Talk it through with us'}</h2>
         <p data-reveal="text" data-reveal-order="1">{chinese ? '告诉我们你正在考虑什么，看看我们能否一起推进。' : <>Tell us what you're thinking about, and let's see how<br />we can move it forward together.</>}</p>
       </div>
-      <div className="closing-actions"><ActionButton href={href('contact')} variant="solid">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton><ActionButton href={href('services')} variant="split" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton></div>
+      <ClosingActions className="closing-actions"><ActionButton href={href('contact')} variant="solid">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton><ActionButton href={href('services')} variant="split" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton></ClosingActions>
     </section>
   </div>
 }

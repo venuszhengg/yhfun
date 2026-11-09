@@ -1,18 +1,24 @@
 .yhfc-contact-channels {
-  --yhfc-green: var(--color-olive);
-  --yhfc-olive: var(--palette-olive-vivid);
+  --yhfc-ease: cubic-bezier(.22, 1, .36, 1);
+  --yhfc-bg: #f5f3ef;
+  --yhfc-circle-bg: #ebece0;
+  --yhfc-olive: #536624;
+  --yhfc-ink: #515248;
+  --yhfc-muted: #777b70;
+  --yhfc-eyebrow: #536624;
+  --yhfc-light: #fffaf7;
 
   position: relative;
   width: 100%;
   min-width: 0;
   overflow: visible;
-  color: #34362e;
+  color: var(--yhfc-ink);
   font-family: var(--font-en, "Plus Jakarta Sans"), sans-serif;
 }
 
-.yhfc-heading {
-  margin: 0 0 6px;
-  color: var(--yhfc-green);
+#site-top #main .yhfc-contact-channels .yhfc-heading {
+  margin: 0 0 16px;
+  color: var(--yhfc-eyebrow);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.5;
@@ -21,234 +27,446 @@
 }
 
 .yhfc-email-group {
-  margin-bottom: 32px;
-}
-
-.yhfc-email-row {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.yhfc-email-row .yhf-copy-email {
-  min-width: 0;
-  flex: 0 0 auto;
-}
-
-.yhfc-email-row .yhf-copy-address {
-  font-size: 16px;
-  font-weight: 400;
-  text-decoration: underline;
-  text-decoration-color: #85877f;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-.yhfc-email-row .yhf-copy-trigger:hover .yhf-copy-address {
-  color: var(--yhfc-green);
-  text-decoration-color: var(--yhfc-green);
-}
-
-.yhfc-contact-channels .yhf-copy--interactive .yhf-copy-tip-action {
-  top: 50%;
-  bottom: auto;
-  left: calc(100% + 6px);
-  transform: translate(-3px, -50%);
-}
-
-.yhfc-contact-channels .yhf-copy--interactive .yhf-copy-tip-action::after {
-  top: 0;
-  left: -6px;
-  width: 6px;
-  height: 100%;
-}
-
-.yhfc-contact-channels .yhf-copy--interactive:is(:hover, [data-copied], :has(:focus-visible)) .yhf-copy-tip-action {
-  transform: translate(0, -50%);
-}
-
-.yhfc-contact-channels .yhfc-contact-action {
-  --button-height: 32px;
-  --padding-button-inline: 8px;
-  flex: 0 0 auto;
-  color: var(--action-ink);
-  font-size: 12px;
-}
-
-.yhfc-contact-channels .yhfc-contact-action.yhf-action--split {
-  padding-inline-end: 8px;
-}
-
-.yhfc-contact-channels .yhfc-contact-action.yhf-action--split:hover {
-  gap: 4px;
-  padding-inline-end: 4px;
-}
-
-.yhfc-contact-action .yhf-action-label {
-  padding-block: 0;
-}
-
-.yhfc-contact-action .yhf-action-arrow img {
-  width: 18px;
-  height: 18px;
-}
-
-.yhfc-social-group .yhfc-heading {
-  margin-bottom: 12px;
+  margin-bottom: 40px;
 }
 
 .yhfc-social-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
-.yhfc-social-row {
+/* Split button: label section + action section */
+#site-top #main .yhfc-btn--link {
+  color: var(--yhfc-ink);
+}
+
+.yhfc-btn {
+  --yhfc-btn-bg: var(--yhfc-bg);
   position: relative;
   display: flex;
-  min-height: 40px;
-  align-items: flex-start;
-  gap: 11px;
+  align-items: stretch;
+  gap: 0;
+  width: min(280px, 100%);
+  height: 56px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--yhfc-ink);
+  font: 400 16px/24px var(--font-en, "Plus Jakarta Sans"), sans-serif;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    gap 460ms var(--yhfc-ease),
+    transform 180ms var(--yhfc-ease);
+}
+
+.yhfc-btn *,
+.yhfc-btn *::before {
+  box-sizing: border-box;
+}
+
+.yhfc-btn-body {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 16px 8px;
+  border-radius: 999px 0 0 999px;
+  background: var(--yhfc-btn-bg);
+  transition:
+    border-radius 460ms var(--yhfc-ease),
+    background-color 240ms var(--yhfc-ease),
+    color 240ms var(--yhfc-ease);
+}
+
+.yhfc-btn--email .yhfc-btn-body {
+  gap: 4px;
+}
+
+.yhfc-btn-action {
+  display: grid;
+  flex: 0 0 56px;
+  place-items: center;
+  border-radius: 0 999px 999px 0;
+  background: var(--yhfc-btn-bg);
+  transition:
+    border-radius 460ms var(--yhfc-ease),
+    background-color 240ms var(--yhfc-ease);
+}
+
+.yhfc-btn-circle {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  color: var(--yhfc-olive);
+  transition: color 240ms var(--yhfc-ease);
+}
+
+.yhfc-btn-circle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--yhfc-circle-bg);
+  transform: scale(1);
+  transition:
+    transform 320ms var(--yhfc-ease),
+    background-color 240ms var(--yhfc-ease);
+}
+
+.yhfc-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  background: currentColor;
+  -webkit-mask: var(--yhfc-icon) center / contain no-repeat;
+  mask: var(--yhfc-icon) center / contain no-repeat;
+}
+
+.yhfc-lead-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .yhfc-social-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.yhfc-arrow {
   width: 24px;
   height: 24px;
-  flex: 0 0 24px;
-  object-fit: contain;
-  margin-top: 8px;
+  transition: transform 400ms var(--yhfc-ease);
 }
 
-.yhfc-social-details {
+/* Label window: name and handle overlap; mobile stacks them instead */
+.yhfc-label {
   display: flex;
   min-width: 0;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+  justify-content: center;
 }
 
-.yhfc-social-name {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
+.yhfc-label > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.yhfc-social-copy {
-  min-width: 0;
+.yhfc-label-default {
+  line-height: 20px;
 }
 
-.yhfc-social-copy .yhf-copy-trigger {
-  min-height: 24px;
+.yhfc-label-hover {
+  color: var(--yhfc-muted);
+  font-size: 12px;
+  line-height: 16px;
 }
 
-.yhfc-social-details .yhf-copy-trigger {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
+.yhfc-btn:active {
+  transform: translateY(1px) scale(.97);
+  transition:
+    gap 460ms var(--yhfc-ease),
+    transform 90ms var(--yhfc-ease);
 }
 
-@media (any-pointer: coarse) {
-  .yhfc-social-copy .yhf-copy-trigger {
-    min-height: 44px;
+.yhfc-btn:focus-visible {
+  outline: 2px solid var(--yhfc-olive);
+  outline-offset: 3px;
+}
+
+/* Copied (email) and expanded (WeChat) states work without hover */
+.yhfc-btn--copied {
+  --yhfc-btn-bg: var(--yhfc-circle-bg);
+}
+
+.yhfc-btn--copied .yhfc-btn-body,
+.yhfc-btn[aria-expanded="true"] .yhfc-btn-body {
+  color: var(--yhfc-olive);
+}
+
+.yhfc-btn--copied .yhfc-btn-circle,
+.yhfc-btn[aria-expanded="true"] .yhfc-btn-circle {
+  color: var(--yhfc-light);
+}
+
+.yhfc-btn--copied .yhfc-btn-circle::before,
+.yhfc-btn[aria-expanded="true"] .yhfc-btn-circle::before {
+  background: var(--yhfc-olive);
+}
+
+@keyframes yhfc-arrow-release {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+
+  18% {
+    transform: translateX(-2px) scale(1.18, .83);
+  }
+
+  48% {
+    transform: translateX(6px) scale(.91, 1.1);
+  }
+
+  74% {
+    transform: translateX(-1px) scale(1.04, .97);
   }
 }
 
-.yhfc-social-copy .yhf-copy-address {
-  color: #777b70;
-  font-size: 12px;
+/* Desktop: hover/focus split + upward text flip, run together */
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+  .yhfc-label {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: normal;
+    height: 24px;
+    overflow: hidden;
+    perspective: 400px;
+  }
+
+  .yhfc-label > span {
+    grid-area: 1 / 1;
+    font-size: 16px;
+    line-height: 24px;
+    transition:
+      transform 350ms var(--yhfc-ease),
+      opacity 240ms var(--yhfc-ease),
+      color 240ms var(--yhfc-ease);
+  }
+
+  .yhfc-label-default {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .yhfc-label-hover {
+    color: inherit;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(25px) rotateX(-18deg);
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) {
+    gap: 8px;
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) :is(.yhfc-btn-body, .yhfc-btn-action) {
+    border-radius: 999px;
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) .yhfc-btn-body {
+    color: var(--yhfc-olive);
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) .yhfc-btn-circle {
+    color: var(--yhfc-light);
+    animation: yhfc-arrow-release 520ms both;
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) .yhfc-btn-circle::before {
+    background: var(--yhfc-olive);
+    transform: scale(1.07143);
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) .yhfc-arrow {
+    transform: rotate(-45deg);
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) .yhfc-label-default {
+    opacity: 0;
+    transform: translateY(-25px) rotateX(18deg);
+  }
+
+  .yhfc-btn:is(:hover, :focus-visible, [data-open]) .yhfc-label-hover {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+/* WeChat QR card */
+.yhfc-wechat {
+  position: relative;
+  width: min(280px, 100%);
+}
+
+.yhfc-qr-card {
+  display: flex;
+  width: min(280px, 100%);
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--yhfc-circle-bg);
+  border-radius: 24px;
+  background: var(--yhfc-bg);
+}
+
+.yhfc-qr-description {
+  margin: 0;
+  color: var(--yhfc-ink);
+  font-size: 14px;
   font-weight: 400;
-  text-decoration: none;
+  line-height: 20px;
 }
 
-.yhfc-qr-dialog {
-  position: fixed;
-  width: min(320px, calc(100vw - 32px));
-  max-width: none;
-  max-height: calc(100dvh - 32px);
-  margin: auto;
-  overflow: visible;
-  border: 1px solid #eeeee6;
-  border-radius: 12px;
-  padding: 20px;
-  background: #fffefa;
-  color: #34362e;
-  box-shadow: 0 12px 36px rgb(41 50 27 / 11%);
-  animation: yhfc-pop-in 180ms ease both;
+.yhfc-qr-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 248 / 258;
+  border: 1px solid var(--yhfc-circle-bg);
+  border-radius: 18px;
+  background: #fff;
+  object-fit: contain;
 }
 
-.yhfc-qr-dialog::backdrop {
-  background: rgb(41 50 27 / 35%);
+.yhfc-copy-id {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--yhfc-circle-bg);
+  color: var(--yhfc-olive);
+  font: 400 16px/24px var(--font-en, "Plus Jakarta Sans"), sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    background-color 240ms var(--yhfc-ease),
+    color 240ms var(--yhfc-ease),
+    transform 180ms var(--yhfc-ease);
 }
 
-@keyframes yhfc-pop-in {
+.yhfc-copy-id:hover,
+.yhfc-copy-id[data-copied] {
+  background: var(--yhfc-olive);
+  color: var(--yhfc-light);
+  font-weight: 500;
+}
+
+.yhfc-copy-id:active {
+  transform: translateY(1px) scale(.97);
+  transition-duration: 90ms;
+}
+
+.yhfc-copy-id:focus-visible {
+  outline: 2px solid var(--yhfc-olive);
+  outline-offset: 3px;
+}
+
+/* Mobile / touch: inline panel below the button */
+.yhfc-qr-panel {
+  display: none;
+  margin-top: 16px;
+}
+
+.yhfc-wechat[data-open] .yhfc-qr-panel {
+  display: block;
+  animation: yhfc-panel-in 300ms var(--yhfc-ease) both;
+}
+
+@keyframes yhfc-panel-in {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.yhfc-dialog-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 7px;
-  color: var(--yhfc-green);
-  font-size: 12px;
-  font-weight: 700;
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+  .yhfc-qr-panel {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 20;
+    display: block;
+    margin: 0;
+    padding-left: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px) scale(.98);
+    transform-origin: left top;
+    visibility: hidden;
+    transition:
+      opacity 240ms var(--yhfc-ease),
+      transform 350ms var(--yhfc-ease),
+      visibility 0s linear 350ms;
+  }
+
+  .yhfc-wechat[data-open] .yhfc-qr-panel {
+    animation: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .yhfc-qr-card {
+    width: 280px;
+    min-height: 414px;
+  }
 }
 
-.yhfc-close {
-  border: 0;
-  padding: 0 2px;
-  background: transparent;
-  color: #777b70;
-  font-family: inherit;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
+/* Toast (rendered in a portal, so not nested under the section) */
+.yhfc-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 1000;
+  max-width: calc(100vw - 32px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #536624;
+  color: #fffaf7;
+  font: 500 14px/20px var(--font-en, "Plus Jakarta Sans"), sans-serif;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity 240ms cubic-bezier(.22, 1, .36, 1),
+    transform 350ms cubic-bezier(.22, 1, .36, 1);
 }
 
-.yhfc-qr-description {
-  margin: 4px 0 13px;
-  color: #74776d;
-  font-size: 12px;
-  line-height: 1.5;
+.yhfc-toast[data-visible] {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
-.yhfc-qr-image {
-  display: block;
-  width: 100%;
-  max-width: 240px;
-  max-height: max(80px, calc(100dvh - 200px));
-  width: auto;
-  height: auto;
-  margin-inline: auto;
-  background: #fff;
-  object-fit: contain;
-}
-
-.yhfc-qr-footer {
-  margin-top: 12px;
-}
-
-.yhfc-contact-channels button:focus-visible,
-.yhfc-contact-channels a:focus-visible {
-  outline: 2px solid var(--yhfc-olive);
-  outline-offset: 3px;
+.yhfc-toast[data-tone="error"] {
+  border-radius: 16px;
+  background: #42453a;
+  overflow-wrap: anywhere;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yhfc-qr-dialog {
-    animation: none;
-    transform: none;
-    transition: none;
+  .yhfc-contact-channels *,
+  .yhfc-contact-channels *::before,
+  .yhfc-contact-channels *::after,
+  .yhfc-toast {
+    transition: none !important;
+    animation: none !important;
   }
 }

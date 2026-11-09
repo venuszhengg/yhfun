@@ -37,6 +37,7 @@
   flex-direction: column;
   gap: 18px;
   margin-top: 24px;
+  scroll-margin-top: 200px;
 }
 
 .contact-form-grid {
@@ -131,7 +132,7 @@
 .contact-field-icon--email { --contact-field-icon: url('./assets/contact-form/envelope.svg'); }
 .contact-field-icon--phone { --contact-field-icon: url('./assets/contact-form/phone-call.svg'); }
 .contact-field-icon--message { --contact-field-icon: url('./assets/contact-form/messages.svg'); }
-.contact-field-icon--enquiry { --contact-field-icon: url('./assets/contact-form/paper-plane.svg'); }
+.contact-field-icon--enquiry { --contact-field-icon: url('./assets/contact-form/star-comment-alt.svg'); }
 
 .contact-field-icon:has(> .contact-field:focus)::before,
 .contact-field-icon:has(> .contact-picker-trigger[aria-expanded='true'])::before {
@@ -158,7 +159,7 @@
 }
 
 .contact-floating-field > .contact-field::placeholder {
-  color: var(--color-text);
+  color: var(--palette-neutral-deep-grey);
   opacity: 0;
   transition: opacity 160ms ease;
 }
@@ -399,6 +400,11 @@
 .contact-privacy a {
   color: inherit;
   text-underline-offset: 3px;
+  transition: color 160ms ease;
+}
+
+.contact-privacy a:hover {
+  color: var(--color-olive);
 }
 
 .contact-form-panel .contact-field-error {
@@ -427,17 +433,10 @@
 .contact-success {
   display: grid;
   gap: 24px;
-  border: 1px solid var(--palette-olive-light);
-  border-top: 4px solid var(--palette-olive-deep);
-  border-radius: 18px;
-  padding: clamp(20px, 4vw, 32px);
-  background: var(--palette-neutral-ivory);
-  box-shadow: 0 12px 32px rgb(44 44 38 / 6%);
 }
 
 .contact-success:focus {
-  outline: 2px solid var(--color-olive);
-  outline-offset: 4px;
+  outline: none;
 }
 
 .contact-success-heading {
@@ -448,38 +447,19 @@
 
 .contact-success-icon {
   display: grid;
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
   place-items: center;
-  border-radius: 50%;
-  background: var(--palette-olive-pale);
   color: var(--palette-olive-deep);
 }
 
 .contact-success-heading h2 {
   margin: 0;
-  color: var(--color-text-strong);
+  color: var(--palette-olive-deep);
   font-size: 24px;
   font-weight: 700;
   line-height: 1.25;
-}
-
-.contact-success-heading p {
-  margin: 4px 0 0;
-  color: var(--color-text);
-}
-
-.contact-success-next {
-  padding-top: 20px;
-  border-top: 1px solid var(--palette-olive-pale);
-}
-
-.contact-success-next h3 {
-  margin: 0 0 6px;
-  color: var(--color-text-strong);
-  font-size: 14px;
-  font-weight: 700;
 }
 
 .contact-success-next p {
@@ -497,21 +477,25 @@
 .contact-success-details dt {
   margin-bottom: 4px;
   color: var(--color-heading);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .contact-success-details dd {
   margin: 0;
   color: var(--color-text-strong);
-  font-size: 14px;
+  font-size: 16px;
   overflow-wrap: anywhere;
 }
 
+.contact-form:has(.contact-success) {
+  margin-top: 40px;
+}
+
 .contact-form:has(.contact-success) .contact-form-actions {
-  margin-top: 0;
+  margin-top: 22px;
 }
 
 .contact-error-summary {
@@ -535,12 +519,6 @@
   text-underline-offset: 3px;
 }
 
-.contact-form-panel .contact-new-enquiry {
-  --action-bg: var(--color-olive);
-  --action-hover: var(--palette-neutral-charcoal);
-  color: var(--color-on-olive);
-}
-
 .contact-submit[data-state='sending'] {
   opacity: .78;
 }
@@ -549,8 +527,14 @@
   gap: 8px;
 }
 
-.contact-submit[data-state='sent'] {
+.contact-form .contact-submit[data-state='sent'] {
+  color: #5e6045;
   opacity: 1;
+  cursor: default;
+}
+
+.contact-form .contact-submit[data-state='sent'] .yhf-action-label::before {
+  background: transparent;
 }
 
 .contact-check-icon {

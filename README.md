@@ -33,7 +33,7 @@ Run `npm test`, `npm run lint`, and `npm run build` for automated verification. 
 1. In VS Code choose Terminal → New Terminal.
 2. Run `npm run dev` (dependencies are already installed).
 3. Open the Local URL printed in the terminal, usually http://localhost:5173.
-4. English: `/?lang=en`; Simplified Chinese: `/?lang=zh-Hans`. The header link switches language.
+4. English: `/?lang=en`; Simplified Chinese: `/?lang=zh-Hans`. The header and footer language switchers preserve the current page; their selection slides for 280 ms before navigation, or switches immediately with reduced motion. On mobile and tablet, the header switcher appears inside the navigation menu.
 5. Save a source file to see Vite update the browser. Stop the server with Ctrl+C.
 
 Files to edit: `src/App.jsx` for bilingual content and interactions; `styles/tokens.css` for shared design values; `styles/components.css` for header/buttons/focus/container; `styles/home.css` for the hero. `src/index.css` holds the global reset. `npm run build` checks the production build.
