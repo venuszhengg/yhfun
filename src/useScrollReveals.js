@@ -5,7 +5,7 @@ export function useScrollReveals() {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
     if (motion.matches || !('IntersectionObserver' in window)) return
 
-    const elements = [...document.querySelectorAll('[data-reveal]')]
+    const elements = new Set()
     const pending = new Set()
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -36,14 +36,29 @@ export function useScrollReveals() {
       element.style.removeProperty('--reveal-delay')
     }
 
-    elements.forEach((element) => {
-      const bounds = element.getBoundingClientRect()
-      if (bounds.top >= window.innerHeight && bounds.height > 0) {
-        element.dataset.revealState = 'pending'
-        pending.add(element)
-        observer.observe(element)
-      }
+    const addElements = (root) => {
+      if (!(root instanceof Element)) return
+      const descendants = root.querySelectorAll('[data-reveal]')
+      const candidates = root.matches('[data-reveal]') ? [root, ...descendants] : [...descendants]
+      candidates.forEach((element) => {
+        if (elements.has(element)) return
+        elements.add(element)
+        const bounds = element.getBoundingClientRect()
+        if (bounds.top >= window.innerHeight && bounds.height > 0) {
+          element.dataset.revealState = 'pending'
+          pending.add(element)
+          observer.observe(element)
+        }
+      })
+    }
+
+    addElements(document.documentElement)
+    const mutationObserver = new MutationObserver((records) => {
+      records.forEach(({ addedNodes }) => {
+        addedNodes.forEach(addElements)
+      })
     })
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
 
     const showTarget = (target) => {
       if (!(target instanceof Element)) return
@@ -104,6 +119,7 @@ export function useScrollReveals() {
     motion.addEventListener('change', onMotionChange)
 
     return () => {
+      mutationObserver.disconnect()
       observer.disconnect()
       elements.forEach(showImmediately)
       document.querySelectorAll('[data-hero-entrance]').forEach((element) => {
