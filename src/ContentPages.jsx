@@ -8,6 +8,7 @@ import { useHeroCutout } from './useHeroCutout.js'
 import { caseStudies } from './caseStudies.js'
 import { caseStudiesZh, policyDataZh } from './chineseContent.js'
 import RouteLoading from './RouteLoading.jsx'
+import CompanionSection from './CompanionSection.jsx'
 
 const ContactForm = lazy(() => import('./ContactForm.jsx'))
 
@@ -280,14 +281,7 @@ function AboutPage({ href, language }) {
         </article>)}
       </div>
     </section>
-    <section className="about-companion" aria-labelledby="about-companion-heading">
-      <h2 id="about-companion-heading">{chinese ? '像伙伴一样，共同推进' : 'A companion you can count on'}</h2>
-      <ol>
-        <li><h3>{chinese ? '先理解' : 'Understand first'}</h3><p>{chinese ? '从你的真实处境出发。' : 'Start with your situation as it really is.'}</p></li>
-        <li><h3>{chinese ? '再尝试' : 'Then try it out'}</h3><p>{chinese ? '用小步骤获得实际反馈。' : 'Take small steps and learn from what happens.'}</p></li>
-        <li><h3>{chinese ? '能复用' : 'Use it again'}</h3><p>{chinese ? '留下以后用得上的方法。' : 'Keep methods you can draw on in future.'}</p></li>
-      </ol>
-    </section>
+    <CompanionSection language={language} />
     <ClosingCTA
       href={href}
       title={chinese ? '一起看看，下一步怎么走。' : undefined}

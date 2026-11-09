@@ -21,16 +21,18 @@ The About challenge cards use the matching original illustrations from `public/i
 
 The supplied hero images are used on their matching routes from `public/images/heroes/hero-case.png`, `hero-about.png`, and `hero-contact.png`. At the 1440px desktop reference width, each image is inset 40px within a 1440 × 560px hero; the 2720 × 1120px sources match the 1360 × 560px media ratio. A 35% black overlay follows the PDF appearance. About and Case Studies actions are left-aligned in the bottom page-colour cutout; Contact has a centered cutout with a single discovery-call action. The 560px height and media dimensions are PDF-measured, not asserted as Figma bindings.
 
-The About page uses a 560px stone intro band, a 720px white challenges section, and a 520px inset stone companion panel. Case Studies alternates a stone middle story band between white story sections. These backgrounds extend horizontally to the viewport while remaining bounded to their section height.
+The About page uses a stone intro band, a white challenges section, and a scroll-driven inset stone companion panel. Case Studies alternates a stone middle story band between white story sections. These backgrounds extend horizontally to the viewport while remaining bounded to their section height.
 
 The Case Studies page uses the replacement base photos `pexels-ron-lach-8311880 1.png`, `hhotel 1.png`, and `restaurant 1.png` from `public/images/case-studies/`. At desktop widths each image reaches its adjacent viewport edge, uses `object-fit: cover`, and matches its text block's height; the two corners beside the text have a 24px radius.
 
 The following visible artwork remains unavailable as an individual original export and is labelled in the page rather than cropped from the PDFs or replaced with unrelated artwork:
 
-- About overview illustration and companion/process illustration.
+- About overview illustration.
 - Contact social icon artwork.
 
 As of 8 November, Contact and the footer share social channel icons and metadata. No full-page or section screenshot is used as implementation artwork.
+
+The About companion sequence uses the supplied `What you're facing`, `What we do together`, and `Let feedback guide decisions` service SVGs. Its native sticky scroll timeline uses proximity snap points and does not intercept scrolling; very large gestures or deliberate scrollbar/keyboard jumps can bypass stages. Short viewports or content that cannot fit safely show all three principles in normal document flow. Reduced-motion users retain the sequence without animated movement.
 
 ## Interactions and scope
 
