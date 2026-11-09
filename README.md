@@ -42,6 +42,19 @@ Once publishing is approved and these changes are present on the selected produc
 
 The 9 November dashboard screenshots showed the production build command set correctly but the Previews Base build command empty. The Wrangler configuration does not run Vite by itself. A local `npx wrangler deploy --dry-run` validates packaging without deploying; it does not verify the dashboard, Cloudflare account, domains, or production delivery. Keep `VITE_CONTACT_FORM_ENDPOINT` unset until the submission service, privacy and delivery have been approved and tested.
 
+### Contact form preparation (not enabled)
+
+`worker/contact.js` and `wrangler.contact.jsonc` prepare a same-origin `/api/contact` endpoint. General enquiries go to `hello@yhfunhq.com` and business/service enquiries to `info@yhfunhq.com`; replies use the visitor's address. The Worker validates input, restricts sender and destinations, and applies per-IP and global Cloudflare rate limits. Cloudflare's rate limits are approximate per location, not a complete spam prevention system.
+
+The normal `wrangler.jsonc` still deploys only static assets, and the production form still fails closed without `VITE_CONTACT_FORM_ENDPOINT`. Do not enable the endpoint or deploy the alternate configuration until explicitly approved. Before activation:
+
+1. Confirm Cloudflare Email Service supports this account, onboard the sending domain if required, and verify both receiving addresses. Review any plan, cost, DNS and existing mail-delivery implications before changing account settings.
+2. Verify that rate-limit namespace IDs `719825331` and `719825332` do not conflict with existing account usage. Review spam controls, privacy policy and delivery monitoring.
+3. With authorization, configure the build variable `VITE_CONTACT_FORM_ENDPOINT=/api/contact` and use `npx wrangler deploy --config wrangler.contact.jsonc` as the deploy command. This deploys the site and must not be run as a test without publication approval.
+4. Perform approved end-to-end delivery and failure tests for both enquiry types, languages and inboxes. An accepted send is not proof of final inbox delivery.
+
+Locally, `npx wrangler deploy --dry-run --config wrangler.contact.jsonc` checks the Worker configuration without deployment. A local `wrangler dev --local --config wrangler.contact.jsonc` uses Cloudflare's simulated email binding, not real delivery. Never enable a remote email binding for unapproved tests.
+
 ## Preview
 
 1. In VS Code choose Terminal → New Terminal.
