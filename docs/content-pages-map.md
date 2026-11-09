@@ -33,6 +33,7 @@ The following visible artwork remains unavailable as an individual original expo
 As of 8 November, Contact and the footer share social channel icons and metadata. No full-page or section screenshot is used as implementation artwork.
 
 The About companion panel uses the supplied `What you're facing`, `Bring ideas into the workflow`, and `Let feedback guide decisions` service SVGs. All three principles are shown together, in columns on desktop and stacked on mobile, using the site's existing scroll-reveal treatment.
+The About challenges and companion sections each have 160px top and bottom padding. The About page has no inter-section gaps after the intro; the desktop hero-to-intro gap is 80px and smaller breakpoints use the existing responsive spacing.
 
 ## Interactions and scope
 

@@ -1,7 +1,24 @@
+#site-top.desktop-content-pages .content-main.about-page {
+  gap: 0;
+}
+
+#site-top.desktop-content-pages .about-page > .content-hero,
+#site-top.desktop-content-pages .about-page > .content-curtain-track > .content-hero {
+  margin-bottom: 80px;
+}
+
+#site-top.desktop-content-pages .about-page > .content-curtain-track {
+  gap: 0;
+}
+
+#site-top.desktop-content-pages .about-page .about-challenges {
+  padding-block: 160px;
+}
+
 .companion-section {
   width: min(1200px, calc(100% - 48px));
   margin-inline: auto;
-  padding-block: 80px;
+  padding-block: 160px;
 }
 
 .content-main .companion-section h1 {
@@ -51,10 +68,16 @@
   line-height: 1.25;
 }
 
+@media (max-width: 1023px) {
+  #site-top.desktop-content-pages .about-page > .content-hero,
+  #site-top.desktop-content-pages .about-page > .content-curtain-track > .content-hero {
+    margin-bottom: var(--responsive-section-gap);
+  }
+}
+
 @media (max-width: 760px) {
   .companion-section {
     width: calc(100% - 40px);
-    padding-block: 32px;
   }
 
   .content-main .companion-section h1 {
