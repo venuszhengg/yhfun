@@ -18,7 +18,7 @@
 .companion-section {
   width: min(1200px, calc(100% - 48px));
   margin-inline: auto;
-  padding-block: 160px;
+  padding-block: 80px 160px;
 }
 
 .content-main .companion-section h1 {
