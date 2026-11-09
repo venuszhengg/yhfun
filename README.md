@@ -28,6 +28,19 @@ The Contact form simulates a realistic success message in Vite development mode 
 
 Run `npm test`, `npm run lint`, and `npm run build` for automated verification. These checks do not establish visual parity or deployment readiness. GitHub synchronization and deployment are separate; a push may trigger a hosting integration, so verify the deployment target first.
 
+## Cloudflare Workers build preparation
+
+The existing Cloudflare project is a Workers Builds integration, so the static React/Vite site can use Workers static assets without switching to Pages. `wrangler.jsonc` points Wrangler at Vite's `dist` output and enables single-page application navigation fallback. Build before running any Wrangler deployment command.
+
+Once publishing is approved and these changes are present on the selected production branch, configure Workers & Pages → `yhfun` → Settings → Build:
+
+- Repository: `venuszhengg/yhfun`; root directory: `/` (repository root).
+- Production branch: `main`; build command: `npm run build`; deploy command: `npx wrangler deploy`.
+- Use Node.js 24 (Workers Builds currently defaults to Node 24); check that no build variable overrides it with an unsupported version.
+- Review Branch control and the Preview command before pushing: enabled preview builds can publish branch previews, and existing integrations may use an older preview model. Disable preview builds if no preview publication is authorized. Do not change production settings, merge, or deploy without approval.
+
+The failed check reported no build command; verify the saved dashboard setting because the configuration file does not run Vite by itself. A local `npx wrangler deploy --dry-run` validates packaging without deploying; it does not verify the dashboard, Cloudflare account, domains, or production delivery. Keep `VITE_CONTACT_FORM_ENDPOINT` unset until the submission service, privacy and delivery have been approved and tested.
+
 ## Preview
 
 1. In VS Code choose Terminal → New Terminal.
