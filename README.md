@@ -30,7 +30,7 @@ Run `npm test`, `npm run lint`, and `npm run build` for automated verification. 
 
 ## Cloudflare Workers build preparation
 
-The existing Cloudflare project is a Workers Builds integration, so the static React/Vite site can use Workers static assets without switching to Pages. `wrangler.jsonc` points Wrangler at Vite's `dist` output and enables single-page application navigation fallback. Build before running any Wrangler deployment command.
+The existing Cloudflare project is a Workers Builds integration, so the static React/Vite site can use Workers static assets without switching to Pages. `wrangler.jsonc` points Wrangler at Vite's `dist` output, enables single-page application navigation fallback, and provides the required `previews` block. Build before running any Wrangler deployment command.
 
 Once publishing is approved and these changes are present on the selected production branch, configure Workers & Pages → `yhfun` → Settings → Build:
 
