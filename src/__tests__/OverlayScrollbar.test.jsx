@@ -4,6 +4,7 @@ import OverlayScrollbar from '../OverlayScrollbar.jsx'
 
 afterEach(() => {
   vi.useRealTimers()
+  vi.restoreAllMocks()
 })
 
 describe('OverlayScrollbar', () => {
@@ -44,6 +45,21 @@ describe('OverlayScrollbar', () => {
 
     const { unmount } = render(<OverlayScrollbar />, { container: root })
     expect(document.querySelector('.overlay-scrollbar')).toHaveAttribute('hidden')
+    unmount()
+    root.remove()
+  })
+
+  it('keeps the native scrollbar on mobile and coarse-pointer devices', () => {
+    vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true })
+    const root = document.createElement('div')
+    root.id = 'root'
+    document.body.appendChild(root)
+
+    const { unmount } = render(<OverlayScrollbar />, { container: root })
+
+    expect(document.documentElement).not.toHaveClass('has-overlay-scrollbar')
+    expect(document.querySelector('.overlay-scrollbar')).toHaveAttribute('hidden')
+
     unmount()
     root.remove()
   })

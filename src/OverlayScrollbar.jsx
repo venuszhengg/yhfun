@@ -9,6 +9,9 @@ export default function OverlayScrollbar() {
     const track = trackRef.current
     const thumb = thumbRef.current
     const root = document.documentElement
+    const prefersNativeScrollbar = window.matchMedia?.('(max-width: 700px), (pointer: coarse)')
+    if (prefersNativeScrollbar?.matches) return
+
     let timer
     let dragging = false
     let dragOffset = 0

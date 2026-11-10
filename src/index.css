@@ -40,6 +40,11 @@ html.has-overlay-scrollbar::-webkit-scrollbar { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .overlay-scrollbar-thumb { transition: opacity 180ms ease; }
 }
+@media (max-width: 700px), (pointer: coarse) {
+  html.has-overlay-scrollbar { scrollbar-width: auto; }
+  html.has-overlay-scrollbar::-webkit-scrollbar { display: initial; }
+  .overlay-scrollbar { display: none; }
+}
 @media (forced-colors: active) {
   html.has-overlay-scrollbar { scrollbar-width: auto; }
   html.has-overlay-scrollbar::-webkit-scrollbar { display: initial; }
