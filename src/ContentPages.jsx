@@ -13,10 +13,18 @@ const ContactForm = lazy(() => import('./ContactForm.jsx'))
 
 const artwork = (file) => `/images/mockup-illustrations/${encodeURI(file)}`
 
+function formatPolicyDate(value, language) {
+  const date = new Date(`${value}T00:00:00Z`)
+  return new Intl.DateTimeFormat(language === 'zh-Hans' ? 'zh-CN' : 'en-IE', {
+    dateStyle: 'long',
+    timeZone: 'UTC',
+  }).format(date)
+}
+
 const policyData = {
   privacy: {
     title: 'Privacy Policy',
-    updated: '19 October 2026',
+    updated: '2026-10-19',
     related: [['terms', 'Terms of Service'], ['refunds', 'Refunds & Cancellations Policy']],
     sections: [
       {
@@ -88,7 +96,7 @@ const policyData = {
   },
   terms: {
     title: 'Terms of Service',
-    updated: '19 October 2026',
+    updated: '2026-10-19',
     related: [['privacy', 'Privacy Policy'], ['refunds', 'Refunds & Cancellations Policy']],
     introduction: [
       'Our services are provided by Y. H. FUN LIMITED, trading as Y. H. FUN.',
@@ -137,7 +145,7 @@ const policyData = {
   },
   refunds: {
     title: 'Refunds & Cancellations Policy',
-    updated: '19 October 2026',
+    updated: '2026-10-19',
     related: [['privacy', 'Privacy Policy'], ['terms', 'Terms of Service']],
     introduction: [
       'This policy applies to paid services provided by Y. H. FUN. The booking arrangements below do not limit consumers’ statutory cancellation, remedy or refund rights. Where a business customer has a separate written project agreement, applicable law and that agreement govern the project.',
@@ -192,6 +200,7 @@ function PageAction({ href, children, tone = 'amber' }) {
 }
 
 function ContentHero({ eyebrow, title, href, image, action = 'Explore our services', secondary = 'Book your free discovery call', alignment = 'left' }) {
+  const discoveryHref = `${href('contact')}&enquiry=discovery#contact-form`
   return <section className={`content-hero hero-cutout-hero${alignment === 'center' ? ' content-hero--centered' : ''}`} data-curtain-hero aria-label={eyebrow}>
     <div className="content-hero-media" aria-hidden="true"><img src={image} alt="" /></div>
     <div className="content-hero-copy" data-curtain-copy>
@@ -200,12 +209,13 @@ function ContentHero({ eyebrow, title, href, image, action = 'Explore our servic
     </div>
     <div className="content-hero-actions hero-cutout-actions" data-hero-reveal="actions" data-curtain-actions>
       {action && <PageAction href={href('services')} tone="olive">{action}</PageAction>}
-      <ActionButton href={href('contact#contact-form')} variant="split" className="content-action">{secondary}</ActionButton>
+      <ActionButton href={discoveryHref} variant="split" className="content-action">{secondary}</ActionButton>
     </div>
   </section>
 }
 
 function ClosingCTA({ href, title = 'Let’s work out the next step together.', subtitle, primary = 'Get in touch', secondary = 'Explore our services', ariaLabel = 'Get in touch' }) {
+  const discoveryHref = `${href('contact')}&enquiry=discovery#contact-form`
   return <section className="content-closing" aria-label={ariaLabel}>
     <img className="full-width-artwork" src={artwork('Page=all, Section=cta.svg')} alt="" loading="lazy" />
     <div className="content-closing-copy">
@@ -213,7 +223,7 @@ function ClosingCTA({ href, title = 'Let’s work out the next step together.', 
       {subtitle && <p data-reveal="text" data-reveal-order="1">{subtitle}</p>}
     </div>
     <ClosingActions className="content-closing-actions">
-      <ActionButton href={href('contact#contact-form')} variant="solid" className="content-action">{primary}</ActionButton>
+      <ActionButton href={discoveryHref} variant="solid" className="content-action">{primary}</ActionButton>
       <ActionButton href={href('services')} variant="split" tone="olive">{secondary}</ActionButton>
     </ClosingActions>
   </section>
@@ -243,13 +253,13 @@ function CaseStudiesPage({ href, language }) {
 
   return <div className="content-main case-studies-page">
     <div className="hero-curtain-track content-curtain-track case-studies-curtain-track" data-hero-curtain>
-      <ContentHero eyebrow={chinese ? '案例研究' : 'Case studies'} title={chinese ? '优选案例' : 'Featured case studies.'} href={href} image="/images/heroes/case-studies-hero.png" {...(chinese ? { action: '了解我们的服务', secondary: '我们聊聊吧' } : {})} />
+      <ContentHero eyebrow={chinese ? '案例研究' : 'Case studies'} title={chinese ? '优选案例' : 'Featured case studies.'} href={href} image="/images/heroes/case-studies-hero.png" {...(chinese ? { action: '了解我们的服务', secondary: '预约30分钟免费初步沟通' } : {})} />
       <div className="hero-curtain-content">{renderStory(caseStudies[0], 0)}</div>
     </div>
     <div className="case-study-list full-width-background">
       {caseStudies.slice(1).map((study, index) => renderStory(study, index + 1))}
     </div>
-    <ClosingCTA href={href} {...(chinese ? { title: '一起看看，下一步怎么走。', primary: '我们聊聊吧', secondary: '了解我们的服务', ariaLabel: '联系我们' } : {})} />
+    <ClosingCTA href={href} {...(chinese ? { title: '一起看看，下一步怎么走。', primary: '预约免费沟通', secondary: '了解我们的服务', ariaLabel: '联系我们' } : {})} />
   </div>
 }
 
@@ -268,7 +278,7 @@ function AboutPage({ href, language }) {
   ] : aboutChallenges
   return <div className="content-main about-page">
     <div className="hero-curtain-track content-curtain-track" data-hero-curtain>
-      <ContentHero eyebrow={chinese ? '我们是谁' : 'About us'} title={chinese ? <>有些卡点，<br />不必一个人想。</> : <>You don’t have to<br />figure it all out alone.</>} href={href} image="/images/heroes/about-us-hero.png" {...(chinese ? { action: '了解我们的服务', secondary: '我们聊聊吧' } : {})} />
+      <ContentHero eyebrow={chinese ? '我们是谁' : 'About us'} title={chinese ? <>有些卡点，<br />不必一个人想。</> : <>You don’t have to<br />figure it all out alone.</>} href={href} image="/images/heroes/about-us-hero.png" {...(chinese ? { action: '了解我们的服务', secondary: '预约30分钟免费初步沟通' } : {})} />
       <div className="hero-curtain-content">
         <section className="about-intro content-section full-width-background" aria-labelledby="about-intro-heading">
           <div className="about-intro-art" data-reveal="visual"><img src={artwork('about-us.svg')} alt="" loading="lazy" /></div>
@@ -291,7 +301,7 @@ function AboutPage({ href, language }) {
     <ClosingCTA
       href={href}
       title={chinese ? '一起看看，下一步怎么走。' : undefined}
-      primary={chinese ? '我们聊聊吧' : undefined}
+      primary={chinese ? '预约免费沟通' : undefined}
       secondary={chinese ? '了解我们的服务' : undefined}
       ariaLabel={chinese ? '联系我们' : undefined}
     />
@@ -308,7 +318,7 @@ function ContactPage({ href, language }) {
         href={href}
         image="/images/heroes/contact-us-hero.png"
         action={null}
-        secondary={chinese ? '预约 30 分钟免费初步沟通' : 'Request your free 30-minute discovery call'}
+        secondary={chinese ? '预约30分钟免费初步沟通' : 'Request your free 30-minute discovery call'}
         alignment="center"
       />
       <div className="hero-curtain-content">
@@ -329,8 +339,8 @@ function ContactPage({ href, language }) {
       href={href}
       title={chinese ? '先聊聊。' : 'Let’s talk first.'}
       subtitle={chinese ? '现在还不需要做决定。' : 'No need to decide just yet.'}
-      primary={chinese ? '开始沟通' : 'Let’s talk'}
-      secondary={chinese ? '探索我们的服务' : 'Explore our services'}
+      primary={chinese ? '预约免费沟通' : 'Let’s talk'}
+      secondary={chinese ? '了解我们的服务' : 'Explore our services'}
     />
   </div>
 }
@@ -383,7 +393,7 @@ function PolicyPage({ page, href, language }) {
   return <div className={`content-main policy-page policy-${page}`}>
     <header className="policy-heading">
       <h1>{policy.title}</h1>
-      <p>Last updated: {policy.updated}</p>
+      <p>{chinese ? '更新日期：' : 'Last updated: '}{formatPolicyDate(policy.updated, language)}</p>
       <nav aria-label="Related policies">{policy.related.map(([route, label]) => <PageAction href={href(route)} key={route}>{label}</PageAction>)}</nav>
     </header>
     <div className="policy-layout">

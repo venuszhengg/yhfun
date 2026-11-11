@@ -52,7 +52,6 @@ export function useScrollReveals() {
       showTarget(target)
       if (pendingHashScroll) {
         pendingHashScroll = false
-        if (target.hasAttribute('tabindex')) target.focus({ preventScroll: true })
         const bounds = target.getBoundingClientRect()
         if (bounds.top >= window.innerHeight || bounds.bottom <= 0) {
           target.scrollIntoView({ block: 'start' })

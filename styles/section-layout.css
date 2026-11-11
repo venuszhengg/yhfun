@@ -85,6 +85,12 @@
     padding-inline: 24px;
   }
 
+  /* Ease the Home intro into its approved 120px desktop inset instead of
+     jumping from 24px to 120px at the 1440px boundary. */
+  #main .intro-content {
+    padding-inline: clamp(24px, calc(23.0769cqw - 212.307px), 120px);
+  }
+
   #main :is(.intro-content > div, .situation-column, .services-intro-copy,
     .services-overview-cards, .services-business-copy, .services-ai-left,
     .services-ai-steps, .services-market-card > *, .services-discovery-art,

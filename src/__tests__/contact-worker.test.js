@@ -29,7 +29,7 @@ function request(data = valid, options = {}) {
 describe('contact Worker', () => {
   it.each([
     ['General enquiries', 'hello@yhfunhq.com'],
-    ['Business and service support', 'info@yhfunhq.com'],
+    ['Free discovery call', 'info@yhfunhq.com'],
   ])('delivers %s to the correct inbox', async (enquiryType, recipient) => {
     const env = environment()
     const response = await worker.fetch(request({ ...valid, enquiryType }), env)

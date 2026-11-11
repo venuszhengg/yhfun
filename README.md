@@ -44,7 +44,7 @@ The 9 November dashboard screenshots showed the production build command set cor
 
 ### Contact form preparation (not enabled)
 
-`worker/contact.js` and `wrangler.contact.jsonc` prepare a same-origin `/api/contact` endpoint. General enquiries go to `hello@yhfunhq.com` and business/service enquiries to `info@yhfunhq.com`; replies use the visitor's address. The Worker validates input, restricts sender and destinations, and applies per-IP and global Cloudflare rate limits. Cloudflare's rate limits are approximate per location, not a complete spam prevention system.
+`worker/contact.js` and `wrangler.contact.jsonc` prepare a same-origin `/api/contact` endpoint. General enquiries go to `hello@yhfunhq.com` and free discovery call enquiries to `info@yhfunhq.com`; replies use the visitor's address. The Worker validates input, restricts sender and destinations, and applies per-IP and global Cloudflare rate limits. Cloudflare's rate limits are approximate per location, not a complete spam prevention system.
 
 The normal `wrangler.jsonc` still deploys only static assets, and the production form still fails closed without `VITE_CONTACT_FORM_ENDPOINT`. Do not enable the endpoint or deploy the alternate configuration until explicitly approved. Before activation:
 

@@ -52,7 +52,7 @@ const COPY = {
     title: '联系我们',
     introduction: '告诉我们您在考虑什么，我们会通过电子邮件回复。',
     enquiryLabel: '咨询类型',
-    enquiryOptions: ['一般咨询', '业务与服务支持'],
+    enquiryOptions: ['一般咨询', '30分钟免费初步沟通'],
     enquiryGroup: '咨询类型',
     chooseEnquiry: '请选择咨询类型。',
     name: '您的姓名',
@@ -117,7 +117,13 @@ export default function ContactForm({ href, language = 'en' }) {
   const id = useId()
   const countryOptions = useMemo(() => createCountryOptions(language === 'zh-Hans' ? 'zh-Hans' : 'en-GB'), [language])
   const initialCountry = useMemo(() => getInitialCountry(countryOptions.map(({ code }) => code)), [countryOptions])
-  const [values, setValues] = useState({ enquiryType: '', name: '', email: '', phone: '', message: '' })
+  const [values, setValues] = useState(() => ({
+    enquiryType: new URLSearchParams(window.location.search).get('enquiry') === 'discovery' ? 'Free discovery call' : '',
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  }))
   const [countryCode, setCountryCode] = useState(initialCountry)
   const [errors, setErrors] = useState({})
   const [hasSubmitted, setHasSubmitted] = useState(false)

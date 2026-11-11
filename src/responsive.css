@@ -15,6 +15,7 @@
   }
 }
 
+
 @media (max-width: 1023px) {
   #main {
     min-width: 0;
@@ -227,6 +228,7 @@
   .process-timeline {
     width: 100%;
     height: auto;
+    margin-inline: auto;
   }
 
   .process-heading {
@@ -241,7 +243,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 0;
+    margin-block: 0;
     padding: 0;
     list-style: none;
     gap: 24px;
@@ -365,8 +367,8 @@
     width: 100%;
     height: auto;
     grid-auto-rows: 1fr;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
   }
 
   .case-study-card {
@@ -375,6 +377,7 @@
     height: auto;
     min-width: 0;
     flex-direction: column;
+    padding: 24px;
     gap: 16px;
   }
 
@@ -801,8 +804,8 @@
     margin-inline: auto;
     padding: var(--responsive-gutter);
     gap: 24px;
-    border-radius: var(--radius-hero);
-    background: var(--color-section);
+    border-radius: 0;
+    background: transparent;
   }
 
   .services-main .services-discovery-art {
@@ -947,8 +950,8 @@
     width: 100%;
     height: auto;
     grid-auto-rows: 1fr;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
   }
 
   .services-main .services-case-card {
@@ -957,7 +960,7 @@
     height: auto;
     min-width: 0;
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
     gap: 16px;
     border-radius: var(--radius-hero);
     background: #fbf9f6;
@@ -1497,7 +1500,7 @@
   }
 
   .case-study-card {
-    padding: 16px;
+    padding: 24px;
     gap: 24px;
   }
 
@@ -1664,7 +1667,8 @@
   }
 
   #site-top.desktop-home .case-studies-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
   }
 
   #site-top.desktop-home .closing-section,
@@ -2204,4 +2208,462 @@
 
 #site-top.desktop-services .services-main .services-options {
   padding-block: 0;
+}
+
+/* Final cascade for the approved How we work together layout. */
+#site-top.desktop-services .services-main .services-working-options { width: 100%; height: auto; gap: 0; }
+#site-top.desktop-services .services-main .services-working {
+  width: 100%; height: auto; align-items: center; padding: 80px 120px; background: var(--color-page);
+}
+#site-top.desktop-services .services-main .services-discovery {
+  display: grid; grid-template-columns: minmax(0, 486px) minmax(0, 1fr); align-items: center;
+  width: min(100%, var(--content-max)); height: auto; margin: 0 auto; padding: 0; gap: 24px;
+  border-radius: 0; background: transparent;
+}
+#site-top.desktop-services .services-main .services-discovery-art {
+  grid-column: 1; width: 100%; height: auto; aspect-ratio: 486 / 343;
+}
+#site-top.desktop-services .services-main .services-discovery-art img {
+  position: static; width: 100%; height: 100%; transform: none; object-fit: contain;
+}
+#site-top.desktop-services .services-main .services-discovery-copy {
+  grid-column: 2; width: 100%; gap: 16px;
+}
+#site-top.desktop-services .services-main .services-working-heading {
+  width: 100%; height: auto; align-items: flex-start; margin-bottom: 24px; gap: 24px; text-align: left;
+}
+#site-top.desktop-services .services-main .services-working-heading h2 {
+  width: auto; height: auto; font-size: var(--type-section-size); line-height: var(--type-section-line);
+}
+#site-top.desktop-services .services-main .services-working-heading p {
+  font-family: var(--font-en); font-size: var(--type-body-size); line-height: var(--type-body-line);
+}
+#site-top.desktop-services .services-main .services-discovery-copy .services-action { margin-top: 8px; }
+#site-top.desktop-services .services-main :is(.services-options, .services-options-panel) {
+  width: 100%; height: auto; padding: 0; background: var(--color-page); --section-background: var(--color-page);
+}
+#site-top.desktop-services .services-main .services-options-panel { padding: 80px 120px; }
+#site-top.desktop-services .services-main .services-options-panel > h2 {
+  font-size: var(--type-section-size); line-height: var(--type-section-line);
+}
+#site-top.desktop-services .services-main .services-options-panel > .services-options-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, var(--content-max)); height: auto; margin-top: 40px;
+}
+#site-top.desktop-services .services-main .services-options-grid > article.services-option {
+  width: 100%; height: auto; min-height: 267px; padding: 40px 24px; gap: 24px;
+}
+#site-top.desktop-services .services-main .services-option-implementation { gap: 8px; }
+#site-top.desktop-services .services-main .services-option .services-star-list { gap: 16px; }
+#site-top.desktop-services .services-main .services-options .services-star-list li::before {
+  top: 8px; width: 4px; height: 4px; background: url('/images/ui/bulletpoint.svg') center / contain no-repeat;
+  color: transparent; content: '';
+}
+#site-top.desktop-services .services-main .services-expect {
+  width: 100%; height: 60px; margin: 0; padding: 20px 120px;
+}
+#site-top.desktop-services .services-main .services-expect > div { align-items: center; gap: 16px; }
+#site-top.desktop-services .services-main .services-expect img { flex: 0 0 12px; width: 12px; height: 12px; }
+#site-top.desktop-services .services-main :is(.services-discovery-copy, .services-option-implementation) > .services-eyebrow {
+  color: var(--color-primary);
+}
+
+@media (max-width: 1023px) {
+  #site-top.desktop-services .services-main .services-working { padding: 48px 24px; }
+  #site-top.desktop-services .services-main .services-discovery {
+    display: flex; flex-direction: column; align-items: stretch; gap: 40px;
+  }
+  #site-top.desktop-services .services-main .services-discovery-copy { order: 1; }
+  #site-top.desktop-services .services-main .services-discovery-art {
+    order: 2; width: min(100%, 486px); margin-inline: auto;
+  }
+  #site-top.desktop-services .services-main .services-working-heading { margin-bottom: 16px; gap: 16px; }
+  #site-top.desktop-services .services-main .services-working-heading h2 {
+    font-size: var(--responsive-heading-size); line-height: 1.2;
+  }
+  #site-top.desktop-services .services-main .services-desktop-break { display: none; }
+  #site-top.desktop-services .services-main .services-options-panel { padding: 0 24px 48px; }
+  #site-top.desktop-services .services-main .services-options-panel > h2 {
+    font-size: var(--responsive-heading-size); line-height: 1.2; text-align: left;
+  }
+  #site-top.desktop-services .services-main .services-options-panel > .services-options-grid {
+    grid-template-columns: minmax(0, 1fr); margin-top: var(--responsive-copy-gap);
+  }
+  #site-top.desktop-services .services-main .services-options-grid > article.services-option {
+    min-height: 0; padding: 32px 0;
+  }
+  #site-top.desktop-services .services-main .services-option + .services-option {
+    border-top: 1px solid var(--palette-olive-pale); border-left: 0;
+  }
+  #site-top.desktop-services .services-main .services-options-grid > article.services-option:first-child {
+    padding-block-start: 0;
+  }
+  #site-top.desktop-services .services-main .services-options-grid > article.services-option:last-child {
+    padding-block-end: 0;
+  }
+  #site-top.desktop-services .services-main .services-addon {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: var(--color-tinted);
+  }
+  #site-top.desktop-services .services-main .services-discovery-copy .services-action {
+    width: fit-content;
+    max-width: 100%;
+    align-self: flex-start;
+  }
+  #site-top.desktop-services .services-main .services-discovery-copy .services-action .yhf-action-label {
+    flex: 0 1 auto;
+    width: auto;
+  }
+  #site-top.desktop-services .services-main .services-eyebrow.services-eyebrow--amber {
+    color: var(--color-primary) !important;
+  }
+  #site-top.desktop-services .services-main .services-expect {
+    height: auto; padding: 24px; flex-direction: column; flex-wrap: nowrap; gap: 24px;
+  }
+  #site-top.desktop-services .services-main .services-expect > div {
+    flex-direction: column; flex-wrap: nowrap; gap: 16px;
+  }
+}
+
+/* Keep the two featured-case sections visually aligned. */
+#site-top :is(.case-studies-heading, .services-cases-heading) h2 {
+  text-align: center;
+}
+
+#site-top :is(.case-studies-grid, .services-case-grid) {
+  gap: 24px;
+}
+
+:root[lang] #site-top.desktop-services .services-main .services-case-grid {
+  gap: 24px;
+}
+
+/* These ranges previously produced a 2 + 1 card wrap. Preserve a single
+   three-card row; the existing narrower mobile rules still stack cards. */
+@media (min-width: 761px) and (max-width: 1023px) {
+  :root[lang] #site-top.desktop-services .services-main .services-case-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  /* Keep the single-sided timeline as one centred composition. Without a
+     readable-width cap it hugs the left gutter while its fixed-size artwork
+     leaves a large empty area on wider phones, immediately before the tablet
+     layout switches to the centred alternating timeline. */
+  :root[lang] #site-top.desktop-home .process-timeline {
+    width: min(100%, 560px);
+  }
+
+  /* Preserve the card inset after the featured-case grids collapse to one
+     column. This final, shared rule prevents the desktop card dimensions and
+     page-level responsive overrides from winning at narrow widths. */
+  :root[lang] #site-top :is(.case-study-card.featured-case-card, .services-case-card.featured-case-card) {
+    box-sizing: border-box;
+    padding: 24px;
+  }
+}
+
+@media (min-width: 521px) and (max-width: 767px) {
+  /* On wide phones and narrow portrait tablets, retain the single-sided
+     timeline but give it the visual scale and centred composition of the
+     larger reference. The compact phone treatment remains below 521px. */
+  :root[lang] #site-top.desktop-home .process-heading,
+  :root[lang] #site-top.desktop-home .process-timeline {
+    width: min(100%, 640px);
+  }
+
+  :root[lang] #site-top.desktop-home .process-heading h2 {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+
+  :root[lang] #site-top.desktop-home .process-heading p {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  :root[lang] #site-top.desktop-home .process-step,
+  :root[lang] #site-top.desktop-home .process-step:nth-child(even),
+  :root[lang] #site-top.desktop-home .process-step:last-child {
+    grid-template-columns: 72px minmax(0, 1fr);
+    column-gap: 24px;
+  }
+
+  :root[lang] #site-top.desktop-home .step-marker {
+    width: 72px;
+    height: 72px;
+  }
+
+  :root[lang] #site-top.desktop-home .step-marker::before {
+    width: 64px;
+    height: 64px;
+  }
+
+  :root[lang] #site-top.desktop-home .step-marker-number {
+    font-size: 16px;
+  }
+
+  :root[lang] #site-top.desktop-home .step-content h3 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  :root[lang] #site-top.desktop-home .step-content p {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  :root[lang] #site-top.desktop-home .step-content .process-artwork,
+  :root[lang] #site-top.desktop-home .process-step:last-child .process-artwork {
+    width: min(100%, 360px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root[lang] #site-top.desktop-home .case-studies-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Keep the desktop heading palette at every responsive width. Several of the
+   original colour declarations live inside the fixed-canvas desktop media
+   queries, which otherwise lets tablet headings inherit the body colour. */
+#site-top.desktop-home .home-continuation h2 {
+  color: var(--color-heading);
+}
+
+#site-top.desktop-home .home-continuation h3 {
+  color: var(--color-text-strong);
+}
+
+#site-top.desktop-home .closing-copy h2 {
+  color: var(--color-primary);
+}
+
+#site-top.desktop-services .services-main h2 {
+  color: var(--color-heading);
+}
+
+#site-top.desktop-services .services-main h3 {
+  color: var(--color-text-strong);
+}
+
+#site-top.desktop-services .services-main .services-closing-copy h2 {
+  color: var(--color-primary);
+}
+
+#site-top.desktop-content-pages .content-main :is(h1, h2) {
+  color: var(--color-heading);
+}
+
+#site-top.desktop-content-pages .content-main .content-hero h1 {
+  color: #ebece0;
+}
+
+#site-top.desktop-content-pages .content-main .content-closing h2 {
+  color: var(--color-primary);
+}
+
+#site-top.desktop-content-pages .content-main .contact-details-sidebar h2 {
+  color: var(--color-olive);
+}
+
+/* “How we can help” uses only the approved three-across or three-stacked
+   arrangements—never the intermediate 2 + 1 wrap. */
+:root[lang] #site-top.desktop-home .home-service-grid {
+  gap: 24px;
+}
+
+@media (max-width: 767px) {
+  :root[lang] #site-top.desktop-home .home-service-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root[lang] #site-top.desktop-home .home-service-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Retain the desktop alternating scroll timeline, scaled only as needed to
+     fit the available tablet width. */
+  :root[lang] #site-top.desktop-home .process-heading,
+  :root[lang] #site-top.desktop-home .process-timeline {
+    width: min(100%, 792px);
+    height: auto;
+  }
+
+  :root[lang] #site-top.desktop-home .process-timeline {
+    gap: 24px;
+  }
+
+  :root[lang] #site-top.desktop-home .process-step,
+  :root[lang] #site-top.desktop-home .process-step:nth-child(even),
+  :root[lang] #site-top.desktop-home .process-step:last-child {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(120px, 17.5781vw, 180px) minmax(0, 1fr);
+    column-gap: 24px;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  :root[lang] #site-top.desktop-home .step-marker {
+    display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  :root[lang] #site-top.desktop-home .step-marker::before,
+  :root[lang] #site-top.desktop-home .step-marker-number {
+    display: none;
+  }
+
+  :root[lang] #site-top.desktop-home .step-marker img {
+    display: block;
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+  }
+
+  :root[lang] #site-top.desktop-home .step-content,
+  :root[lang] #site-top.desktop-home .process-step:nth-child(even) .step-content {
+    grid-row: 1;
+    gap: 8px;
+  }
+
+  :root[lang] #site-top.desktop-home .step-content {
+    grid-column: 3;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  :root[lang] #site-top.desktop-home .process-step:nth-child(even) .step-content {
+    grid-column: 1;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  :root[lang] #site-top.desktop-home .step-content .process-artwork,
+  :root[lang] #site-top.desktop-home .process-step:last-child .process-artwork {
+    width: 100%;
+    max-width: 282px;
+    height: auto;
+  }
+
+  /* The three-column cards are narrow in this range. Give the copy the full
+     card width and move the action onto its own row so titles cannot be
+     obscured by the circular button. */
+  :root[lang] #site-top .featured-case-card :is(.case-study-details, .services-case-details) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  :root[lang] #site-top .featured-case-card :is(.case-study-details, .services-case-details) > div {
+    width: 100%;
+  }
+
+  :root[lang] #site-top .featured-case-card :is(.case-study-link, .services-case-link) {
+    align-self: flex-end;
+  }
+}
+
+/* Final responsive geometry for the Home audience strip. The supplied
+   desktop/tablet treatment is a single 60px row; mobile becomes two centred
+   lines while preserving the same content order and original star asset. */
+#site-top.desktop-home .audience-strip {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 60px;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 120px;
+  gap: 24px;
+  background: #ebece0;
+  color: #515248;
+}
+
+#site-top.desktop-home .audience-strip strong {
+  width: 125px;
+  height: 18px;
+  flex: 0 0 125px;
+  font: 700 14px/18px var(--font-en);
+  text-align: left;
+  text-transform: uppercase;
+}
+
+#site-top.desktop-home .audience-labels {
+  display: flex;
+  width: 493px;
+  height: 20px;
+  flex: 0 0 493px;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  font: 400 16px/20px var(--font-en);
+  text-align: left;
+}
+
+#site-top.desktop-home .audience-labels > span {
+  display: contents;
+}
+
+#site-top.desktop-home .audience-labels [aria-hidden='true'] {
+  display: block;
+  overflow: hidden;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border-radius: 0;
+  background: url('/images/ui/star-divider.svg') center / 14px 14px no-repeat;
+  color: transparent;
+  font-size: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  #site-top.desktop-home .audience-strip {
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  #site-top.desktop-home .audience-strip {
+    width: 100%;
+    height: 88px;
+    flex-direction: column;
+    padding: 24px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  #site-top.desktop-home .audience-strip strong {
+    width: auto;
+    height: 16px;
+    flex: 0 0 16px;
+    color: #6b6d53;
+    font: 800 12px/16px var(--font-utility);
+    text-align: center;
+  }
+
+  #site-top.desktop-home .audience-labels {
+    width: min(100%, 342px);
+    height: 16px;
+    flex: 0 0 16px;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 4px;
+    font: 400 12px/16px var(--font-utility);
+    text-align: center;
+  }
 }

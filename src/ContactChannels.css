@@ -90,6 +90,16 @@
   gap: 4px;
 }
 
+.yhfc-btn--email .yhfc-label {
+  flex: 0 0 auto;
+  width: max-content;
+}
+
+.yhfc-btn--email .yhfc-label-hover {
+  overflow: visible;
+  text-overflow: clip;
+}
+
 .yhfc-btn-action {
   display: grid;
   flex: 0 0 56px;

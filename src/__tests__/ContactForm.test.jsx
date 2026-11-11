@@ -18,6 +18,14 @@ async function fillValidForm(user) {
 }
 
 describe('Contact form validation', () => {
+  it('preselects the free discovery call requested by a site CTA', () => {
+    window.history.pushState({}, '', '/?lang=en&page=contact&enquiry=discovery#contact-form')
+    renderForm()
+
+    expect(screen.getByRole('button', { name: 'Enquiry type: Free discovery call' })).toBeInTheDocument()
+    window.history.pushState({}, '', '/')
+  })
+
   it('removes only the requested helper copy and keeps the optional phone field and privacy notice', () => {
     renderForm()
 

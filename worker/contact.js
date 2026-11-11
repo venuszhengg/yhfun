@@ -2,7 +2,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js/max'
 
 const recipients = {
   'General enquiries': 'hello@yhfunhq.com',
-  'Business and service support': 'info@yhfunhq.com',
+  'Free discovery call': 'info@yhfunhq.com',
 }
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const maxBodyBytes = 16 * 1024

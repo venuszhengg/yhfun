@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './Header.css';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import HeaderLoadProgress from './components/HeaderLoadProgress.jsx';
 
 function Icon({ name }) {
   return (
@@ -10,7 +11,7 @@ function Icon({ name }) {
   );
 }
 
-export default function Header({ language = 'en', onLanguageChange, activeId = 'home', items, homeHref = '/' }) {
+export default function Header({ language = 'en', onLanguageChange, activeId = 'home', items, homeHref = '/', initialContentReady = false, loadKey = 0, loadFailed = false }) {
   const zh = language === 'zh-Hans';
   const [mobileOpen, setMobileOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
@@ -106,6 +107,8 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
           <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
         </div>
       </nav>
+
+      <HeaderLoadProgress key={loadKey} ready={initialContentReady} failed={loadFailed} />
 
       <div className="yhf-actions">
         <div className="yhf-desktop-language">

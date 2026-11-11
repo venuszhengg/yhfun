@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 export function useHeroCurtain() {
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const staticCurtain = window.matchMedia('(max-width: 700px)')
     const tracks = new Map()
     let frame = 0
 
@@ -21,13 +22,12 @@ export function useHeroCurtain() {
       state.start = content
         ? content.getBoundingClientRect().top + window.scrollY - state.height
         : bounds.top + window.scrollY
-      state.progress = undefined
     }
 
     const update = () => {
       frame = 0
       tracks.forEach((state, track) => {
-        if (motion.matches || !state.height) {
+        if (motion.matches || staticCurtain.matches || !state.height) {
           if (state.progress !== 0) {
             track.style.removeProperty('--curtain-progress')
             state.progress = 0
@@ -44,6 +44,10 @@ export function useHeroCurtain() {
 
     const scheduleUpdate = () => {
       if (!frame) frame = window.requestAnimationFrame(update)
+    }
+
+    const onScroll = () => {
+      if (!motion.matches && !staticCurtain.matches) scheduleUpdate()
     }
 
     const resizeObserver = typeof ResizeObserver === 'undefined'
@@ -70,7 +74,7 @@ export function useHeroCurtain() {
         if (!hero) return
         tracks.set(track, { track, hero, start: 0, height: 0, progress: undefined })
         measure(track)
-        resizeObserver?.observe(track)
+        resizeObserver?.observe(hero)
         const content = track.querySelector(':scope > .hero-curtain-content')
         if (content) resizeObserver?.observe(content)
       })
@@ -92,18 +96,20 @@ export function useHeroCurtain() {
       })
       mutationObserver?.observe(document.body, { childList: true, subtree: true })
 
-    window.addEventListener('scroll', scheduleUpdate, { passive: true })
+    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onResize, { passive: true })
     window.addEventListener('pageshow', scheduleUpdate)
     motion.addEventListener('change', scheduleUpdate)
+    staticCurtain.addEventListener('change', scheduleUpdate)
     scheduleUpdate()
 
     return () => {
       mutationObserver?.disconnect()
       resizeObserver?.disconnect()
-      window.removeEventListener('scroll', scheduleUpdate)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('pageshow', scheduleUpdate)
       motion.removeEventListener('change', scheduleUpdate)
+      staticCurtain.removeEventListener('change', scheduleUpdate)
       window.removeEventListener('resize', onResize)
       if (frame) window.cancelAnimationFrame(frame)
       tracks.forEach((_, track) => {

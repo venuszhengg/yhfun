@@ -8,6 +8,17 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
+describe.each([
+  ['en', 'Last updated: 19 October 2026'],
+  ['zh-Hans', '更新日期：2026年10月19日'],
+])('policy dates in %s', (language, expectedDate) => {
+  it.each(['privacy', 'terms', 'refunds'])('formats the %s policy date for readers', (page) => {
+    render(<ContentPage page={page} language={language} href={(route) => `/?page=${route}`} />)
+
+    expect(screen.getByText(expectedDate)).toBeInTheDocument()
+  })
+})
+
 describe.each(['privacy', 'terms', 'refunds'])('%s policy navigation', (page) => {
   it.each(['en', 'zh-Hans'])('tracks sections while scrolling in %s', (language) => {
     let frame

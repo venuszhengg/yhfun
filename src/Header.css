@@ -215,10 +215,30 @@
   }
 
   .yhf-nav-link::after {
-    right: auto;
-    bottom: 4px;
-    left: 12px;
-    width: 28px;
+    display: none;
+  }
+
+  .yhf-nav-link > span {
+    position: relative;
+  }
+
+  .yhf-nav-link > span::after {
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+    left: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: #a7ad62;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms ease;
+  }
+
+  .yhf-nav-link:is(:hover, :focus-visible) > span::after,
+  .yhf-nav-link[aria-current="page"] > span::after {
+    transform: scaleX(1);
   }
 }
 

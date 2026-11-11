@@ -110,6 +110,7 @@ function SituationBubble({ statement, index, href }) {
 
 export function HomeSections({ href, language = 'en' }) {
   const chinese = language === 'zh-Hans'
+  const discoveryHref = `${href('contact')}&enquiry=discovery#contact-form`
   const visibleServices = chinese ? servicesZh : services
   const visibleSituations = chinese ? situationsZh : situations
   const visibleSteps = chinese ? stepsZh : steps
@@ -199,7 +200,7 @@ export function HomeSections({ href, language = 'en' }) {
         </filter>
       </svg>
       <div className="process-heading"><h2 id="process-heading" data-reveal="text">{chinese ? '先试一小步，再决定下一步投入。' : <>Start small before deciding where<br />to invest next</>}</h2>
-        <p data-reveal="text" data-reveal-order="1">Use what you learn in practice to decide what comes next.</p></div>
+        <p data-reveal="text" data-reveal-order="1">{chinese ? '用实际反馈，帮助下一步选择。' : 'Use what you learn in practice to decide what comes next.'}</p></div>
       <ol className="process-timeline" ref={processTimelineRef}>
         {visibleSteps.map(([title, body, illustration, marker], i) => <li className={`process-step step-${i + 1}`} key={title}>
           <div className="step-marker"><img src={artworkUrl(`Steps Section/${marker}`)} alt="" loading="lazy" /><span className="step-marker-number" aria-hidden="true">{i + 1}</span></div>
@@ -222,9 +223,9 @@ export function HomeSections({ href, language = 'en' }) {
     <section className="closing-section" aria-labelledby="closing-heading">
       <img className="closing-artwork full-width-artwork" src={artworkUrl('Page=all, Section=cta.svg')} alt="" loading="lazy" />
       <div className="closing-copy"><h2 id="closing-heading" data-reveal="text">{chinese ? '我们聊聊吧' : 'Talk it through with us'}</h2>
-        <p data-reveal="text" data-reveal-order="1">{chinese ? '告诉我们你正在考虑什么，看看我们能否一起推进。' : <>Tell us what you're thinking about, and let's see how<br />we can move it forward together.</>}</p>
+        <p data-reveal="text" data-reveal-order="1">{chinese ? '告诉我们你正在考虑什么，看看我们能否一起推进。' : <>Tell us what you're thinking about, and let's see how{' '}<br />we can move it forward together.</>}</p>
       </div>
-      <ClosingActions className="closing-actions"><ActionButton href={href('contact')} variant="solid">{chinese ? '我们聊聊吧' : 'Let’s talk'}</ActionButton><ActionButton href={href('services')} variant="split" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton></ClosingActions>
+      <ClosingActions className="closing-actions"><ActionButton href={discoveryHref} variant="solid">{chinese ? '预约免费沟通' : 'Let’s talk'}</ActionButton><ActionButton href={href('services')} variant="split" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton></ClosingActions>
     </section>
   </div>
 }

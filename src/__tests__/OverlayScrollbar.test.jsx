@@ -54,6 +54,8 @@ describe('OverlayScrollbar', () => {
     const root = document.createElement('div')
     root.id = 'root'
     document.body.appendChild(root)
+    vi.spyOn(document.documentElement, 'clientHeight', 'get').mockReturnValue(800)
+    vi.spyOn(document.documentElement, 'scrollHeight', 'get').mockReturnValue(1600)
 
     const { unmount } = render(<OverlayScrollbar />, { container: root })
 

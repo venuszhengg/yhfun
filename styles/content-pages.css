@@ -93,7 +93,8 @@
   }
 }
 
-.case-study-list { --section-background: var(--color-section); }
+.case-study-list { --section-background: var(--color-page); }
+.case-story.full-width-background { --section-background: var(--color-section); }
 
 .case-story-image {
   position: relative;
@@ -826,7 +827,15 @@
 .case-story-meta > span { display: inline-flex; align-items: center; gap: 8px; }
 .case-story-meta img { display: block; flex: 0 0 24px; width: 24px; height: 24px; object-fit: contain; }
 .case-story-detail { position: relative; padding-left: 56px; }
-.case-story-detail-icon { position: absolute; left: 0; top: var(--case-story-detail-inset); width: 40px; height: 40px; object-fit: contain; }
+.case-story-detail-icon {
+  position: absolute;
+  left: 0;
+  top: var(--case-story-detail-inset);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  object-position: center;
+}
 .contact-details-sidebar ul { padding-left: 0; list-style: none; }
 .contact-details-sidebar li { display: flex; align-items: center; gap: 8px; }
 .contact-details-sidebar li img { display: block; flex: 0 0 24px; width: 24px; height: 24px; object-fit: contain; }

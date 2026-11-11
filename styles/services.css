@@ -116,6 +116,10 @@
     text-transform: uppercase;
   }
 
+  .services-main .services-eyebrow.services-eyebrow--amber {
+    color: var(--color-primary) !important;
+  }
+
   .services-hero .services-eyebrow {
     color: #d4d6bf;
   }
@@ -870,4 +874,17 @@
   }
   :root[lang='zh-Hans'] .services-main .services-closing-copy { width: 100%; height: auto; gap: 24px; }
   :root[lang='zh-Hans'] .services-main .services-closing-actions { flex-wrap: wrap; justify-content: center; }
+
+  /* Let long split-button labels use the available narrow width instead of
+     pushing the fixed circular arrow beyond the viewport. */
+  .services-main .services-discovery-copy .services-action {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .services-main .services-discovery-copy .services-action .yhf-action-label {
+    min-width: 0;
+    flex: 1 1 auto;
+    white-space: normal;
+  }
 }

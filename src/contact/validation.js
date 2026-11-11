@@ -1,6 +1,6 @@
 import { parsePhoneNumberFromString } from 'libphonenumber-js/max'
 
-export const ENQUIRY_TYPES = ['General enquiries', 'Business and service support']
+export const ENQUIRY_TYPES = ['General enquiries', 'Free discovery call']
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
