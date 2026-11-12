@@ -1,6 +1,6 @@
 // @vitest-environment-options {"url":"http://localhost/?lang=en"}
 
-import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import App from '../App.jsx'
 
@@ -20,7 +20,10 @@ describe('client-side page navigation', () => {
     expect(await screen.findByRole('heading', { name: 'Featured case studies' })).toBeInTheDocument()
 
     const navigation = within(screen.getByRole('navigation', { name: 'Main navigation' }))
-    fireEvent.click(navigation.getByRole('link', { name: 'Services' }))
+    const servicesLink = navigation.getByRole('link', { name: 'Services' })
+    servicesLink.focus()
+    expect(servicesLink).toHaveFocus()
+    fireEvent.click(servicesLink)
 
     expect(screen.getByRole('heading', { name: /Work through the problem/ })).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /Find the support/ })).not.toBeInTheDocument()
@@ -29,5 +32,12 @@ describe('client-side page navigation', () => {
 
     expect(await screen.findByRole('heading', { name: /Find the support/ })).toBeInTheDocument()
     expect(window.location.search).toBe('?lang=en&page=services')
+    expect(document.getElementById('main')).toHaveFocus()
+    const header = document.querySelector('.yhf-header')
+    expect(header).not.toHaveClass('is-scrolled')
+
+    vi.spyOn(window, 'scrollY', 'get').mockReturnValue(100)
+    fireEvent.scroll(window)
+    await waitFor(() => expect(header).toHaveClass('is-hidden'))
   })
 })

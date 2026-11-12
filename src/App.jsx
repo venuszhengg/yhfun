@@ -150,6 +150,7 @@ export default function App() {
   const [navigationError, setNavigationError] = useState(null)
   const navigationRequest = useRef(0)
   const committedHref = useRef(currentRoute.href)
+  const routeFocusPending = useRef(false)
   const markInitialContentReady = useCallback(() => setInitialContentReady(true), [])
   const { locale, page } = currentRoute
   const href = useCallback((route = '', lang = locale) => `/?lang=${lang}${route ? `&page=${route}` : ''}`, [locale])
@@ -199,6 +200,7 @@ export default function App() {
     }
 
     committedHref.current = target.href
+    routeFocusPending.current = true
     startTransition(() => setCurrentRoute(target))
 
     requestAnimationFrame(() => {
@@ -212,6 +214,13 @@ export default function App() {
       document.documentElement.style.scrollBehavior = previousScrollBehavior
     })
   }, [])
+
+  useEffect(() => {
+    if (!routeFocusPending.current) return
+
+    routeFocusPending.current = false
+    document.getElementById('main')?.focus({ preventScroll: true })
+  }, [currentRoute])
 
   useEffect(() => {
     const handleLink = (event) => {
