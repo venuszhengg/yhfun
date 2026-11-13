@@ -28,7 +28,7 @@ export default function CompanionSection({ language }) {
   const chinese = language === 'zh-Hans'
 
   return <section className="companion-section" aria-labelledby="about-companion-heading">
-    <h1 id="about-companion-heading" data-reveal="text">{chinese ? '像伙伴一样，共同推进' : 'A companion you can count on.'}</h1>
+    <h2 id="about-companion-heading" data-reveal="text">{chinese ? '像伙伴一样，共同推进' : 'A companion you can count on.'}</h2>
     <div className="companion-panel">
       {principles.map((principle, index) => <article className="companion-principle" key={principle.title}>
         <div className="companion-principle-content" data-reveal="text" data-reveal-order={index}>

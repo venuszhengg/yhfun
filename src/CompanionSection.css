@@ -21,7 +21,7 @@
   padding-block: 80px 160px;
 }
 
-.content-main .companion-section h1 {
+.content-main .companion-section h2 {
   margin: 0 0 40px;
   color: #696d54;
   font-size: clamp(32px, 3.4vw, 48px);
@@ -85,7 +85,7 @@
     width: calc(100% - 2 * var(--responsive-gutter));
   }
 
-  .content-main .companion-section h1 {
+  .content-main .companion-section h2 {
     margin-bottom: var(--responsive-heading-body-gap);
     font-size: clamp(28px, 7vw, 32px);
   }

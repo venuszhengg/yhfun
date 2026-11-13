@@ -98,6 +98,8 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
     }}>
       <a className="yhf-logo" href={homeHref} aria-label={zh ? 'Y. H. FUN 首页' : 'Y. H. FUN home'} onClick={navigate}>Y. H. FUN</a>
 
+      <button ref={mobileRef} type="button" className="yhf-mobile-toggle" aria-controls="yhf-main-nav" aria-expanded={mobileOpen} aria-label={zh ? (mobileOpen ? '关闭导航' : '打开导航') : (mobileOpen ? 'Close navigation' : 'Open navigation')} onClick={() => setMobileOpen(!mobileOpen)}><Icon name={mobileOpen ? 'close' : 'menu'} /></button>
+
       <nav id="yhf-main-nav" className={`yhf-nav${mobileOpen ? ' is-open' : ''}`} aria-label={zh ? '主导航' : 'Main navigation'}>
         {items.map((item) => {
           const label = item[zh ? 'zh-Hans' : 'en'];
@@ -114,7 +116,6 @@ export default function Header({ language = 'en', onLanguageChange, activeId = '
         <div className="yhf-desktop-language">
           <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
         </div>
-        <button ref={mobileRef} type="button" className="yhf-mobile-toggle" aria-controls="yhf-main-nav" aria-expanded={mobileOpen} aria-label={zh ? (mobileOpen ? '关闭导航' : '打开导航') : (mobileOpen ? 'Close navigation' : 'Open navigation')} onClick={() => setMobileOpen(!mobileOpen)}><Icon name={mobileOpen ? 'close' : 'menu'} /></button>
       </div>
     </header>
   );

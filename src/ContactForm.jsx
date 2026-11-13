@@ -12,6 +12,7 @@ const COPY = {
     enquiryLabel: 'Enquiry type',
     enquiryOptions: ENQUIRY_TYPES,
     enquiryGroup: 'Enquiry types',
+    enquiryRequired: 'Required.',
     chooseEnquiry: 'Choose an enquiry type.',
     name: 'Your name',
     namePlaceholder: 'e.g. Alex Murphy',
@@ -54,6 +55,7 @@ const COPY = {
     enquiryLabel: '咨询类型',
     enquiryOptions: ['一般咨询', '30分钟免费初步沟通'],
     enquiryGroup: '咨询类型',
+    enquiryRequired: '必填。',
     chooseEnquiry: '请选择咨询类型。',
     name: '您的姓名',
     namePlaceholder: '例如：张明',
@@ -424,9 +426,8 @@ export default function ContactForm({ href, language = 'en' }) {
               aria-expanded={enquiryOpen}
               aria-haspopup="listbox"
               aria-controls={`${id}-enquiry-options`}
-              aria-describedby={errors.enquiryType ? `${id}-enquiry-error` : undefined}
+              aria-describedby={`${id}-enquiry-required${errors.enquiryType ? ` ${id}-enquiry-error` : ''}`}
               aria-label={values.enquiryType ? `${copy.enquiryLabel}: ${copy.enquiryOptions[ENQUIRY_TYPES.indexOf(values.enquiryType)]}` : copy.enquiryLabel}
-              aria-required="true"
               aria-invalid={errors.enquiryType ? 'true' : undefined}
               disabled={locked}
               onClick={() => setEnquiryOpen((open) => !open)}
@@ -438,6 +439,7 @@ export default function ContactForm({ href, language = 'en' }) {
               </span>
               <span className="contact-chevron"><ChevronIcon /></span>
             </button>
+            <span className="contact-sr-only" id={`${id}-enquiry-required`}>{copy.enquiryRequired}</span>
             {enquiryOpen && <div id={`${id}-enquiry-options`} className="contact-picker-menu" role="listbox" aria-label={copy.enquiryGroup}>
               {ENQUIRY_TYPES.map((type, index) => (
                 <button

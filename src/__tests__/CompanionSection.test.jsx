@@ -5,7 +5,7 @@ import CompanionSection from '../CompanionSection.jsx'
 describe('CompanionSection', () => {
   it('shows all three principles and their original illustrations in document order', () => {
     const { container } = render(<CompanionSection language="en" />)
-    expect(screen.getByRole('heading', { level: 1, name: 'A companion you can count on.' })).toBeVisible()
+    expect(screen.getByRole('heading', { level: 2, name: 'A companion you can count on.' })).toBeVisible()
 
     const articles = screen.getAllByRole('article')
     const expected = [

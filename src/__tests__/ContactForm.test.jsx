@@ -18,6 +18,13 @@ async function fillValidForm(user) {
 }
 
 describe('Contact form validation', () => {
+  it('associates supported required instructions with the enquiry picker', () => {
+    renderForm()
+    const enquiry = screen.getByRole('button', { name: 'Enquiry type' })
+    expect(enquiry).not.toHaveAttribute('aria-required')
+    expect(enquiry).toHaveAccessibleDescription('Required.')
+  })
+
   it('preselects the free discovery call requested by a site CTA', () => {
     window.history.pushState({}, '', '/?lang=en&page=contact&enquiry=discovery#contact-form')
     renderForm()

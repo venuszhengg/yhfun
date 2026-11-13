@@ -27,6 +27,23 @@ describe('Header navigation', () => {
     expect(toggle).toHaveFocus()
   })
 
+  it('moves forward and backward logically between the mobile toggle and navigation', async () => {
+    const user = userEvent.setup()
+    render(<Header items={items} />)
+
+    const toggle = screen.getByRole('button', { name: 'Open navigation', hidden: true })
+    toggle.focus()
+    await user.keyboard('{Enter}')
+    await user.tab()
+    expect(screen.getByRole('link', { name: 'Home' })).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(toggle).toHaveFocus()
+
+    await user.keyboard(' ')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
   it('shows both language choices and switches to Simplified Chinese', async () => {
     const user = userEvent.setup()
     const onLanguageChange = vi.fn()
