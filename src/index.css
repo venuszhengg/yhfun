@@ -1,7 +1,8 @@
 * { box-sizing: border-box; }
 html {
   color-scheme: light;
-  background-color: var(--color-hero, #292e23);
+  /* Match the document canvas so native scrollbar gutters cannot expose the hero colour. */
+  background-color: var(--color-page, #fcfaf8);
   overscroll-behavior-y: none;
 }
 @media (prefers-reduced-motion: no-preference) {

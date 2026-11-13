@@ -12,5 +12,11 @@ describe('Services route', () => {
 
     const navigation = within(screen.getByRole('navigation', { name: 'Main navigation' }))
     expect(navigation.getByRole('link', { name: 'Services' })).toHaveAttribute('aria-current', 'page')
+
+    const hero = document.querySelector('.services-hero')
+    expect(within(hero).getByRole('link', { name: 'Book your free discovery call' })).toHaveAttribute(
+      'href',
+      '/?lang=en&page=contact&enquiry=discovery#contact-form',
+    )
   })
 })

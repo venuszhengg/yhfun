@@ -1517,7 +1517,7 @@
   }
 
   .desktop-content-pages .policy-heading nav {
-    gap: 8px 16px;
+    gap: 16px;
   }
 
   .desktop-content-pages .content-closing-actions {
@@ -1724,7 +1724,7 @@
   }
 
   #site-top.desktop-content-pages .policy-heading nav {
-    gap: var(--responsive-group-gap);
+    gap: 16px;
   }
 
   #site-top.desktop-content-pages .policy-copy {
@@ -1960,7 +1960,7 @@
   #site-top.desktop-content-pages .content-closing-actions,
   #site-top .hero-cutout-actions,
   #site-top.desktop-content-pages .policy-heading nav {
-    row-gap: 16px;
+    gap: 16px;
   }
 
   #site-top.desktop-content-pages .policy-copy section {

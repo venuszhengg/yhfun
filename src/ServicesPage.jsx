@@ -79,6 +79,7 @@ export default function ServicesPage({ href, language = 'en' }) {
           </div>
           <div className="services-hero-actions hero-cutout-actions" data-hero-reveal="actions" data-curtain-actions>
             <ActionButton className="services-hero-explore" href="#support-individuals" variant="solid" tone="olive">{chinese ? '了解我们的服务' : 'Explore our services'}</ActionButton>
+            <ActionButton href={discoveryHref} variant="split">{chinese ? '预约免费沟通' : 'Book your free discovery call'}</ActionButton>
           </div>
         </div>
       </section>
