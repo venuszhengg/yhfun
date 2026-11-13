@@ -50,8 +50,8 @@ describe('Header navigation', () => {
     const { container } = render(<Header items={items} onLanguageChange={onLanguageChange} />)
     const switcher = within(container.querySelector('.yhf-desktop-language'))
 
-    expect(switcher.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
-    const chinese = switcher.getByRole('button', { name: 'Simplified Chinese' })
+    expect(switcher.getByRole('button', { name: 'EN — English' })).toHaveAttribute('aria-pressed', 'true')
+    const chinese = switcher.getByRole('button', { name: '中文 — Simplified Chinese' })
     expect(chinese).toHaveAttribute('aria-pressed', 'false')
 
     await user.click(chinese)
@@ -67,7 +67,7 @@ describe('Header navigation', () => {
     render(<Header items={items} onLanguageChange={onLanguageChange} />)
     await user.click(screen.getByRole('button', { name: 'Open navigation', hidden: true }))
     const navigation = screen.getByRole('navigation', { name: 'Main navigation' })
-    const chinese = within(navigation).getByRole('button', { name: 'Simplified Chinese' })
+    const chinese = within(navigation).getByRole('button', { name: '中文 — Simplified Chinese' })
     await user.click(chinese)
     expect(navigation).toHaveClass('is-open')
     expect(chinese).toHaveAttribute('aria-pressed', 'true')

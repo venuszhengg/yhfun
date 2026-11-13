@@ -8,8 +8,8 @@ afterEach(() => {
 
 describe.each(['header', 'footer'])('LanguageSwitcher in the %s', (placement) => {
   it.each([
-    ['en', 'English', 'Simplified Chinese', 'zh-Hans'],
-    ['zh-Hans', '简体中文', '英语', 'en'],
+    ['en', 'EN — English', '中文 — Simplified Chinese', 'zh-Hans'],
+    ['zh-Hans', '中文 — 简体中文', 'EN — 英语', 'en'],
   ])('slides from %s before notifying the route handler', (language, currentName, nextName, nextLanguage) => {
     vi.useFakeTimers()
     const onLanguageChange = vi.fn()
@@ -38,10 +38,10 @@ describe.each(['header', 'footer'])('LanguageSwitcher in the %s', (placement) =>
     vi.useFakeTimers()
     const onLanguageChange = vi.fn()
     render(<LanguageSwitcher placement={placement} onLanguageChange={onLanguageChange} />)
-    fireEvent.click(screen.getByRole('button', { name: 'Simplified Chinese' }))
-    fireEvent.click(screen.getByRole('button', { name: 'English' }))
+    fireEvent.click(screen.getByRole('button', { name: '中文 — Simplified Chinese' }))
+    fireEvent.click(screen.getByRole('button', { name: 'EN — English' }))
     act(() => vi.advanceTimersByTime(280))
-    expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'EN — English' })).toHaveAttribute('aria-pressed', 'true')
     expect(onLanguageChange).not.toHaveBeenCalled()
   })
 })
@@ -50,11 +50,11 @@ it('cleans up pending navigation on unmount or a language prop change', () => {
   vi.useFakeTimers()
   const onLanguageChange = vi.fn()
   const { rerender, unmount } = render(<LanguageSwitcher onLanguageChange={onLanguageChange} />)
-  fireEvent.click(screen.getByRole('button', { name: 'Simplified Chinese' }))
+  fireEvent.click(screen.getByRole('button', { name: '中文 — Simplified Chinese' }))
   rerender(<LanguageSwitcher language="zh-Hans" onLanguageChange={onLanguageChange} />)
   act(() => vi.advanceTimersByTime(280))
   expect(onLanguageChange).not.toHaveBeenCalled()
-  fireEvent.click(screen.getByRole('button', { name: '英语' }))
+  fireEvent.click(screen.getByRole('button', { name: 'EN — 英语' }))
   unmount()
   act(() => vi.advanceTimersByTime(280))
   expect(onLanguageChange).not.toHaveBeenCalled()
@@ -64,7 +64,7 @@ it('navigates immediately when reduced motion is enabled', () => {
   vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true })
   const onLanguageChange = vi.fn()
   render(<LanguageSwitcher onLanguageChange={onLanguageChange} />)
-  fireEvent.click(screen.getByRole('button', { name: 'Simplified Chinese' }))
+  fireEvent.click(screen.getByRole('button', { name: '中文 — Simplified Chinese' }))
   expect(onLanguageChange).toHaveBeenCalledOnce()
   expect(onLanguageChange).toHaveBeenCalledWith('zh-Hans')
 })

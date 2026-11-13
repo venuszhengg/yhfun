@@ -51,7 +51,7 @@ export default function LanguageSwitcher({ language = 'en', onLanguageChange, pl
           key={option.id}
           type="button"
           className="yhf-language-choice"
-          aria-label={zh ? option.zhLabel : option.label}
+          aria-label={`${option.text} — ${zh ? option.zhLabel : option.label}`}
           aria-pressed={selected === option.id}
           lang={option.lang}
           onClick={() => selectLanguage(option.id)}
