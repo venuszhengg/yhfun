@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import CompanionSection from '../CompanionSection.jsx'
 
 describe('CompanionSection', () => {
@@ -29,5 +29,32 @@ describe('CompanionSection', () => {
     for (const title of ['先理解', '再尝试', '能复用']) {
       expect(screen.getByRole('heading', { name: title })).toBeVisible()
     }
+  })
+
+  it('uses the scroll sequence only when the viewport fits and motion is allowed', () => {
+    vi.spyOn(window, 'matchMedia').mockImplementation((query) => ({
+      matches: query === '(min-width: 768px) and (min-height: 600px)',
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }))
+
+    const { container } = render(<CompanionSection language="en" />)
+
+    expect(container.querySelector('.companion-section')).toHaveClass('is-enhanced')
+  })
+
+  it('keeps the complete static version when reduced motion is requested', () => {
+    vi.spyOn(window, 'matchMedia').mockImplementation((query) => ({
+      matches: true,
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }))
+
+    const { container } = render(<CompanionSection language="en" />)
+
+    expect(container.querySelector('.companion-section')).not.toHaveClass('is-enhanced')
+    expect(screen.getAllByRole('article')).toHaveLength(3)
   })
 })

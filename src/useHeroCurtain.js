@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 export function useHeroCurtain() {
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const staticCurtain = window.matchMedia('(max-width: 700px)')
     const tracks = new Map()
     let frame = 0
 
@@ -27,7 +26,7 @@ export function useHeroCurtain() {
     const update = () => {
       frame = 0
       tracks.forEach((state, track) => {
-        if (motion.matches || staticCurtain.matches || !state.height) {
+        if (motion.matches || !state.height) {
           if (state.progress !== 0) {
             track.style.removeProperty('--curtain-progress')
             state.progress = 0
@@ -47,7 +46,7 @@ export function useHeroCurtain() {
     }
 
     const onScroll = () => {
-      if (!motion.matches && !staticCurtain.matches) scheduleUpdate()
+      if (!motion.matches) scheduleUpdate()
     }
 
     const resizeObserver = typeof ResizeObserver === 'undefined'
@@ -100,7 +99,6 @@ export function useHeroCurtain() {
     window.addEventListener('resize', onResize, { passive: true })
     window.addEventListener('pageshow', scheduleUpdate)
     motion.addEventListener('change', scheduleUpdate)
-    staticCurtain.addEventListener('change', scheduleUpdate)
     scheduleUpdate()
 
     return () => {
@@ -109,7 +107,6 @@ export function useHeroCurtain() {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('pageshow', scheduleUpdate)
       motion.removeEventListener('change', scheduleUpdate)
-      staticCurtain.removeEventListener('change', scheduleUpdate)
       window.removeEventListener('resize', onResize)
       if (frame) window.cancelAnimationFrame(frame)
       tracks.forEach((_, track) => {

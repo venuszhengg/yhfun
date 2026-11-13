@@ -100,14 +100,12 @@
 
 @media (max-width: 700px) {
   .hero-curtain-track :is([data-curtain-copy], [data-curtain-actions]) {
-    opacity: 1;
-    transform: none;
-    will-change: auto;
+    transform: translateY(calc(var(--curtain-progress, 0) * -12px));
   }
 
   .hero-curtain-track :is(.home-hero .hero-photo-slot img, .services-hero-photo img, .content-hero-media img) {
-    transform: none;
-    will-change: auto;
+    transform: translate3d(0, calc(var(--curtain-progress, 0) * min(5px, .7vh)), 0)
+      scale(calc(1 + var(--curtain-progress, 0) * .012));
   }
 }
 
