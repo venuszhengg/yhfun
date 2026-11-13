@@ -175,6 +175,7 @@
 }
 
 .hero-emphasis { white-space: normal; }
+.hero-unbroken { white-space: nowrap; }
 :lang(zh-Hans) .hero-content h1 { letter-spacing: 0; }
 
 .home-hero .hero-actions,

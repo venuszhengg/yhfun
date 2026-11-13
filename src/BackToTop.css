@@ -2,6 +2,7 @@
   --action-arrow-angle: -90deg;
   flex-direction: column;
   color: var(--action-bg);
+  box-shadow: 0 6px 18px rgba(41, 42, 36, 0.18);
   opacity: 1;
   transition: opacity 180ms ease;
 }

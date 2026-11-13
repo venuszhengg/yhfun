@@ -105,7 +105,7 @@ function HomeHero({ locale, t, href }) {
     <div className="container hero-content">
       <div className="hero-copy" data-curtain-copy>
         <p className="hero-eyebrow" data-hero-reveal="eyebrow">{locale === 'zh-Hans' ? '欢迎来到 Y. H. FUN' : 'WELCOME TO Y. H. FUN'}</p>
-        <h1 id="hero-heading" data-hero-reveal="headline">{t.title}{locale === 'en' ? ' ' : null}<span className="hero-emphasis">{t.emphasis}</span></h1>
+        <h1 id="hero-heading" data-hero-reveal="headline">{t.title}{locale === 'en' ? ' ' : null}<span className="hero-emphasis">{locale === 'en' ? <><span className="hero-unbroken">problem-solving</span>{' partner.'}</> : t.emphasis}</span></h1>
       </div>
       <div className="hero-actions hero-cutout-actions" data-hero-reveal="actions" data-curtain-actions>{locale === 'en' ? <>
         <ActionButton href={href('services')} variant="solid" tone="olive">{t.action}</ActionButton>

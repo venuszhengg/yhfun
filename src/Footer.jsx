@@ -61,7 +61,7 @@ export default function Footer({ language = 'en', onLanguageChange, href, year =
             </div>
           </div>
           {groups.map(group => (
-            <nav className="yhf-footer-group" key={group.en} aria-label={zh ? group.zh : group.en}>
+            <nav className={`yhf-footer-group${group.en === 'Support' ? ' yhf-footer-support' : ''}`} key={group.en} aria-label={zh ? group.zh : group.en}>
               <h2>{zh ? group.zh : group.en}</h2>
               <ul>
                 {group.links.map(([route, en, translated]) => (
