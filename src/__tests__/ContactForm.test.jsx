@@ -33,6 +33,17 @@ describe('Contact form validation', () => {
     window.history.pushState({}, '', '/')
   })
 
+  it('selects the free discovery call without clearing other form fields', async () => {
+    const user = userEvent.setup()
+    renderForm()
+
+    await user.type(screen.getByLabelText('Your name'), 'Alex Murphy')
+    window.dispatchEvent(new Event('yhfun:discovery-request'))
+
+    expect(await screen.findByRole('button', { name: 'Enquiry type: Free discovery call' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Your name')).toHaveValue('Alex Murphy')
+  })
+
   it('removes only the requested helper copy and keeps the optional phone field and privacy notice', () => {
     renderForm()
 

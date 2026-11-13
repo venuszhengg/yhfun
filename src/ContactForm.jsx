@@ -156,6 +156,17 @@ export default function ContactForm({ href, language = 'en' }) {
   const selectedCountry = countryOptions.find(({ code }) => code === countryCode) ?? countryOptions[0]
 
   useEffect(() => {
+    function selectDiscoveryCall() {
+      setValues((current) => ({ ...current, enquiryType: 'Free discovery call' }))
+      setErrors((current) => ({ ...current, enquiryType: '' }))
+      setEnquiryOpen(false)
+    }
+
+    window.addEventListener('yhfun:discovery-request', selectDiscoveryCall)
+    return () => window.removeEventListener('yhfun:discovery-request', selectDiscoveryCall)
+  }, [])
+
+  useEffect(() => {
     if (enquiryOpen) {
       const selectedIndex = ENQUIRY_TYPES.indexOf(values.enquiryType)
       enquiryOptionRefs.current[selectedIndex < 0 ? 0 : selectedIndex]?.focus()

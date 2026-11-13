@@ -1,6 +1,7 @@
 // @vitest-environment-options {"url":"http://localhost/?lang=en"}
 
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import App from '../App.jsx'
 
@@ -39,5 +40,31 @@ describe('client-side page navigation', () => {
     vi.spyOn(window, 'scrollY', 'get').mockReturnValue(100)
     fireEvent.scroll(window)
     await waitFor(() => expect(header).toHaveClass('is-hidden'))
+  })
+
+  it('selects a discovery call from both contact-page calls to action', async () => {
+    class ReadyImage {
+      set src(value) {
+        this.currentSrc = value
+        this.complete = true
+        this.naturalWidth = 1
+      }
+    }
+    vi.stubGlobal('Image', ReadyImage)
+    window.history.pushState({}, '', '/?lang=en&page=contact')
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    Element.prototype.scrollIntoView = vi.fn()
+    const user = userEvent.setup()
+
+    render(<App />)
+
+    await user.click(await screen.findByRole('link', { name: 'Request your free 30-minute discovery call' }))
+    expect(await screen.findByRole('button', { name: 'Enquiry type: Free discovery call' })).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Enquiry type: Free discovery call' }))
+    await user.click(screen.getByRole('option', { name: 'General enquiries' }))
+    await user.click(screen.getByRole('link', { name: 'Book your free discovery call' }))
+
+    expect(await screen.findByRole('button', { name: 'Enquiry type: Free discovery call' })).toBeInTheDocument()
   })
 })

@@ -172,6 +172,9 @@ export default function App() {
     const committedUrl = new URL(committedHref.current, window.location.origin)
 
     if (targetUrl.pathname === committedUrl.pathname && targetUrl.search === committedUrl.search) {
+      if (target.page === 'contact' && targetUrl.searchParams.get('enquiry') === 'discovery') {
+        window.dispatchEvent(new Event('yhfun:discovery-request'))
+      }
       if (targetUrl.hash) document.querySelector(targetUrl.hash)?.scrollIntoView()
       return
     }
@@ -201,6 +204,9 @@ export default function App() {
 
     committedHref.current = target.href
     routeFocusPending.current = true
+    if (target.page === 'contact' && targetUrl.searchParams.get('enquiry') === 'discovery') {
+      window.dispatchEvent(new Event('yhfun:discovery-request'))
+    }
     startTransition(() => setCurrentRoute(target))
 
     requestAnimationFrame(() => {

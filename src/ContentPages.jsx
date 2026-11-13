@@ -339,7 +339,7 @@ function ContactPage({ href, language }) {
       href={href}
       title={chinese ? '先聊聊。' : 'Let’s talk first.'}
       subtitle={chinese ? '现在还不需要做决定。' : 'No need to decide just yet.'}
-      primary={chinese ? '预约免费沟通' : 'Let’s talk'}
+      primary={chinese ? '预约免费沟通' : 'Book your free discovery call'}
       secondary={chinese ? '了解我们的服务' : 'Explore our services'}
     />
   </div>
