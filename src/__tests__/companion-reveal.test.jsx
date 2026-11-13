@@ -7,7 +7,7 @@ function RevealHost() {
   return <div />
 }
 
-it('reveals content added after the route loads', async () => {
+it('repeats reveals when content leaves and re-enters the viewport', async () => {
   let onIntersect
   const observe = vi.fn()
   const unobserve = vi.fn()
@@ -25,6 +25,24 @@ it('reveals content added after the route loads', async () => {
   element.getBoundingClientRect = () => ({ top: 1000, height: 100 })
   act(() => document.body.append(element))
   await waitFor(() => expect(observe).toHaveBeenCalledWith(element))
+  expect(element).toHaveAttribute('data-reveal-state', 'pending')
+
+  act(() => onIntersect([{
+    target: element,
+    isIntersecting: true,
+    intersectionRatio: 1,
+    boundingClientRect: { top: 200, height: 100 },
+    intersectionRect: { height: 100 },
+  }]))
+  expect(element).toHaveAttribute('data-reveal-state', 'visible')
+
+  act(() => onIntersect([{
+    target: element,
+    isIntersecting: false,
+    intersectionRatio: 0,
+    boundingClientRect: { top: -200, bottom: -100, height: 100 },
+    intersectionRect: { height: 0 },
+  }]))
   expect(element).toHaveAttribute('data-reveal-state', 'pending')
 
   act(() => onIntersect([{

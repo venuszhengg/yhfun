@@ -1,4 +1,4 @@
-import { Component, lazy, startTransition, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { Component, lazy, startTransition, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import '../styles/tokens.css'
 import '../styles/components.css'
 import '../styles/home.css'
@@ -151,6 +151,7 @@ export default function App() {
   const navigationRequest = useRef(0)
   const committedHref = useRef(currentRoute.href)
   const routeFocusPending = useRef(false)
+  const routeScrollPending = useRef(null)
   const markInitialContentReady = useCallback(() => setInitialContentReady(true), [])
   const { locale, page } = currentRoute
   const href = useCallback((route = '', lang = locale) => `/?lang=${lang}${route ? `&page=${route}` : ''}`, [locale])
@@ -204,28 +205,37 @@ export default function App() {
 
     committedHref.current = target.href
     routeFocusPending.current = true
+    routeScrollPending.current = {
+      hash: targetUrl.hash,
+      top: historyMode === 'pop' ? restoreY : 0,
+    }
     if (target.page === 'contact' && targetUrl.searchParams.get('enquiry') === 'discovery') {
       window.dispatchEvent(new Event('yhfun:discovery-request'))
     }
     startTransition(() => setCurrentRoute(target))
-
-    requestAnimationFrame(() => {
-      const previousScrollBehavior = document.documentElement.style.scrollBehavior
-      document.documentElement.style.scrollBehavior = 'auto'
-      if (targetUrl.hash) {
-        document.querySelector(targetUrl.hash)?.scrollIntoView()
-      } else {
-        window.scrollTo(0, historyMode === 'pop' ? restoreY : 0)
-      }
-      document.documentElement.style.scrollBehavior = previousScrollBehavior
-    })
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!routeFocusPending.current) return
 
     routeFocusPending.current = false
+    const pendingScroll = routeScrollPending.current
+    routeScrollPending.current = null
+    const root = document.documentElement
+    const previousScrollBehavior = root.style.getPropertyValue('scroll-behavior')
+    const previousScrollPriority = root.style.getPropertyPriority('scroll-behavior')
+    root.style.setProperty('scroll-behavior', 'auto', 'important')
+    if (pendingScroll?.hash) {
+      document.querySelector(pendingScroll.hash)?.scrollIntoView({ block: 'start', behavior: 'instant' })
+    } else {
+      window.scrollTo({ top: pendingScroll?.top ?? 0, left: 0, behavior: 'instant' })
+    }
     document.getElementById('main')?.focus({ preventScroll: true })
+    if (previousScrollBehavior) {
+      root.style.setProperty('scroll-behavior', previousScrollBehavior, previousScrollPriority)
+    } else {
+      root.style.removeProperty('scroll-behavior')
+    }
   }, [currentRoute])
 
   useEffect(() => {

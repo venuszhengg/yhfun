@@ -7,29 +7,27 @@ export function useScrollReveals() {
 
     const elements = new Set()
     const pending = new Set()
-    const revealed = new Set()
     let observer
     let pendingHashScroll = Boolean(window.location.hash)
 
     const showImmediately = (element) => {
-      observer?.unobserve(element)
       pending.delete(element)
-      revealed.add(element)
       delete element.dataset.revealState
       element.style.removeProperty('--reveal-delay')
     }
 
     const observeReveal = (element) => {
-      if (revealed.has(element) || motion.matches) {
-        revealed.add(element)
+      if (motion.matches) {
+        observer?.unobserve(element)
+        showImmediately(element)
         return
       }
 
+      observer.observe(element)
       const bounds = element.getBoundingClientRect()
       if (bounds.top >= window.innerHeight && bounds.height > 0) {
         element.dataset.revealState = 'pending'
         pending.add(element)
-        observer.observe(element)
       } else {
         showImmediately(element)
       }
@@ -70,6 +68,17 @@ export function useScrollReveals() {
       })
     }
 
+    const removeElements = (root) => {
+      if (!(root instanceof Element)) return
+      const descendants = root.querySelectorAll('[data-reveal]')
+      const candidates = root.matches('[data-reveal]') ? [root, ...descendants] : [...descendants]
+      candidates.forEach((element) => {
+        observer.unobserve(element)
+        pending.delete(element)
+        elements.delete(element)
+      })
+    }
+
     const addHeroEntrances = (root) => {
       if (window.location.hash || window.scrollY >= 40 || motion.matches || !(root instanceof Element)) return
       if (root.matches('[data-hero-reveal]')) root.dataset.heroEntrance = root.dataset.heroReveal
@@ -80,20 +89,26 @@ export function useScrollReveals() {
 
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting || !pending.has(entry.target)) return
+        const element = entry.target
+        if (!entry.isIntersecting) {
+          if (!motion.matches && !element.matches(':focus-within')) {
+            element.dataset.revealState = 'pending'
+            element.style.removeProperty('--reveal-delay')
+            pending.add(element)
+          }
+          return
+        }
+        if (!pending.has(element)) return
         const { boundingClientRect: bounds, intersectionRect } = entry
         const enoughVisible = entry.intersectionRatio >= 0.1 ||
           intersectionRect.height >= 80 || bounds.height > window.innerHeight * 0.8
         if (!enoughVisible) return
 
-        const element = entry.target
         if (element.matches(':focus-within')) {
           showImmediately(element)
           return
         }
-        observer.unobserve(element)
         pending.delete(element)
-        revealed.add(element)
         const mobile = window.matchMedia('(max-width: 700px)').matches
         const order = Math.min(mobile ? 1 : 3, Math.max(0, Number(element.dataset.revealOrder) || 0))
         element.style.setProperty('--reveal-delay', `${order * (mobile ? 40 : 80)}ms`)
@@ -105,7 +120,8 @@ export function useScrollReveals() {
     addHeroEntrances(document.documentElement)
 
     const mutationObserver = typeof MutationObserver === 'undefined' ? null : new MutationObserver((records) => {
-      records.forEach(({ addedNodes }) => {
+      records.forEach(({ addedNodes, removedNodes }) => {
+        removedNodes.forEach(removeElements)
         addedNodes.forEach((node) => {
           addElements(node)
           addHeroEntrances(node)

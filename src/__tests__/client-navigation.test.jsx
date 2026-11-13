@@ -15,7 +15,7 @@ describe('client-side page navigation', () => {
       }
     }
     vi.stubGlobal('Image', PendingImage)
-    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
 
     render(<App />)
     expect(await screen.findByRole('heading', { name: 'Featured case studies' })).toBeInTheDocument()
@@ -34,6 +34,7 @@ describe('client-side page navigation', () => {
     expect(await screen.findByRole('heading', { name: /Find the support/ })).toBeInTheDocument()
     expect(window.location.search).toBe('?lang=en&page=services')
     expect(document.getElementById('main')).toHaveFocus()
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'instant' })
     const header = document.querySelector('.yhf-header')
     expect(header).not.toHaveClass('is-scrolled')
 
