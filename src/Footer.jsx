@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import CopyEmail from './CopyEmail.jsx';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
 import { SOCIAL_CHANNELS } from './socialChannels.js';
@@ -32,9 +33,36 @@ const groups = [
 
 export default function Footer({ language = 'en', onLanguageChange, href, year = new Date().getFullYear() }) {
   const zh = language === 'zh-Hans';
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const footer = footerRef.current;
+    const theme = document.querySelector('meta[name="theme-color"]');
+    if (!footer || !theme || !window.IntersectionObserver) return undefined;
+
+    const originalTheme = theme.content;
+    const mobile = window.matchMedia('(max-width: 767px), (pointer: coarse)');
+    const footerColour = getComputedStyle(footer).getPropertyValue('--palette-neutral-charcoal').trim();
+    let footerVisible = false;
+    const updateTheme = () => {
+      theme.content = mobile.matches && footerVisible ? footerColour : originalTheme;
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      footerVisible = entry.isIntersecting;
+      updateTheme();
+    });
+    observer.observe(footer);
+    mobile.addEventListener('change', updateTheme);
+
+    return () => {
+      observer.disconnect();
+      mobile.removeEventListener('change', updateTheme);
+      theme.content = originalTheme;
+    };
+  }, []);
 
   return (
-    <footer className="yhf-footer full-width-footer">
+    <footer ref={footerRef} className="yhf-footer full-width-footer">
       <div className="yhf-footer-inner">
         <div className="yhf-footer-grid">
           <div className="yhf-footer-company">

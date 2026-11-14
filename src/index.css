@@ -58,6 +58,15 @@ body {
   font: 400 var(--type-body-size)/var(--type-body-line) var(--font-body);
   letter-spacing: 0;
 }
+@media (max-width: 767px), (pointer: coarse) {
+  /* Keep the canvas exposed by mobile browser chrome/elastic scrolling
+     continuous with the footer. Page surfaces retain their own colour. */
+  html, body {
+    background-color: var(--palette-neutral-charcoal, #2c2c26);
+    overscroll-behavior-y: none;
+  }
+  #site-top { background-color: var(--color-page); }
+}
 button { font: inherit; cursor: pointer; }
 a { color: inherit; }
 h1, h2, h3, h4, h5, h6, p { margin: 0; }
