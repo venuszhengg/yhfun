@@ -1,0 +1,8 @@
+:root[lang='zh-Hans'] .yhf-header,
+:root[lang='zh-Hans'] .yhf-footer {
+  font-family: var(--font-zh);
+}
+
+:root[lang='zh-Hans'] :is(h1, h2, h3, h4, h5, h6, button, input, select, textarea) {
+  font-family: var(--font-zh);
+}

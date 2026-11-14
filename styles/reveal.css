@@ -1,0 +1,84 @@
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal-state="pending"]:not(:focus-within) {
+    opacity: 0;
+  }
+
+  [data-reveal="text"][data-reveal-state="visible"]:not(:focus-within) {
+    --reveal-distance: 12px;
+    animation: yhf-reveal-up 550ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+  }
+
+  [data-reveal="text"]:is(h1, h2, h3)[data-reveal-state="visible"]:not(:focus-within) {
+    --reveal-distance: 20px;
+    animation-duration: 650ms;
+  }
+
+  article[data-reveal="text"][data-reveal-state="visible"]:not(:focus-within) {
+    --reveal-distance: 20px;
+    animation-duration: 600ms;
+  }
+
+  [data-reveal="visual"][data-reveal-state="visible"]:not(:focus-within) {
+    --reveal-distance: 16px;
+    animation: yhf-reveal-up 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+  }
+
+  .case-story-image[data-reveal-state="visible"]:not(:focus-within),
+  .featured-case-card[data-reveal-state="visible"]:not(:focus-within) {
+    animation-name: yhf-reveal-fade;
+    animation-duration: 750ms;
+  }
+
+  [data-reveal="bubble"][data-reveal-state="visible"]:not(:focus-within) {
+    --reveal-distance: 20px;
+    animation: yhf-reveal-up 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+  }
+
+  [data-hero-entrance] {
+    animation: yhf-hero-up 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  [data-hero-entrance="headline"] {
+    animation-delay: 70ms;
+  }
+
+  [data-hero-entrance="actions"] {
+    animation-delay: 145ms;
+  }
+
+  @keyframes yhf-reveal-up {
+    from { opacity: 0; translate: 0 var(--reveal-distance, 12px); }
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes yhf-reveal-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes yhf-hero-up {
+    from { opacity: 0; translate: 0 12px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  @media (max-width: 700px) {
+    [data-reveal="text"][data-reveal-state="visible"]:not(:focus-within) {
+      --reveal-distance: 10px;
+    }
+
+    [data-reveal="text"]:is(h1, h2, h3)[data-reveal-state="visible"]:not(:focus-within),
+    article[data-reveal="text"][data-reveal-state="visible"]:not(:focus-within) {
+      --reveal-distance: 12px;
+    }
+
+    [data-reveal="visual"][data-reveal-state="visible"]:not(:focus-within),
+    [data-reveal="bubble"][data-reveal-state="visible"]:not(:focus-within) {
+      --reveal-distance: 10px;
+    }
+
+    @keyframes yhf-hero-up {
+      from { opacity: 0; translate: 0 6px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+/* Verified from Figma native variable tables, 4 November 2026.
+   Colour Tokens and Spacing each expose one Value column, not viewport modes.
+   Desktop/Mobile content insets are separately named usage aliases.
+   See docs/home-token-map.md for provenance and unresolved layer bindings. */
+:root {
+  /* Base palette: exact Figma primitive names. */
+  --palette-olive-vivid: #898f45;
+  --palette-olive-deep: #536624;
+  --palette-olive-muted: #6b6d53;
+  --palette-olive-light: #d4d6bf;
+  --palette-olive-pale: #ebece0;
+  --palette-neutral-light-stone: #f5f3ef;
+  --palette-neutral-warm-white: #fcfaf8;
+  --palette-neutral-charcoal: #2c2c26;
+  --palette-neutral-ivory: #fffaf7;
+  --palette-neutral-deep-grey: #515248;
+  --palette-amber-burnt: #c44e14;
+  --image-dark: rgb(0 0 0 / 35%);
+
+  /* Usage aliases: preserve Figma's primitive/role distinction. */
+  --color-page: var(--palette-neutral-warm-white); /* Surface/Page */
+  --color-section: var(--palette-neutral-light-stone); /* Surface/Section */
+  --color-tinted: var(--palette-olive-pale); /* Surface/Tinted */
+  --color-header: rgb(212 214 191 / 95%); /* Surface/Header -> Olive/Light, 95% */
+  --color-text-dark: #42453a;
+  --color-text: var(--color-text-dark); /* Text/Body */
+  --color-text-strong: var(--color-text-dark); /* Text/Strong */
+  --color-heading: var(--palette-olive-muted); /* Text/Section Heading */
+  --color-on-image: var(--palette-neutral-ivory); /* Text/On Image */
+  --color-primary: var(--palette-amber-burnt); /* Action/Primary/Background */
+  --color-on-primary: var(--palette-neutral-ivory); /* Action/Primary/Label */
+  --color-olive: var(--palette-olive-deep); /* Action/Secondary/Background */
+  --color-on-olive: var(--palette-neutral-ivory); /* Action/Secondary/Label */
+  --shadow-case-hover: 0 16px 32px rgb(75 78 52 / 14%);
+  --shadow-case-hover-filter: drop-shadow(0 16px 32px rgb(75 78 52 / 14%));
+
+  /* Base dimensions from Spacing collection. */
+  --space-4: 16px; /* Spacing/16 */
+  --space-6: 24px; /* Spacing/24 */
+  --space-10: 40px; /* Spacing/40 */
+  --space-20: 80px; /* Spacing/80 */
+  --space-30: 120px; /* Spacing/120 */
+  --radius-hero: 24px; /* Radius/24 */
+  --radius-pill: 999px; /* Radius/Pill */
+  --content-max: 1200px; /* Width/Context Max: spelling retained in map */
+
+  /* Verified usage aliases. */
+  --content-inset-desktop: var(--space-30); /* Padding/Content/Desktop Inline */
+  --content-inset-mobile: var(--space-6); /* Padding/Content/Mobile Inline */
+  --section-padding-desktop: 160px; /* Desktop/tablet section block padding */
+  --grid-gap: var(--space-6); /* Gap/Columns */
+  --gap-rows: var(--space-6); /* Gap/Rows */
+  --gap-heading-content: var(--space-10); /* Gap/Heading to Content: direct 40 */
+  --gap-sections: 0px; /* Sections use their own block padding instead */
+  --gap-card-content: var(--space-6); /* Gap/Card/Content */
+  --gap-card-list: var(--space-4); /* Gap/Card/List */
+  --gap-nav: var(--space-10); /* Gap/Header/Nav Items */
+  --gap-footer-groups: var(--space-6); /* Gap/Footer/Groups */
+  --gap-hero-actions: var(--space-4); /* Gap/Hero/Actions */
+  --gap-hero-heading-actions: 56px; /* Gap/Hero/Header to Actions: direct value */
+  --gap-hero-eyebrow-heading: var(--space-4); /* Gap/Hero/Eyebrow to Header */
+  --padding-card-inline: var(--space-6); /* Padding/Card/Inline */
+  --padding-card-block: var(--space-6); /* Padding/Card/Block */
+  --button-height: 56px; /* User-directed default ActionButton height */
+  --padding-button-inline: 24px; /* User-directed button and text-label inline padding */
+  --padding-button-block: 12px; /* Padding/Button/Block: direct value */
+  --header-outer-inline: var(--space-20); /* Padding/Content/Header/Outer Inline */
+  --header-outer-top: var(--space-6); /* Padding/Content/Header/Outer Top */
+  --header-capsule-inline: var(--space-30); /* Padding/Content/Header/Capsule Inline */
+  --padding-hero-inline: var(--space-10); /* Padding/Content/Hero/Inline */
+  --padding-hero-content-side: var(--space-10); /* Padding/Content/Hero/Content Side */
+  --padding-hero-cutout-inline: var(--space-10); /* Padding/Content/Hero/Cutout LR */
+  --padding-hero-cutout-block: var(--space-4); /* Padding/Content/Hero/Cutout TB */
+  --padding-footer-inline: var(--space-30); /* Padding/Content/Footer/Inline */
+  --padding-footer-top: var(--space-20); /* Padding/Content/Footer/Top */
+
+  /* Typography: final Figma text styles for the English desktop Home. */
+  --font-en: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-zh: "Noto Sans SC", "PingFang SC", sans-serif;
+  --font-body: var(--font-en);
+  --weight-body: 400;
+  --weight-control: 500;
+  --weight-heading: 700;
+  --type-body-size: 16px; /* EN/Body Regular */
+  --type-body-line: 20px;
+  --type-body-small-size: 14px; /* EN/Body Small */
+  --type-body-small-line: 18px;
+  --type-subtitle-size: 12px; /* EN/Subtitle */
+  --type-subtitle-line: 16px;
+  --type-section-size: 48px; /* EN/Heading/H1 */
+  --type-section-line: 60px;
+  --type-section-tracking: -.02em;
+  --type-heading-h2-size: 28px; /* EN/Heading/H2 */
+  --type-heading-h2-line: 35px;
+  --type-heading-h2-tracking: 0;
+  --type-heading-h3-size: 20px; /* EN/Heading/H3 */
+  --type-heading-h3-line: 25px;
+  --type-eyebrow-size: 14px; /* EN/Label/Eyebrow */
+  --type-eyebrow-line: 18px;
+  --type-eyebrow-weight: 700;
+  --type-link-size: 14px; /* EN/Action/Link */
+  --type-link-line: 18px;
+  --type-button-size: 16px; /* EN/Action/Button */
+  --type-button-line: 20px;
+  --type-button-weight: 500;
+  --type-footer-size: 14px; /* EN/Footer */
+  --type-footer-line: 18px;
+
+  /* Legacy preview-only values. NOT verified Figma tokens. Retained so the
+     existing hero/menu remain reviewable until their exact layers are mapped. */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-8: 32px;
+  --gutter-mobile-header: 16px;
+  --gutter-mobile-content: var(--content-inset-mobile);
+  --section-padding-mobile: 48px;
+  --color-action-hover: #343b12;
+  --color-hero: #292e23;
+  --color-focus: #9b3d00;
+}
+:root[lang="zh-Hans"] { --font-body: var(--font-zh); }
+
+/* Resolved layer styles from the user-supplied Home CSS export.
+   These layer values override older review recommendations for exact matching.
+   They are not claimed to be Figma variable bindings. */
+:root {
+  --font-wordmark: "DM Sans", sans-serif;
+  --font-utility: "Manrope", sans-serif;
+  --type-hero-size: 80px;
+  --type-hero-line: 88px;
+  --type-hero-weight: 500;
+  --type-hero-tracking: -.04em;
+  --type-section-line: 60px;
+  --type-body-size: 16px;
+  --type-body-line: 20px;
+  --type-eyebrow-size: 14px;
+  --type-eyebrow-line: 18px;
+  --type-action-size: 16px;
+  --type-action-line: 20px;
+  --type-nav-size: 14px;
+  --type-nav-line: 18px;
+  --type-utility-size: 10px;
+  --type-utility-line: 14px;
+  --color-header-layer: rgb(243 240 235 / 95%);
+  --color-nav-current-layer: #5f700a;
+  --padding-button-block-layer: 10px;
+  --padding-header-inline-layer: var(--space-20);
+}
+
+/* Additional resolved layer roles from the supplied Home export. */
+:root {
+  --type-card-heading-size: 20px;
+  --type-card-heading-line: 25px;
+  --type-step-number-size: 28px;
+  --type-step-number-line: 35px;
+  --type-footer-size: 14px;
+  --type-footer-line: 18px;
+  --color-action-text-layer: #c14202;
+  /* Review-only placeholder styling; not source artwork or Figma tokens. */
+  --placeholder-border: var(--palette-olive-light);
+  --placeholder-surface: var(--palette-olive-pale);
+}

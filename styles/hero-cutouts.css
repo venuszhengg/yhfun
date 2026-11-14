@@ -1,0 +1,27 @@
+.hero-cutout-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  width: max-content;
+  max-width: 100%;
+  isolation: isolate;
+}
+
+@media (max-width: 1023px) {
+  .hero-cutout-actions {
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+  }
+
+  .hero-cutout-actions .yhf-action-label {
+    height: auto;
+    min-height: var(--button-height);
+    padding-block: 4px;
+    white-space: normal;
+  }
+}

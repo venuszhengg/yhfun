@@ -1,0 +1,57 @@
+.yhf-copy-email { display: block; }
+.yhf-copy-trigger { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 30px; max-width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.yhf-copy-address { min-width: 0; overflow-wrap: anywhere; user-select: text; }
+.yhf-copy-icon { display: grid; place-items: center; flex: 0 0 24px; height: 24px; border-radius: 50%; background: #536624; color: #fffaf7; transition: opacity 180ms ease, transform 320ms cubic-bezier(.2,.9,.25,1.28); }
+.yhf-copy-tip { position: absolute; z-index: 3; bottom: calc(100% + 6px); right: 0; border-radius: 8px; padding: 5px 8px; background: #ebece0; color: var(--color-text); font-size: 12px; white-space: nowrap; opacity: 0; visibility: hidden; transform: translateY(3px); pointer-events: none; transition: opacity 180ms, transform 220ms, visibility 180ms; }
+.yhf-copy-trigger:is(:hover,:focus-visible,[data-copied]) .yhf-copy-tip { opacity: 1; visibility: visible; transform: translateY(0); }
+.yhf-copy-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.yhf-copy-error { display: block; font-size: 12px; }
+@media (any-hover: hover) {
+  .yhf-copy-icon { opacity: 0; transform: translateY(3px) scale(.78); }
+  .yhf-copy-trigger:is(:hover,:focus-visible,[data-copied]) .yhf-copy-icon { opacity: 1; transform: none; }
+}
+@media (any-pointer: coarse) {
+  .yhf-copy-trigger { min-height: 44px; }
+  .yhf-copy-icon { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .yhf-copy-icon, .yhf-copy-tip { transition: none; transform: none; } }
+
+.yhf-copy--interactive { position: relative; display: inline-block; }
+.yhf-copy--interactive .yhf-copy-tip-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  right: auto;
+  left: 0;
+  border: 0;
+  font-family: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: opacity 180ms, transform 220ms, visibility 0s linear 180ms;
+}
+.yhf-copy--interactive .yhf-copy-tip-action::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 6px;
+}
+.yhf-copy--interactive:is(:hover, [data-copied], :has(:focus-visible)) .yhf-copy-tip-action {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 180ms, transform 220ms, visibility 0s;
+}
+.yhf-copy--interactive .yhf-copy-tip-action .yhf-copy-icon {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .yhf-copy--interactive .yhf-copy-tip-action,
+  .yhf-copy--interactive:is(:hover, [data-copied], :has(:focus-visible)) .yhf-copy-tip-action { transition: none; }
+}
