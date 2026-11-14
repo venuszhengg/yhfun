@@ -59,13 +59,29 @@ body {
   letter-spacing: 0;
 }
 @media (max-width: 767px), (pointer: coarse) {
-  /* Keep the canvas exposed by mobile browser chrome/elastic scrolling
-     continuous with the footer. Page surfaces retain their own colour. */
   html, body {
-    background-color: var(--palette-neutral-charcoal, #2c2c26);
     overscroll-behavior-y: none;
   }
-  #site-top { background-color: var(--color-page); }
+}
+/* Safari's fixed-container edge sampling can cache the sticky hero colour.
+   Transparent, zero-blur edges request its native translucent treatment.
+   They paint no fill, occupy no layout space and cannot intercept input. */
+@supports (-webkit-touch-callout: none) and (backdrop-filter: blur(0px)) {
+  @media (max-width: 767px), (pointer: coarse) {
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      z-index: 21;
+      inset-inline: 0;
+      height: 16px;
+      background: transparent;
+      -webkit-backdrop-filter: blur(0px);
+      backdrop-filter: blur(0px);
+      pointer-events: none;
+    }
+    body::before { top: 0; }
+    body::after { bottom: 0; }
+  }
 }
 button { font: inherit; cursor: pointer; }
 a { color: inherit; }
