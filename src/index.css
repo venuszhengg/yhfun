@@ -1,0 +1,97 @@
+* { box-sizing: border-box; }
+html {
+  color-scheme: light;
+  /* Match the document canvas so native scrollbar gutters cannot expose the hero colour. */
+  background-color: var(--color-page, #fcfaf8);
+  overscroll-behavior-y: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+:where(main, main [id]) {
+  scroll-margin-top: 88px;
+}
+html.has-overlay-scrollbar { scrollbar-width: none; }
+html.has-overlay-scrollbar::-webkit-scrollbar { display: none; }
+.overlay-scrollbar {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 100%;
+  touch-action: none;
+}
+.overlay-scrollbar[hidden] { display: none; }
+.overlay-scrollbar-thumb {
+  width: 6px;
+  margin-inline: 3px;
+  border-radius: 999px;
+  background-color: rgb(137 143 69 / 85%);
+  opacity: 0;
+}
+.overlay-scrollbar:is(.is-visible, .is-dragging, :hover) .overlay-scrollbar-thumb { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .overlay-scrollbar-thumb { transition: opacity 180ms ease; }
+}
+@media (max-width: 700px), (pointer: coarse) {
+  html.has-overlay-scrollbar { scrollbar-width: auto; }
+  html.has-overlay-scrollbar::-webkit-scrollbar { display: initial; }
+  .overlay-scrollbar { display: none; }
+}
+@media (forced-colors: active) {
+  html.has-overlay-scrollbar { scrollbar-width: auto; }
+  html.has-overlay-scrollbar::-webkit-scrollbar { display: initial; }
+  .overlay-scrollbar { display: none; }
+}
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-text);
+  font: 400 var(--type-body-size)/var(--type-body-line) var(--font-body);
+  letter-spacing: 0;
+}
+@media (max-width: 767px), (pointer: coarse) {
+  html, body {
+    overscroll-behavior-y: none;
+  }
+}
+/* Safari's fixed-container edge sampling can cache the sticky hero colour.
+   Transparent, zero-blur edges request its native translucent treatment.
+   They paint no fill, occupy no layout space and cannot intercept input. */
+@supports (-webkit-touch-callout: none) and (backdrop-filter: blur(0px)) {
+  @media (max-width: 767px), (pointer: coarse) {
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      z-index: 21;
+      inset-inline: 0;
+      height: 16px;
+      background: transparent;
+      -webkit-backdrop-filter: blur(0px);
+      backdrop-filter: blur(0px);
+      pointer-events: none;
+    }
+    body::before { top: 0; }
+    body::after { bottom: 0; }
+  }
+}
+button { font: inherit; cursor: pointer; }
+a { color: inherit; }
+h1, h2, h3, h4, h5, h6, p { margin: 0; }
+h1 { font: 700 var(--type-section-size)/var(--type-section-line) var(--font-en); letter-spacing: var(--type-section-tracking); }
+h2 { font: 700 var(--type-heading-h2-size)/var(--type-heading-h2-line) var(--font-en); letter-spacing: var(--type-heading-h2-tracking); }
+h3 { font: 500 var(--type-heading-h3-size)/var(--type-heading-h3-line) var(--font-en); }
+p { font: inherit; }
+#site-top h3 { color: #2C2C26; }
+#site-top p { color: #515248; }
+#site-top #main h3 { color: #2C2C26; }
+#site-top #main p { color: #515248; }
+#site-top #main :is(.home-hero .hero-eyebrow, .services-hero .services-eyebrow, .content-hero .content-eyebrow) { color: #D4D6BF; }

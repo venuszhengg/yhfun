@@ -1,0 +1,31 @@
+export const SOCIAL_CHANNELS = [
+  {
+    id: 'wechat',
+    name: 'WeChat',
+    handle: 'YShouyishansi',
+    copyValue: 'YShouyishansi',
+    copyLabel: 'Copy ID',
+    copiedStatus: 'WeChat ID copied',
+    icon: '/images/app-icons/App=Wechat,%20Colour=Olive.svg',
+  },
+  {
+    id: 'rednote',
+    name: 'RedNote',
+    handle: '@yishanthinks',
+    copyValue: '@yishanthinks',
+    copyLabel: 'Copy ID',
+    copiedStatus: 'RedNote ID copied',
+    icon: '/images/app-icons/App=RedNote,%20Colour=Olive.svg',
+    url: 'https://www.rednote.com/user/profile/69dbb3120000000032037576?xsec_token=ABIBEjJq9mVSbxzTMCEENru2LaW6vR1qx1dxIHLegZjGY%3D&xsec_source=pc_search',
+  },
+  {
+    id: 'youtube',
+    name: 'YouTube',
+    handle: '@yishanthinks',
+    copyValue: '@yishanthinks',
+    copyLabel: 'Copy handle',
+    copiedStatus: 'YouTube handle copied',
+    icon: '/images/app-icons/App=YT,%20Colour=Olive.svg',
+    url: 'https://www.youtube.com/@yishanthinks',
+  },
+]

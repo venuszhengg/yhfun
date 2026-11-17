@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "yhfun",
+  "compatibility_date": "2026-11-09",
+  "main": "./worker/contact.js",
+  "previews": {},
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/contact"]
+  },
+  "send_email": [
+    {
+      "name": "CONTACT_EMAIL",
+      "allowed_destination_addresses": ["hello@yhfunhq.com", "info@yhfunhq.com"],
+      "allowed_sender_addresses": ["hello@yhfunhq.com"]
+    }
+  ],
+  "ratelimits": [
+    { "name": "CONTACT_RATE_LIMIT", "namespace_id": "719825331", "simple": { "limit": 3, "period": 60 } },
+    { "name": "CONTACT_GLOBAL_RATE_LIMIT", "namespace_id": "719825332", "simple": { "limit": 30, "period": 60 } }
+  ]
+}

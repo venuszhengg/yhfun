@@ -1,0 +1,204 @@
+[
+  {
+    "figmaStyle": "EN/Label/Eyebrow",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "700",
+      "font-size": "14px",
+      "line-height": "18px"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/Hero",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "500",
+      "font-size": "80px",
+      "line-height": "88px"
+    }
+  },
+  {
+    "figmaStyle": "EN/Action/Button",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "500",
+      "font-size": "16px",
+      "line-height": "20px",
+      "color": "#FFFAF7"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/H1",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "700",
+      "font-size": "48px",
+      "line-height": "60px",
+      "letter-spacing": "-0.02em",
+      "color": "#6B6D53"
+    }
+  },
+  {
+    "figmaStyle": "EN/Body Regular",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "400",
+      "font-size": "16px",
+      "line-height": "20px",
+      "color": "#515248"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/H1",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "700",
+      "font-size": "48px",
+      "line-height": "60px",
+      "text-align": "center",
+      "letter-spacing": "-0.02em",
+      "color": "#6B6D53"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/H3",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "500",
+      "font-size": "20px",
+      "line-height": "25px",
+      "color": "#2C2C26"
+    }
+  },
+  {
+    "figmaStyle": "EN/Action/Link",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "700",
+      "font-size": "14px",
+      "line-height": "18px"
+    }
+  },
+  {
+    "figmaStyle": "EN/Body Regular",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "400",
+      "font-size": "16px",
+      "line-height": "20px",
+      "text-align": "center",
+      "color": "#515248"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/H2",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "700",
+      "font-size": "28px",
+      "line-height": "35px",
+      "text-align": "center",
+      "color": "#536624"
+    }
+  },
+  {
+    "figmaStyle": "EN/Body Regular",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "400",
+      "font-size": "16px",
+      "line-height": "20px",
+      "text-align": "right",
+      "color": "#515248"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/H3",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "500",
+      "font-size": "20px",
+      "line-height": "25px",
+      "text-align": "center",
+      "color": "#2C2C26"
+    }
+  },
+  {
+    "figmaStyle": "EN/Action/Button",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "500",
+      "font-size": "16px",
+      "line-height": "20px",
+      "color": "#FFFFFF"
+    }
+  },
+  {
+    "figmaStyle": "EN/Body Regular",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "400",
+      "font-size": "16px",
+      "line-height": "20px"
+    }
+  },
+  {
+    "figmaStyle": "EN/Heading/H1",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "700",
+      "font-size": "48px",
+      "line-height": "60px",
+      "text-align": "center",
+      "letter-spacing": "-0.02em",
+      "color": "#C44E14"
+    }
+  },
+  {
+    "figmaStyle": "EN/Action/Button",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "500",
+      "font-size": "16px",
+      "line-height": "20px",
+      "color": "#FCFAF8"
+    }
+  },
+  {
+    "figmaStyle": "EN/Footer",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "400",
+      "font-size": "14px",
+      "line-height": "18px",
+      "color": "#FCFAF8"
+    }
+  },
+  {
+    "figmaStyle": "EN/Footer",
+    "resolvedLayerProperties": {
+      "font-family": "'Plus Jakarta Sans'",
+      "font-style": "normal",
+      "font-weight": "400",
+      "font-size": "14px",
+      "line-height": "18px"
+    }
+  }
+]

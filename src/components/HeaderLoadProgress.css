@@ -1,0 +1,77 @@
+.yh-progress {
+  --yh-olive: #969c52;
+  --yh-red: #d34d2e;
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  pointer-events: none;
+}
+
+.yh-progress__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: rgb(150 156 82 / 18%);
+  transition: opacity 300ms ease;
+}
+
+.yh-progress__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--yh-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+  transition: transform 2400ms cubic-bezier(.22, .65, .25, 1);
+}
+
+.yh-progress--loading .yh-progress__fill {
+  transform: scaleX(.9);
+}
+
+.yh-progress--finishing .yh-progress__fill {
+  transform: scaleX(1);
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+.yh-progress--done .yh-progress__track {
+  opacity: 0;
+}
+
+.yh-progress--cancelled .yh-progress__track {
+  opacity: 0;
+}
+
+.yh-progress--done .yh-progress__fill {
+  transform: scaleX(1);
+}
+
+.yh-progress__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yh-progress__fill,
+  .yh-progress__track {
+    transition: none !important;
+  }
+
+  .yh-progress--done .yh-progress__track {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,110 @@
+/* Load Plus Jakarta Sans 500 once in your app. */
+.yhf-action {
+  --action-bg: var(--color-primary);
+  /* The supplied component specifies this hover colour; no Figma variable is mapped to it. */
+  --action-hover: #a83e00;
+  --action-ink: var(--palette-neutral-ivory);
+  --action-ease: cubic-bezier(.22, 1, .36, 1);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--button-height);
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--action-ink);
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 180ms var(--action-ease);
+}
+.yhf-action *, .yhf-action *::before { box-sizing: border-box; }
+.yhf-action--split {
+  gap: 0;
+  padding-inline-end: 16px;
+  transition: gap 460ms var(--action-ease), padding-inline-end 460ms var(--action-ease), transform 180ms var(--action-ease);
+}
+.yhf-action--split:not(:disabled):not([aria-disabled='true']):hover {
+  gap: 8px;
+  padding-inline-end: 8px;
+}
+.yhf-action.yhf-action--split:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow {
+  animation: yhf-arrow-release 520ms both;
+}
+@keyframes yhf-arrow-release {
+  0%, 100% { transform: translateX(0) scale(1); }
+  18% { transform: translateX(-2px) scale(1.18, .83); }
+  48% { transform: translateX(6px) scale(.91, 1.1); }
+  74% { transform: translateX(-1px) scale(1.04, .97); }
+}
+.yhf-action--olive { --action-bg: var(--palette-olive-vivid); --action-hover: var(--palette-olive-deep); }
+.yhf-action-arrow img { transform: rotate(var(--action-arrow-angle, 0deg)); }
+.yhf-action-label {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  height: var(--button-height);
+  padding: 10px var(--padding-button-inline);
+  text-align: center;
+  white-space: nowrap;
+}
+.yhf-action-label::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 999px;
+  background: var(--action-bg);
+  transition: inset 320ms var(--action-ease), background-color 240ms ease;
+}
+.yhf-action-arrow {
+  display: grid;
+  place-items: center;
+  width: var(--button-height);
+  height: var(--button-height);
+  flex: 0 0 var(--button-height);
+  position: relative;
+  isolation: isolate;
+}
+.yhf-action-arrow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--action-bg);
+  transition: inset 320ms var(--action-ease), transform 320ms var(--action-ease), background-color 240ms ease;
+  transform: scale(1);
+}
+.yhf-action:not(:disabled):not([aria-disabled='true']):hover .yhf-action-label::before { inset: -2px 0; }
+.yhf-action:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow::before { transform: scale(1.07143); }
+.yhf-action-arrow img { display: block; width: 24px; height: 24px; transition: transform 400ms var(--action-ease); }
+.yhf-action--text { color: var(--action-bg); }
+.yhf-action--text .yhf-action-label { padding-inline: var(--padding-button-inline); font-size: 14px; font-weight: 500; text-transform: uppercase; }
+.yhf-action--text .yhf-action-label::before { display: none; }
+.yhf-action--text .yhf-action-label::after { content: ''; position: absolute; bottom: 13px; left: var(--padding-button-inline); right: var(--padding-button-inline); height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--action-ease); }
+.yhf-action--text .yhf-action-arrow { color: var(--action-ink); }
+/* Hover also works in embedded previews and hybrid pointer environments. */
+.yhf-action:not(:disabled):not([aria-disabled='true']):hover .yhf-action-label::before,
+.yhf-action:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow::before { background: var(--action-hover); }
+.yhf-action:not(:disabled):not([aria-disabled='true']):hover .yhf-action-arrow img { transform: rotate(calc(var(--action-arrow-angle, 0deg) + var(--action-arrow-hover-angle, -45deg))); }
+.yhf-action--text:not(:disabled):not([aria-disabled='true']):hover .yhf-action-label { color: var(--action-hover); }
+.yhf-action--text:not(:disabled):not([aria-disabled='true']):hover .yhf-action-label::after { transform: scaleX(1); }
+.yhf-action:not(:disabled):not([aria-disabled='true']):active { transform: translateY(1px) scale(.97); transition-duration: 90ms; }
+.yhf-action:not(:disabled):not([aria-disabled='true']):active .yhf-action-label::before, .yhf-action:not(:disabled):not([aria-disabled='true']):active .yhf-action-arrow::before { background: var(--action-hover); }
+.yhf-action:focus-visible { outline: 2px solid var(--action-hover); outline-offset: 5px; }
+.yhf-action:disabled, .yhf-action[aria-disabled='true'] { opacity: .45; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .yhf-action, .yhf-action *, .yhf-action *::before, .yhf-action *::after { transition: none !important; animation: none !important; } }
